@@ -1,0 +1,1 @@
+cout <<Wersjon nap<<ednl; ;E:EEE
