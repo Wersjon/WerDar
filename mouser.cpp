@@ -3,7 +3,7 @@
 #include "mouser.hpp"
 
 using namespace std;
-//myszeczka :EE
+//myszeczka :EEE
 void mouse()
 {
     int my, mx; //mouse position;
