@@ -3,4 +3,4 @@ ta jasne XD
 hej ejhejhjehjejhj
 NO SIEMA CO TAM//DarXe
 konflikt
-WERSJON
+WERSJONssssssss
