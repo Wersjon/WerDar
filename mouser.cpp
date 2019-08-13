@@ -1,5 +1,6 @@
 #include <iostream>
 #include <conio.h>
+#include <windows.h>
 #include "mouser.hpp"
 
 using namespace std;
