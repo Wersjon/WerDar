@@ -3,7 +3,6 @@
 
 int main()
 {
-    return 0;
     CONSOLE_CURSOR_INFO CURSOR;
     CURSOR.dwSize = 1;
     CURSOR.bVisible = FALSE;
