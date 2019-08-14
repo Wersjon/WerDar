@@ -1,4 +1,3 @@
 /.vscode
 vs.code-workspace
-powershell.exe
-test.exe
+*.exe
