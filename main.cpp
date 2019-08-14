@@ -1,5 +1,5 @@
-#include <conio.h>
 #include <windows.h>
+#include <conio.h>
 #include "mouser.hpp"
 
 int main()

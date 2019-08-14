@@ -1,10 +1,10 @@
 #include <iostream>
-#include <conio.h>
 #include <windows.h>
+#include <conio.h>
 #include "mouser.hpp"
 
 using namespace std;
-//myszeczka :EEE
+
 void mouse()
 {
     int my, mx; //mouse position;
