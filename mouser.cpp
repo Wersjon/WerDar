@@ -16,7 +16,7 @@ void mouse()
 
     while(true)
     {
-        Sleep(100);
+        Sleep(10);
         GetNumberOfConsoleInputEvents(hIn, &EventCount); //Sets EventCount
         while(EventCount > 0)
         {
