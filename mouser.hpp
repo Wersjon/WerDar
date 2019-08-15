@@ -9,6 +9,7 @@ int mx, my; //Global variables for mouse X and mouse Y
 HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
+/*<mouse>  //*/
 void mouse(void exist(), void click(), void doubleclick(),  void moving())
 {
     INPUT_RECORD InRec; //Short of In Record, Describes an input event.
