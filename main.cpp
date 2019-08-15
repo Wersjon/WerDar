@@ -7,7 +7,7 @@ int main()
     CONSOLE_CURSOR_INFO CURSOR;
     CURSOR.dwSize = 1;
     CURSOR.bVisible = FALSE;
-    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CURSOR);
+    SetConsoleCursorInfo(hOut, &CURSOR);
     mouse();
     getch();
     return 0;

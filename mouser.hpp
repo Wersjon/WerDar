@@ -66,7 +66,7 @@ void hidecursor() //Hides Cursor from user: (doesn't work if user resized window
     CONSOLE_CURSOR_INFO CURSOR;
     CURSOR.dwSize = 1;
     CURSOR.bVisible = FALSE;
-    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CURSOR);
+    SetConsoleCursorInfo(hOut, &CURSOR);
 }
 
 void tp(int x, int y) //Teleports coordinates:
