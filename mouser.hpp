@@ -61,7 +61,7 @@ void mouse(void exist(), void click(), void doubleclick(),  void moving())
     }
 }
 
-void hidecursor() //Hides Cursor from user: (doesn't work if user resized window[?])
+void hideCursor() //Hides Cursor from user: (doesn't work if user resized window[?])
 {
     CONSOLE_CURSOR_INFO CURSOR;
     CURSOR.dwSize = 1;

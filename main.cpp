@@ -2,13 +2,35 @@
 #include <conio.h>
 #include "mouser.hpp"
 
+void isRunning();
+void isClicked();
+void isDoubleClicked();
+void isMoving();
+
 int main()
 {
-    CONSOLE_CURSOR_INFO CURSOR;
-    CURSOR.dwSize = 1;
-    CURSOR.bVisible = FALSE;
-    SetConsoleCursorInfo(hOut, &CURSOR);
-    mouse();
+    hideCursor();
+    mouse(isRunning, isClicked, isDoubleClicked, isMoving);
     getch();
     return 0;
+}
+
+void isRunning()
+{
+
+}
+
+void isClicked()
+{
+
+}
+
+void isDoubleClicked()
+{
+
+}
+
+void isMoving()
+{
+
 }
