@@ -40,5 +40,5 @@ void isMoving()
 void menuBar()
 {
     tp(0, 0);
-    
+    cout<<"MENU_BAR by Wersjon"<<endl;
 }

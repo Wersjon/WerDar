@@ -10,7 +10,7 @@ HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 /*<mouse>  //*/
-void mouse(void exist(), void click(), void doubleclick(),  void moving())
+int mouse(void exist(), void click(), void doubleclick(),  void moving())
 {
     INPUT_RECORD InRec; //Short of In Record, Describes an input event.
     DWORD EventCount; //Creates 32-bit unsigned integer.
@@ -33,6 +33,10 @@ void mouse(void exist(), void click(), void doubleclick(),  void moving())
                     //SuperSecretMenu. :D
                     cout << "I'm test";
                     getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 27) //If it's 'ESC'
+                {
+                    return 0;
                 }
             }
             else if(InRec.EventType == MOUSE_EVENT) //If mouse caused an effect:
@@ -61,6 +65,7 @@ void mouse(void exist(), void click(), void doubleclick(),  void moving())
             }
         }
     }
+    return 0;
 }
 
 void hideCursor() //Hides Cursor from user: (doesn't work if user resized window[?])
