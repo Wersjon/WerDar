@@ -18,7 +18,7 @@ int main()
 
 void isRunning()
 {
-    cout<<"ir"<<endl;
+    
 }
 
 void isClicked()
