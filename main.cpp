@@ -18,20 +18,20 @@ int main()
 
 void isRunning()
 {
-
+    cout<<"ir;";
 }
 
 void isClicked()
 {
-
+    cout<<"ic;";
 }
 
 void isDoubleClicked()
 {
-
+    cout<<"idc;";
 }
 
 void isMoving()
 {
-
+    cout<<"im;";
 }
