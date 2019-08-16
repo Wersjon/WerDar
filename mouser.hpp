@@ -16,7 +16,7 @@ void mouse(void exist(), void click(), void doubleclick(),  void moving())
     DWORD EventCount; //Creates 32-bit unsigned integer.
     DWORD NumRead; //Creates 32-bit unsigned integer.
 
-    bool doClick;
+    bool doClick, doMove;
 
     while(true)
     {
@@ -52,9 +52,10 @@ void mouse(void exist(), void click(), void doubleclick(),  void moving())
                 }
                 else if(InRec.Event.MouseEvent.dwEventFlags == 1) //Gets where mouse is located, it needs to be in bottom.
                 {
+                    doMove = (doMove)?0:1;
                     my = InRec.Event.MouseEvent.dwMousePosition.Y; //Saves cursor position (Y)
                     mx = InRec.Event.MouseEvent.dwMousePosition.X; //Saves cursor position (X)
-                    moving();
+                    if(doMove == true)moving();
                 }
             GetNumberOfConsoleInputEvents(hIn, &EventCount); //Gets Number of Console Input Events.
             }
