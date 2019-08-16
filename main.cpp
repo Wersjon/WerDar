@@ -13,6 +13,7 @@ void menuBar(); //Displays menu
 int main()
 {
     hideCursor(); //Hides cursor from user vision (doesn't work if user resizes console);
+    clear();
     mouse(isRunning, isClicked, isDoubleClicked, isMoving); //Mouse function, with 4 subfunctions
     return 0; //it "quits app", however it doesn't :shrug:
 }
@@ -40,5 +41,5 @@ void isMoving()
 void menuBar()
 {
     tp(0, 0);
-    
+
 }
