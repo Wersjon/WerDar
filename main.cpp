@@ -15,7 +15,7 @@ int main()
     hideCursor(); //Hides cursor from user vision (doesn't work if user resizes console);
     clear();
     mouse(isRunning, isClicked, isDoubleClicked, isMoving); //Mouse function, with 4 subfunctions
-    return 0; //it "quits app", however it doesn't :shrug:
+    return 0; //it should "quit" app, however it doesn't.
 }
 
 void isRunning()
@@ -40,6 +40,9 @@ void isMoving()
 
 void menuBar()
 {
+    setColor(3, 0);
     tp(0, 0);
-    cout<<"MENU_BAR by Wersjon"<<endl;
+    cout<<"                              MENU_BAR by Wersjon                               "<<endl;
+    setColor(0, 15);
+    tp(0, 1);
 }
