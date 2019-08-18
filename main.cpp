@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <conio.h>
+#include <ctime>
 #include "mouser.hpp"
 
 /*<voids>*/
@@ -40,9 +41,15 @@ void isMoving()
 
 void menuBar()
 {
+    clock_t timer = clock();
     setColor(3, 0);
     tp(0, 0);
     cout<<"                              MENU_BAR by Wersjon                               "<<endl;
+    //timer
+    tp(35,1);
+    if(timer/60000<10) cout<<"0"; cout<<timer/60000<<":";
+    if(timer/1000%60<10) cout<<"0"; cout<<timer/1000%60<<":";
+    cout<<timer%1000<<endl;
     setColor(0, 15);
     tp(0, 1);
 }
