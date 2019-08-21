@@ -92,5 +92,5 @@ void setColor(int bg, int c) //sets Console colors:
 void clear() //Clears 80x25 Screen:
 {
     tp(0, 0);
-    printf("%2000n \n"); //Prints 2000 chars.
+    printf("%2000n \n"); //Prints 2000 chars. :D
 }
