@@ -9,6 +9,34 @@ int mx, my; //Global variables for mouse X and mouse Y
 HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
+void tp(int x, int y);
+class character
+{
+    private:
+    char clear = ' ';
+    public:
+    short X = 1, Y = 1;
+    string name;
+    char symbol;
+    void showInPos(int x, int y)
+    {
+        tp(x, y);
+        cout<<symbol;
+    }
+    void setPos(int X, int Y)
+    {
+        tp(X, Y); cout<<symbol;
+    }
+    void clearPos()
+    {
+        tp(X, Y); cout<<clear;
+    }
+    void sayHello()
+    {
+        cout<<"Hi "<<name<<", symbol '"<<symbol<<"'"<<endl;
+    }
+}wersjon, darxe;
+
 /*<mouse>  //*/
 int mouse(void exist(), void click(), void doubleclick(),  void moving())
 {
@@ -32,6 +60,54 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
                 {
                     //SuperSecretMenu. :D
                     cout << "I'm test";
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'w') //If it's 'c':
+                {
+                    wersjon.clearPos();
+                    wersjon.setPos(wersjon.X, --wersjon.Y);
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 's') //If it's 'c':
+                {
+                    wersjon.clearPos();
+                    wersjon.setPos(wersjon.X, ++wersjon.Y);
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'a') //If it's 'c':
+                {
+                    wersjon.clearPos();
+                    wersjon.setPos(--wersjon.X, wersjon.Y);
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'd') //If it's 'c':
+                {
+                    wersjon.clearPos();
+                    wersjon.setPos(++wersjon.X, wersjon.Y);
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 't') //If it's 'c':
+                {
+                    darxe.clearPos();
+                    darxe.setPos(darxe.X, --darxe.Y);
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'g') //If it's 'c':
+                {
+                    darxe.clearPos();
+                    darxe.setPos(darxe.X, ++darxe.Y);
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'f') //If it's 'c':
+                {
+                    darxe.clearPos();
+                    darxe.setPos(--darxe.X, darxe.Y);
+                    getch();
+                }
+                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'h') //If it's 'c':
+                {
+                    darxe.clearPos();
+                    darxe.setPos(++darxe.X, darxe.Y);
                     getch();
                 }
                 if(InRec.Event.KeyEvent.uChar.AsciiChar == 27) //If it's 'ESC'
