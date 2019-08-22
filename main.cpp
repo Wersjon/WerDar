@@ -14,7 +14,7 @@ void menuBar(); //Displays menu
 int main()
 {
     hideCursor(); //Hides cursor from user vision (doesn't work if user resizes console);
-    clear();
+    //clear();
     mouse(isRunning, isClicked, isDoubleClicked, isMoving); //Mouse function, with 4 subfunctions
     return 0; //it should "quit" app, however it doesn't.
 }
@@ -41,6 +41,10 @@ void isMoving()
 
 void menuBar()
 {
+    wersjon.name = "Wersjon";
+    wersjon.symbol = 'W';
+    darxe.name = "DarXe";
+    darxe.symbol = 'D';
     clock_t timer = clock();
     setColor(3, 0);
     tp(0, 0);
@@ -50,6 +54,11 @@ void menuBar()
     if(timer/60000<10) cout<<"0"; cout<<timer/60000<<":";
     if(timer/1000%60<10) cout<<"0"; cout<<timer/1000%60<<":";
     cout<<timer%1000<<endl;
+
     setColor(0, 15);
+    wersjon.sayHello();
+    darxe.sayHello();
+    darxe.showInPos(25, 20);
+    wersjon.showInPos(27, 20);
     tp(0, 1);
 }
