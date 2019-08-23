@@ -13,6 +13,10 @@ void menuBar(); //Displays menu
 
 int main()
 {
+    wersjon.name = "Wersjon";
+    wersjon.symbol = 'W';
+    darxe.name = "DarXe";
+    darxe.symbol = 'D';
     hideCursor(); //Hides cursor from user vision (doesn't work if user resizes console);
     //clear();
     mouse(isRunning, isClicked, isDoubleClicked, isMoving); //Mouse function, with 4 subfunctions
@@ -41,10 +45,6 @@ void isMoving()
 
 void menuBar()
 {
-    wersjon.name = "Wersjon";
-    wersjon.symbol = 'W';
-    darxe.name = "DarXe";
-    darxe.symbol = 'D';
     clock_t timer = clock();
     setColor(3, 0);
     tp(0, 0);

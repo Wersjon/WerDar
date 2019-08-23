@@ -12,9 +12,8 @@ HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 void tp(int x, int y);
 class character
 {
-    private:
-    char clear = ' ';
-    public:
+public:
+    bool drawMode = 0;
     short X = 1, Y = 1;
     string name;
     char symbol;
@@ -29,7 +28,7 @@ class character
     }
     void clearPos()
     {
-        tp(X, Y); cout<<clear;
+        tp(X, Y); cout<<((drawMode)?symbol:' ');
     }
     void sayHello()
     {
@@ -56,63 +55,55 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
             ReadConsoleInput(hIn, &InRec, 1, &NumRead); //Read Input, and:
             if(InRec.EventType == KEY_EVENT) //If input is pressed key:
             {
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'c') //If it's 'c':
+                switch (InRec.Event.KeyEvent.uChar.AsciiChar)
                 {
-                    //SuperSecretMenu. :D
-                    cout << "I'm test";
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'w') //If it's 'c':
-                {
-                    wersjon.clearPos();
-                    wersjon.setPos(wersjon.X, --wersjon.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 's') //If it's 'c':
-                {
-                    wersjon.clearPos();
-                    wersjon.setPos(wersjon.X, ++wersjon.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'a') //If it's 'c':
-                {
-                    wersjon.clearPos();
-                    wersjon.setPos(--wersjon.X, wersjon.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'd') //If it's 'c':
-                {
-                    wersjon.clearPos();
-                    wersjon.setPos(++wersjon.X, wersjon.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 't') //If it's 'c':
-                {
-                    darxe.clearPos();
-                    darxe.setPos(darxe.X, --darxe.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'g') //If it's 'c':
-                {
-                    darxe.clearPos();
-                    darxe.setPos(darxe.X, ++darxe.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'f') //If it's 'c':
-                {
-                    darxe.clearPos();
-                    darxe.setPos(--darxe.X, darxe.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 'h') //If it's 'c':
-                {
-                    darxe.clearPos();
-                    darxe.setPos(++darxe.X, darxe.Y);
-                    getch();
-                }
-                if(InRec.Event.KeyEvent.uChar.AsciiChar == 27) //If it's 'ESC'
-                {
-                    return 0;
+                case 'c': //If it's 'c':
+                    {
+                        cout << "I'm test"; getch();
+                    }
+                    break;
+                case 'x': //draw mode
+                    {
+                        wersjon.drawMode = (wersjon.drawMode)?0:1;
+                    }
+                    break;
+                case 27: //exit
+                    {
+                        return 0;
+                    }
+                    break;
+                case 'w': //up
+                    {
+                        wersjon.clearPos(); wersjon.setPos(wersjon.X, --wersjon.Y); getch();
+                    }
+                    break;
+                case 's': //down
+                    {
+                        wersjon.clearPos(); wersjon.setPos(wersjon.X, ++wersjon.Y); getch();
+                    }
+                    break;
+                case 'a': //left
+                    {
+                        wersjon.clearPos(); wersjon.setPos(--wersjon.X, wersjon.Y); getch();
+                    }
+                    break;
+                case 'd': //right
+                    {
+                        wersjon.clearPos(); wersjon.setPos(++wersjon.X, wersjon.Y); getch();
+                    }
+                    break;
+                case 'z': //test
+                    {
+                        system("cls");
+                        cout<<"TEST";
+                    }
+                    break;
+                
+                default:
+                    {
+                        int temp(getch()); cout<<"Pressed key: "<<temp<<endl;
+                    }
+                    break;
                 }
             }
             else if(InRec.EventType == MOUSE_EVENT) //If mouse caused an effect:
