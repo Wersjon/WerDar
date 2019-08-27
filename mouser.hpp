@@ -12,6 +12,8 @@ HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 void tp(int x, int y);
 class character
 {
+private:
+bool spawned = false;
 public:
     bool drawMode = 0;
     short X = 1, Y = 1;
@@ -34,6 +36,73 @@ public:
     {
         cout<<"Hi "<<name<<", symbol '"<<symbol<<"'"<<endl;
     }
+
+    void go(char ch)
+	{
+		if(spawned)
+		{
+			tp(X, Y); cout<<clear;
+
+			switch (ch)
+			{
+			case 'x': //special atack - missile
+				{
+				}
+				break;
+			case 'w':
+				{
+					Y--;
+				}
+				break;
+			case 's':
+				{
+				
+					Y++;
+				}
+				break;
+			case 'a':
+				{
+					
+					X--;
+				}
+				break;
+			case 'd':
+				{
+					
+					X++;
+				}
+				break;
+			case 'e':
+				{
+				
+					
+				}
+				break;
+			case 'q':
+				{
+			
+				}
+				break;
+			case 'z':
+				{
+			
+				}
+				break;
+			case 'c':
+				{
+					dirUp = false; Y++;
+					dirLeft = false; X++;
+				}
+				break;
+
+			
+			default:
+				break;
+			}
+
+			tp(X, Y); cout<<symbol;
+		}
+	}
 }wersjon, darxe;
 
 /*<mouse>  //*/
