@@ -13,79 +13,89 @@ void tp(int x, int y);
 class character
 {
 private:
-bool spawned = false;
+    bool spawned = false;
+    char clear = ' ';
 public:
     bool drawMode = 0;
     short X = 1, Y = 1;
+    bool dirUp = false; //direction Up, Down
+	bool dirLeft = false; //direction Left, Right
     string name;
     char symbol;
-    void showInPos(int x, int y)
-    {
-        tp(x, y);
-        cout<<symbol;
-    }
-    void setPos(int X, int Y)
-    {
-        tp(X, Y); cout<<symbol;
-    }
-    void clearPos()
-    {
-        tp(X, Y); cout<<((drawMode)?symbol:' ');
-    }
+
+    void spawn(short x, short y)
+	{
+		if(!spawned)
+		{
+			spawned = true;
+			X = x;
+			Y = y;
+			tp(x, y);
+			cout<<symbol;
+		}
+	}
     void sayHello()
     {
         cout<<"Hi "<<name<<", symbol '"<<symbol<<"'"<<endl;
     }
-
+    void hide()
+	{
+		if(spawned) spawned = false;
+		tp(X, Y); cout<<clear;
+	}
     void go(char ch)
 	{
 		if(spawned)
 		{
-			tp(X, Y); cout<<clear;
+			tp(X, Y); if(!drawMode) cout<<clear;
 
 			switch (ch)
 			{
-			case 'x': //special atack - missile
+			case 'x': //draw mode
 				{
+                    drawMode = drawMode ? 0 : 1;
 				}
 				break;
 			case 'w':
 				{
+					dirUp = true;
 					Y--;
 				}
 				break;
 			case 's':
 				{
-				
+					dirUp = false;
 					Y++;
 				}
 				break;
 			case 'a':
 				{
-					
+					dirLeft = true;
 					X--;
 				}
 				break;
 			case 'd':
 				{
-					
+					dirLeft = false;
 					X++;
 				}
 				break;
 			case 'e':
 				{
-				
-					
+					dirUp = true; Y--;
+					dirLeft = false; X++;
 				}
 				break;
 			case 'q':
 				{
-			
+					dirUp = true; Y--;
+					dirLeft = true; X--;
 				}
 				break;
 			case 'z':
 				{
-			
+					dirUp = false; Y++;
+					dirLeft = true; X--;
 				}
 				break;
 			case 'c':
@@ -95,7 +105,6 @@ public:
 				}
 				break;
 
-			
 			default:
 				break;
 			}
@@ -124,55 +133,46 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
             ReadConsoleInput(hIn, &InRec, 1, &NumRead); //Read Input, and:
             if(InRec.EventType == KEY_EVENT) //If input is pressed key:
             {
-                switch (InRec.Event.KeyEvent.uChar.AsciiChar)
+                if(InRec.Event.KeyEvent.uChar.AsciiChar)
                 {
-                case 'c': //If it's 'c':
+                    char ch = getch();
+                    switch (ch)
                     {
-                        cout << "I'm test"; getch();
+                    case 27: return 0;
+                    case '0': //test, terminate mouser :D
+                        {
+                            system("cls");
+                            cout<<"TEST";
+                        }
+                        break;
+                    case '1': //spawn object
+                        {
+                            wersjon.spawn(wersjon.X, wersjon.Y);
+                        }
+                        break;
+                    case '2': //hide object
+                        {
+                            wersjon.hide();
+                        }
+                        break;
+                    case '3': //spawn object
+                        {
+                            darxe.spawn(darxe.X, darxe.Y);
+                        }
+                        break;
+                    case '4': //hide object
+                        {
+                            darxe.hide();
+                        }
+                        break;
+                    
+                    default: //move objects
+                        {
+                            wersjon.go(ch);
+                            darxe.go(ch);
+                        }
+                        break;
                     }
-                    break;
-                case 'x': //draw mode
-                    {
-                        wersjon.drawMode = (wersjon.drawMode)?0:1;
-                    }
-                    break;
-                case 27: //exit
-                    {
-                        return 0;
-                    }
-                    break;
-                case 'w': //up
-                    {
-                        wersjon.clearPos(); wersjon.setPos(wersjon.X, --wersjon.Y); getch();
-                    }
-                    break;
-                case 's': //down
-                    {
-                        wersjon.clearPos(); wersjon.setPos(wersjon.X, ++wersjon.Y); getch();
-                    }
-                    break;
-                case 'a': //left
-                    {
-                        wersjon.clearPos(); wersjon.setPos(--wersjon.X, wersjon.Y); getch();
-                    }
-                    break;
-                case 'd': //right
-                    {
-                        wersjon.clearPos(); wersjon.setPos(++wersjon.X, wersjon.Y); getch();
-                    }
-                    break;
-                case 'z': //test
-                    {
-                        system("cls");
-                        cout<<"TEST";
-                    }
-                    break;
-                
-                default:
-                    {
-                        int temp(getch()); cout<<"Pressed key: "<<temp<<endl;
-                    }
-                    break;
                 }
             }
             else if(InRec.EventType == MOUSE_EVENT) //If mouse caused an effect:

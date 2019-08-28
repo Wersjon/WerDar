@@ -30,17 +30,17 @@ void isRunning()
 
 void isClicked()
 {
-    cout<<"ic;";
+    //cout<<"ic;";
 }
 
 void isDoubleClicked()
 {
-    cout<<"idc;";
+    //cout<<"idc;";
 }
 
 void isMoving()
 {
-    cout<<"im;";
+    //cout<<"im;";
 }
 
 void menuBar()
@@ -58,7 +58,5 @@ void menuBar()
     setColor(0, 15);
     wersjon.sayHello();
     darxe.sayHello();
-    darxe.showInPos(25, 20);
-    wersjon.showInPos(27, 20);
     tp(0, 1);
 }
