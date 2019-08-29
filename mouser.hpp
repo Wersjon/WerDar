@@ -10,6 +10,7 @@ HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void tp(int x, int y);
+
 class character
 {
 private:
@@ -114,7 +115,7 @@ public:
 	}
 }wersjon, darxe;
 
-/*<mouse>  //*/
+/*<mouse>*/
 int mouse(void exist(), void click(), void doubleclick(),  void moving())
 {
     INPUT_RECORD InRec; //Short of In Record, Describes an input event.
