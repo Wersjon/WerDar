@@ -16,9 +16,15 @@ class character
 private:
     bool spawned = false;
     char clear = ' ';
+    bool isMissile = false;
+    char missileSymbol = '-';
+    short xM = 0;
+    short yM = 0;
+    short xStartM = 0;
+    short yStartM = 0;
 public:
     bool drawMode = 0;
-    short X = 1, Y = 1;
+    short X = 5, Y = 5;
     bool dirUp = false; //direction Up, Down
 	bool dirLeft = false; //direction Left, Right
     string name;
@@ -39,11 +45,38 @@ public:
     {
         cout<<"Hi "<<name<<", symbol '"<<symbol<<"'"<<endl;
     }
-    void hide()
+    void hide() // spawn/hide
 	{
 		if(spawned) spawned = false;
+        else
+        {
+            spawn(X, Y);
+        }
 		tp(X, Y); cout<<clear;
 	}
+    void shot()
+    {
+        isMissile = true;
+        xM = X+1;
+        yM = Y+1;
+        xStartM = X+1;
+        yStartM = Y+1;
+        tp(xM, yM); cout<<missileSymbol;
+    }
+    void isShot()
+    {
+        if(isMissile)
+        {
+            if(xM - xStartM > 10)
+            {
+                isMissile = false;
+                tp(xM, yM); cout<<clear;
+            }
+            tp(xM, yM); cout<<clear;
+            xM++;
+            tp(xM, yM); cout<<missileSymbol;
+        }
+    }
     void go(char ch)
 	{
 		if(spawned)
@@ -126,9 +159,12 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
 
     while(true)
     {
+        wersjon.isShot();
+        darxe.isShot();
         Sleep(10);
         exist();
         GetNumberOfConsoleInputEvents(hIn, &EventCount); //Sets EventCount
+        
         while(EventCount > 0)
         {
             ReadConsoleInput(hIn, &InRec, 1, &NumRead); //Read Input, and:
@@ -146,24 +182,24 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
                             cout<<"TEST";
                         }
                         break;
-                    case '1': //spawn object
-                        {
-                            wersjon.spawn(wersjon.X, wersjon.Y);
-                        }
-                        break;
-                    case '2': //hide object
+                    case '1': // spawn/hide object
                         {
                             wersjon.hide();
                         }
                         break;
-                    case '3': //spawn object
+                    case '2': //missile
                         {
-                            darxe.spawn(darxe.X, darxe.Y);
+                            wersjon.shot();
                         }
                         break;
-                    case '4': //hide object
+                    case '3': // spawn/hide object
                         {
                             darxe.hide();
+                        }
+                        break;
+                    case '4': //missile
+                        {
+                            darxe.shot();
                         }
                         break;
                     
