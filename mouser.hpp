@@ -56,25 +56,31 @@ public:
 	}
     void shot()
     {
-        isMissile = true;
-        xM = X+1;
-        yM = Y+1;
-        xStartM = X+1;
-        yStartM = Y+1;
-        tp(xM, yM); cout<<missileSymbol;
+        if(!isMissile)
+        {
+            isMissile = true;
+            xM = X+1;
+            yM = Y+1;
+            xStartM = xM;
+            yStartM = yM;
+            tp(xStartM, yStartM); cout<<missileSymbol;
+        }
     }
     void isShot()
     {
         if(isMissile)
         {
-            if(xM - xStartM > 10)
+            if(xM - xStartM <= 3)
+            {
+                tp(xM, yM); cout<<clear;
+                xM++;
+                tp(xM, yM); cout<<missileSymbol;
+            }
+            else
             {
                 isMissile = false;
                 tp(xM, yM); cout<<clear;
             }
-            tp(xM, yM); cout<<clear;
-            xM++;
-            tp(xM, yM); cout<<missileSymbol;
         }
     }
     void go(char ch)
@@ -159,8 +165,6 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
 
     while(true)
     {
-        wersjon.isShot();
-        darxe.isShot();
         Sleep(10);
         exist();
         GetNumberOfConsoleInputEvents(hIn, &EventCount); //Sets EventCount
@@ -172,6 +176,8 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
             {
                 if(InRec.Event.KeyEvent.uChar.AsciiChar)
                 {
+                    wersjon.isShot();
+                    darxe.isShot();
                     char ch = getch();
                     switch (ch)
                     {
