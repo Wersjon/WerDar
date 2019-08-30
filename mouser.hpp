@@ -208,6 +208,11 @@ int mouse(void exist(), void click(), void doubleclick(),  void moving())
                             darxe.shot();
                         }
                         break;
+                    case '5': //consoleMode
+                        {
+                            return 1;
+                        }
+                        break;
                     
                     default: //move objects
                         {
