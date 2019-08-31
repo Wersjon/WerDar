@@ -60,7 +60,7 @@ int main()
             case 'P':
                 wersjon.shot();
                 break;
-            case 224: //arrows
+            case 224: //arrows //WHY 224
                 darxe.go(ch);
                 break;
             
