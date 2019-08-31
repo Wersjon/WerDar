@@ -9,7 +9,12 @@ void menuBar(); //Displays menu
 
 int main()
 {
-    char ch;
+    unsigned char ch;
+    /*while(true)
+    {
+        int i = getch();
+        cout<<i; //character id
+    }*/
     float timePassed;
     int hours, minutes, seconds, holder;
     clock_t timePassing; //Double
@@ -32,13 +37,17 @@ int main()
         timePassed = (double)timePassing/1000;
         holder = seconds;
         seconds = timePassed;
-        if(holder != seconds)wersjon.isNewSecond = true;
+        if(holder != seconds)
+        {
+            wersjon.isNewSecond = true;
+            darxe.isNewSecond = true;
+        }
         minutes = seconds/60;
         hours = minutes/60;
         seconds %= 60;
         minutes %= 60;
         hours %= 24;
-        Sleep(100);tp(12,0);setColor(11, 0);
+        Sleep(50);tp(12,0);setColor(11, 0);
         if(hours<10)printf("0%i", hours);
         else printf("%i", hours);
         tp(15,0);
@@ -50,6 +59,7 @@ int main()
         setColor(0, 15);
         //printf("%f seconds passed\n", timePassed);
         wersjon.isShot();
+        darxe.isShot();
         if(kbhit())
         {
             ch = getch();
@@ -60,13 +70,16 @@ int main()
             case 'P':
                 wersjon.shot();
                 break;
-            case 224: //arrows //WHY 224
+            case 13:
+                darxe.shot();
+                break;
+            case 224: //arrows
+                ch = getch();
                 darxe.go(ch);
                 break;
             
             default:
                 {   
-                    system("cls");
                     wersjon.go(ch);
                 }
                 break;
