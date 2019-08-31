@@ -39,8 +39,8 @@ int main()
         seconds = timePassed;
         if(holder != seconds)
         {
-            wersjon.isNewSecond = true;
-            darxe.isNewSecond = true;
+            //wersjon.isNewSecond = true;
+            //darxe.isNewSecond = true;
         }
         minutes = seconds/60;
         hours = minutes/60;

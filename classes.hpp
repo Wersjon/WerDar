@@ -18,7 +18,7 @@ private:
     short xStartM = 0;
     short yStartM = 0;
 public:
-    bool isNewSecond = false;
+    //bool isNewSecond = false;
     bool drawMode = 0;
     short X = 5, Y = 5;
     bool dirUp = false; //direction Up, Down
@@ -64,7 +64,7 @@ public:
     }
     void isShot()
     {
-        if(isMissile && isNewSecond)
+        if(isMissile/* && isNewSecond*/)
         {
             if(xM - xStartM <= 20)
             {
