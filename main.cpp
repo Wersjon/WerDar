@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <ctime>
-#include "mouser.hpp"
+#include "classes.hpp"
 
 /*<voids>*/
 void isRunning(); //Says App what to do if user is running this application.
@@ -14,87 +14,53 @@ int consoleMode();
 
 int main()
 {
-    wersjon.name = "Wersjon";
+    char ch;
+    float timePassed;
+    int hours, minutes, seconds;
+    clock_t timePassing; //Double
+
+    character wersjon;
+
+    wersjon.spawn(2, 2);
     wersjon.symbol = 'W';
-    darxe.name = "DarXe";
-    darxe.symbol = 'D';
-    hideCursor(); //Hides cursor from user vision (doesn't work if user resizes console);
-    //clear();
+
+    system("mode con:cols=80 lines=25");
+    hideCursor();
+    
+    menuBar();
     while(true)
     {
-        if(mouse(isRunning, isClicked, isDoubleClicked, isMoving)) //Mouse function, with 4 subfunctions
+        timePassing = clock();
+        timePassed = (double)timePassing/1000;
+        seconds = timePassed;
+        minutes = seconds/60;
+        hours = minutes/60;
+        seconds %= 60;
+        minutes %= 60;
+        hours %= 24;
+        Sleep(100);tp(12,0);setColor(11, 0);
+        if(hours<10)printf("0%i", hours);
+        else printf("%i", hours);
+        tp(15,0);
+        if(minutes<10)printf("0%i", minutes);
+        else printf("%i", minutes);
+        tp(18,0);
+        if(seconds<10)printf("0%i", seconds);
+        else printf("%i", seconds);
+        setColor(0, 15);
+        //printf("%f seconds passed\n", timePassed);
+        if(kbhit())
         {
-            consoleMode();
+            ch = getch();
+            wersjon.go(ch);
         }
-        else break;
     }
-
-    return 0; //it should "quit" app, however it doesn't.
-}
-
-void isRunning()
-{
-    menuBar();
-}
-
-void isClicked()
-{
-    //cout<<"ic;";
-}
-
-void isDoubleClicked()
-{
-    //cout<<"idc;";
-}
-
-void isMoving()
-{
-    cout<<"moving";
 }
 
 void menuBar()
 {
-    clock_t timer = clock();
     setColor(3, 0);
     tp(0, 0);
-    cout<<"                              MENU_BAR by Wersjon                               "<<endl;
-    cout<<"                              consoleMODE - 5                                   "<<endl;
-    //timer
-    tp(35,2);
-    if(timer/60000<10) cout<<"0"; cout<<timer/60000<<":";
-    if(timer/1000%60<10) cout<<"0"; cout<<timer/1000%60<<":";
-    cout<<timer%1000<<endl;
-
+    printf("TimePassed: HH:MM:SS                                                            ");
     setColor(0, 15);
-    wersjon.sayHello();
-    darxe.sayHello();
-    tp(0, 2);
-}
-
-int consoleMode()
-{
-    clear(); //WERSJONEK
-    while(true)
-    {
-        if(kbhit())
-        {
-            char ch = getch();
-            switch (ch)
-            {
-            case 27:
-                return 0;
-                break;
-            
-            default:
-                break;
-            }
-        }
-        tp(0,0);
-        cout<<"1TEST\n";
-        cout<<"2TEST\n";
-        cout<<"3TEST\n";
-        cout<<"ESC EXIT\n";
-        Sleep(10);
-    }
-    return 0;
 }
