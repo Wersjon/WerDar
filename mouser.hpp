@@ -5,7 +5,6 @@
 
 using namespace std;
 
-int mx, my; //Global variables for mouse X and mouse Y
 HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 

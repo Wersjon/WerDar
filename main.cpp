@@ -4,12 +4,7 @@
 #include "classes.hpp"
 
 /*<voids>*/
-void isRunning(); //Says App what to do if user is running this application.
-void isClicked(); //Says App what to do if user Clicks
-void isDoubleClicked(); //Says App what to do if user DClicks
-void isMoving(); //Says App What to do if mouse moves
 void menuBar(); //Displays menu
-int consoleMode();
 /*</voids>*/
 
 int main()
