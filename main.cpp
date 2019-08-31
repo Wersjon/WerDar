@@ -11,7 +11,7 @@ int main()
 {
     char ch;
     float timePassed;
-    int hours, minutes, seconds;
+    int hours, minutes, seconds, holder;
     clock_t timePassing; //Double
 
     character wersjon;
@@ -27,7 +27,9 @@ int main()
     {
         timePassing = clock();
         timePassed = (double)timePassing/1000;
+        holder = seconds;
         seconds = timePassed;
+        if(holder != seconds)wersjon.isNewSecond = true;
         minutes = seconds/60;
         hours = minutes/60;
         seconds %= 60;
@@ -44,10 +46,15 @@ int main()
         else printf("%i", seconds);
         setColor(0, 15);
         //printf("%f seconds passed\n", timePassed);
+        wersjon.isShot();
         if(kbhit())
         {
             ch = getch();
             wersjon.go(ch);
+            if(ch == 'p' || ch == 'P')
+            {
+                wersjon.shot();
+            }
         }
     }
 }

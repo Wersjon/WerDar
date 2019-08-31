@@ -18,6 +18,7 @@ private:
     short xStartM = 0;
     short yStartM = 0;
 public:
+    bool isNewSecond = false;
     bool drawMode = 0;
     short X = 5, Y = 5;
     bool dirUp = false; //direction Up, Down
@@ -55,7 +56,7 @@ public:
         {
             isMissile = true;
             xM = X+1;
-            yM = Y+1;
+            yM = Y;
             xStartM = xM;
             yStartM = yM;
             tp(xStartM, yStartM); cout<<missileSymbol;
@@ -63,9 +64,9 @@ public:
     }
     void isShot()
     {
-        if(isMissile)
+        if(isMissile && isNewSecond)
         {
-            if(xM - xStartM <= 3)
+            if(xM - xStartM <= 20)
             {
                 tp(xM, yM); cout<<clear;
                 xM++;
