@@ -93,6 +93,7 @@ public:
 				}
 			break;
 			case 'w':
+			case 72:
 				{
                     if(Y>1)
                     {
@@ -102,29 +103,32 @@ public:
 				}
 			break;
 			case 's':
+            case 80:
 				{
                     if(Y<24)
                     {
-					dirUp = false;
-					Y++;
+                        dirUp = false;
+                        Y++;
                     }
 				}
 				break;
 			case 'a':
+            case 75:
                 {
                     if(X>0)
                     {
-					dirLeft = true;
-					X--;
+                        dirLeft = true;
+                        X--;
                     }
 				}
 				break;
 			case 'd':
+            case 77:
 				{
                     if(X<79)
                     {
-					dirLeft = false;
-					X++;
+                        dirLeft = false;
+                        X++;
                     }
 				}
 				break;
@@ -132,8 +136,8 @@ public:
 				{
                     if(Y>1 && X<79)
                     {
-					dirUp = true; Y--;
-					dirLeft = false; X++;
+                        dirUp = true; Y--;
+                        dirLeft = false; X++;
                     }
 				}
 				break;
@@ -141,8 +145,8 @@ public:
 				{
                     if(Y>1 && X>0)
                     {
-					dirUp = true; Y--;
-					dirLeft = true; X--;
+                        dirUp = true; Y--;
+                        dirLeft = true; X--;
                     }
 				}
 				break;
@@ -150,8 +154,8 @@ public:
 				{
                     if(Y<24 && X>0)
                     {
-					dirUp = false; Y++;
-					dirLeft = true; X--;
+                        dirUp = false; Y++;
+                        dirLeft = true; X--;
                     }
 				}
 				break;
@@ -159,8 +163,8 @@ public:
 				{
                     if(Y<24 && X<79)
                     {
-					dirUp = false; Y++;
-					dirLeft = false; X++;
+                        dirUp = false; Y++;
+                        dirLeft = false; X++;
                     }
 				}
 				break;

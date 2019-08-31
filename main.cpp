@@ -15,9 +15,12 @@ int main()
     clock_t timePassing; //Double
 
     character wersjon;
+    character darxe;
 
     wersjon.spawn(2, 2);
     wersjon.symbol = 'W';
+    darxe.spawn(4, 4);
+    darxe.symbol = 'D';
 
     system("mode con:cols=80 lines=25");
     hideCursor();
@@ -50,10 +53,23 @@ int main()
         if(kbhit())
         {
             ch = getch();
-            wersjon.go(ch);
-            if(ch == 'p' || ch == 'P')
+
+            switch (ch)
             {
+            case 'p':
+            case 'P':
                 wersjon.shot();
+                break;
+            case 224: //arrows
+                darxe.go(ch);
+                break;
+            
+            default:
+                {   
+                    system("cls");
+                    wersjon.go(ch);
+                }
+                break;
             }
         }
     }
