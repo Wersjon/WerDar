@@ -25,7 +25,10 @@ int main()
 
     character player;
     character darxe;
-
+    
+    player.playercolor = 14;
+    darxe.playercolor = 11;
+    
     player.spawn(3, 3);
     darxe.spawn(4, 4);
 
@@ -83,7 +86,7 @@ int main()
                 clear();
                 menuBar();
             break;
-            case 13:
+            case 13: //Entere
                 darxe.shot();
             break;
             case 224: //arrows

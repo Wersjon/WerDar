@@ -24,6 +24,7 @@ private:
 
 public:
     //bool isNewSecond = false;
+    short playercolor = 15;
     short X = 5, Y = 5;
 
     /*<directions> //I've added 2 for buildings mechanics :p*/
@@ -39,6 +40,7 @@ public:
 	{
 		if(!spawned)
 		{
+            setColor(0, playercolor);
 			spawned = true;
 			X = x;
 			Y = y;
@@ -61,7 +63,8 @@ public:
 	}
     void shot()
     {
-        if(!isMissile)
+        setColor(0, playercolor);
+        if(!isMissile && X<80)
         {
             isMissile = true;
             xM = X+1;
@@ -73,6 +76,13 @@ public:
     }
     void isShot()
     {
+        setColor(0, playercolor);
+        if(xM==79)
+        {
+            isMissile = false;
+            tp(xM, yM);
+            printf(" ");
+        }
         if(isMissile/* && isNewSecond*/)
         {
             if(xM - xStartM <= 20)
@@ -90,6 +100,7 @@ public:
     }
     void go(char ch)
 	{
+        setColor(0, playercolor);
 		if(spawned)
 		{
 			tp(X, Y); cout<<clear;
