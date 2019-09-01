@@ -10,21 +10,29 @@ class character
 {
 private:
     bool spawned = false;
-    char clear = ' ';
     bool isMissile = false;
+    
+    char symbol = '$';
+    char clear = ' ';
     char missileSymbol = '-';
+
     short xM = 0;
     short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
+
 public:
     //bool isNewSecond = false;
-    bool drawMode = 0;
     short X = 5, Y = 5;
-    bool dirUp = false; //direction Up, Down
-	bool dirLeft = false; //direction Left, Right
+
+    /*<directions> //I've added 2 for buildings mechanics :p*/
+    bool dirUp = true;
+    bool dirDown = false;
+	bool dirLeft = false;
+    bool dirRight = false;
+    /*<directions>*/
+    
     string name;
-    char symbol;
 
     void spawn(short x, short y)
 	{
@@ -83,56 +91,116 @@ public:
 	{
 		if(spawned)
 		{
-			tp(X, Y); if(!drawMode) cout<<clear;
+			tp(X, Y); cout<<clear;
 
 			switch (ch)
 			{
-			case 'x': //draw mode
-				{
-                    drawMode = drawMode ? 0 : 1;
-				}
 			break;
 			case 'w':
 			case 72:
 				{
-                    if(Y>1)
+                    if(dirUp == true && Y>1)Y--;
+                    else if(dirDown == true && Y<24)Y++;
+                    else if(dirLeft == true && X>0)X--;
+                    else if(dirRight == true && X<79)X++;
+                    /*if(Y>1)
                     {
                         dirUp = true;
+                        dirDown = false; dirLeft = false; dirRight = false;
 					    Y--;
                     }
+                    symbol = '^';*/
 				}
 			break;
 			case 's':
             case 80:
 				{
-                    if(Y<24)
+                    if(dirDown == true && Y>1)Y--;
+                    else if(dirUp == true && Y<24)Y++;
+                    else if(dirRight == true && X>0)X--;
+                    else if(dirLeft == true && X<79)X++;
+                    /*if(Y<24)
                     {
-                        dirUp = false;
+                        dirDown = true;
+                        dirUp = false; dirLeft = false; dirRight = false;
                         Y++;
                     }
+                    symbol = 'v';*/
 				}
-				break;
+			break;
 			case 'a':
             case 75:
                 {
-                    if(X>0)
+                    if(dirLeft == true)
+                    {
+                        dirDown = true;
+                        dirLeft = false;
+                        symbol = 'v';
+                    }
+                    else if(dirDown == true)
+                    {
+                        dirRight = true;
+                        dirDown = false;
+                        symbol = '>';
+                    }
+                    else if(dirRight == true)
+                    {
+                        dirUp = true;
+                        dirRight = false;
+                        symbol = '^';
+                    }
+                    else if(dirUp == true)
                     {
                         dirLeft = true;
+                        dirUp = false;
+                        symbol = '<';
+                    }
+                    /*if(X>0)
+                    {
+                        dirLeft = true;
+                        dirUp = false; dirDown = false; dirRight = false;
                         X--;
                     }
+                    symbol = '<';*/
 				}
-				break;
+			break;
 			case 'd':
             case 77:
 				{
-                    if(X<79)
+                    if(dirLeft == true)
                     {
+                        dirUp = true;
                         dirLeft = false;
+                        symbol = '^';
+                    }
+                    else if(dirUp == true)
+                    {
+                        dirRight = true;
+                        dirUp = false;
+                        symbol = '>';
+                    }
+                    else if(dirRight == true)
+                    {
+                        dirDown = true;
+                        dirRight = false;
+                        symbol = 'v';
+                    }
+                    else if(dirDown == true)
+                    {
+                        dirLeft = true;
+                        dirDown = false;
+                        symbol = '<';
+                    }
+                    /*if(X<79)
+                    {
+                        dirRight = true;
+                        dirUp = false; dirDown = false; dirLeft = false;
                         X++;
                     }
+                    symbol = '>';*/
 				}
-				break;
-			case 'e':
+			break;
+			/*case 'e':
 				{
                     if(Y>1 && X<79)
                     {
@@ -140,7 +208,7 @@ public:
                         dirLeft = false; X++;
                     }
 				}
-				break;
+			break;
 			case 'q':
 				{
                     if(Y>1 && X>0)
@@ -149,7 +217,7 @@ public:
                         dirLeft = true; X--;
                     }
 				}
-				break;
+			break;
 			case 'z':
 				{
                     if(Y<24 && X>0)
@@ -158,7 +226,7 @@ public:
                         dirLeft = true; X--;
                     }
 				}
-				break;
+			break;
 			case 'c':
 				{
                     if(Y<24 && X<79)
@@ -167,8 +235,40 @@ public:
                         dirLeft = false; X++;
                     }
 				}
-				break;
-
+			break;*/
+            case 'b':
+            case 'B':
+            {
+                if(dirUp == true && Y>1)
+                {
+                    tp(X, Y-1);
+                    setColor(1, 1);
+                    printf("#");
+                    setColor(0, 15);
+                }
+                if(dirDown == true && Y<24)
+                {
+                    tp(X, Y+1);
+                    setColor(1, 1);
+                    printf("#");
+                    setColor(0, 15);
+                }
+                if(dirLeft == true && X>0)
+                {
+                    tp(X-1, Y);
+                    setColor(1, 1);
+                    printf("#");
+                    setColor(0, 15);
+                }
+                if(dirRight == true && X<79)
+                {
+                    tp(X+1, Y);
+                    setColor(1, 1);
+                    printf("#");
+                    setColor(0, 15);
+                }
+            }
+            break;
 			default:
 			break;
 			}

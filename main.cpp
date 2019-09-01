@@ -5,7 +5,9 @@
 
 /*<voids>*/
 void menuBar(); //Displays menu
+void mapReader(); //Reads Map
 /*</voids>*/
+char viewedMap[80][24];
 
 int main()
 {
@@ -19,13 +21,11 @@ int main()
     int hours, minutes, seconds, holder;
     clock_t timePassing; //Double
 
-    character wersjon;
+    character player;
     character darxe;
 
-    wersjon.spawn(2, 2);
-    wersjon.symbol = 'W';
+    player.spawn(2, 2);
     darxe.spawn(4, 4);
-    darxe.symbol = 'D';
 
     system("mode con:cols=80 lines=25");
     hideCursor();
@@ -37,28 +37,33 @@ int main()
         timePassed = (double)timePassing/1000;
         holder = seconds;
         seconds = timePassed;
-        if(holder != seconds)
+        /*if(holder != seconds)
         {
-            //wersjon.isNewSecond = true;
-            //darxe.isNewSecond = true;
-        }
-        minutes = seconds/60;
-        hours = minutes/60;
-        seconds %= 60;
+            player.isNewSecond = true;
+            darxe.isNewSecond = true;
+        }*/
+        minutes = seconds/60; //Sets how many minutes are you playing, without modulo 60
+        hours = minutes/60; 
+        seconds %= 60; //Sets how many seconds are you playing
         minutes %= 60;
         hours %= 24;
-        Sleep(50);tp(12,0);setColor(11, 0);
+
+        Sleep(25);tp(12,0);setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+
+        //displays how many hours you are playing with or without 0 before.
         if(hours<10)printf("0%i", hours);
         else printf("%i", hours);
         tp(15,0);
+
         if(minutes<10)printf("0%i", minutes);
         else printf("%i", minutes);
         tp(18,0);
+
         if(seconds<10)printf("0%i", seconds);
         else printf("%i", seconds);
         setColor(0, 15);
-        //printf("%f seconds passed\n", timePassed);
-        wersjon.isShot();
+
+        player.isShot();
         darxe.isShot();
         if(kbhit())
         {
@@ -68,21 +73,19 @@ int main()
             {
             case 'p':
             case 'P':
-                wersjon.shot();
-                break;
+                player.shot();
+            break;
             case 13:
                 darxe.shot();
-                break;
+            break;
             case 224: //arrows
                 ch = getch();
                 darxe.go(ch);
-                break;
-            
-            default:
-                {   
-                    wersjon.go(ch);
-                }
-                break;
+            break;
+        
+            default:  
+                player.go(ch);
+            break;
             }
         }
     }
