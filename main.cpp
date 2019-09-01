@@ -24,10 +24,10 @@ int main()
     character player;
     character darxe;
     
-    player.playercolor = 14;
+    player.playercolor = 14; //Sets Player color
     darxe.playercolor = 11;
     
-    player.spawn(3, 3);
+    player.spawn(3, 3); //Spawns Player
     darxe.spawn(4, 4);
 
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
@@ -81,6 +81,7 @@ int main()
             break;
             case 'y':
             case 'Y':
+                //Nothing important
                 setColor(4, 15);
                 clear();
                 menuBar();
