@@ -1,13 +1,15 @@
 #include <windows.h>
 #include <conio.h>
 #include <ctime>
-#include "classes.hpp"
+
+#include "classes.hpp" //including file classes.hpp that includes mouser.hpp
 
 /*<voids>*/
 void menuBar(); //Displays menu
-void mapReader(); //Reads Map
+void mapReader(); //Reads Map from file.
 /*</voids>*/
-char viewedMap[80][24];
+
+char viewedMap[80][24]; //Map.
 
 int main()
 {
@@ -17,26 +19,27 @@ int main()
         int i = getch();
         cout<<i; //character id
     }*/
-    float timePassed;
+    float timePassed; //Time that have passed.
     int hours, minutes, seconds, holder;
-    clock_t timePassing; //Double
+    clock_t timePassing; //timePassing is double Value.
 
     character player;
     character darxe;
 
-    player.spawn(2, 2);
+    player.spawn(3, 3);
     darxe.spawn(4, 4);
 
-    system("mode con:cols=80 lines=25");
-    hideCursor();
+    system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
+    hideCursor(); //Hides cursor from player view.
     
-    menuBar();
+    menuBar(); //Displays MenuBar
+    
     while(true)
     {
-        timePassing = clock();
-        timePassed = (double)timePassing/1000;
-        holder = seconds;
-        seconds = timePassed;
+        timePassing = clock(); //Starts counting time.
+        timePassed = (double)timePassing/1000; //Gets what time is it.
+        holder = seconds; //not used for now
+        seconds = timePassed; //how many seconds have been passed since program started
         /*if(holder != seconds)
         {
             player.isNewSecond = true;
@@ -48,14 +51,13 @@ int main()
         minutes %= 60;
         hours %= 24;
 
-        Sleep(25);tp(12,0);setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(25); tp(12, 0); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
-        //displays how many hours you are playing with or without 0 before.
-        if(hours<10)printf("0%i", hours);
-        else printf("%i", hours);
-        tp(15,0);
+        if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
+        else printf("%i", hours); 
+        tp(15, 0);
 
-        if(minutes<10)printf("0%i", minutes);
+        if(minutes<10) printf("0%i", minutes);
         else printf("%i", minutes);
         tp(18,0);
 
@@ -63,7 +65,7 @@ int main()
         else printf("%i", seconds);
         setColor(0, 15);
 
-        player.isShot();
+        player.isShot(); //If player shot, missle is launched.
         darxe.isShot();
         if(kbhit())
         {
@@ -74,6 +76,12 @@ int main()
             case 'p':
             case 'P':
                 player.shot();
+            break;
+            case 'y':
+            case 'Y':
+                setColor(4, 15);
+                clear();
+                menuBar();
             break;
             case 13:
                 darxe.shot();

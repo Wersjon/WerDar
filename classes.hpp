@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <cstdio>
+
 #include "mouser.hpp"
 
 using namespace std;
