@@ -53,14 +53,11 @@ public:
         cout<<"Hi "<<name<<", symbol '"<<symbol<<"'"<<endl;
     }
     void hide() // spawn/hide
-	{
-		if(spawned) spawned = false;
-        else
-        {
-            spawn(X, Y);
-        }
-		tp(X, Y); cout<<clear;
-	}
+    {
+        if(spawned) spawned = false;
+
+        tp(X, Y); cout<<clear;
+    }
     void shot()
     {
         setColor(0, playercolor);
