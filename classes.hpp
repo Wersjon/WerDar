@@ -61,7 +61,7 @@ public:
     void shot()
     {
         setColor(0, playercolor);
-        if(!isMissile && X<80)
+        if(!isMissile && X<80 && viewedMap[Y-1][X+1]!='#')
         {
             isMissile = true;
             xM = X+1;
@@ -69,6 +69,12 @@ public:
             xStartM = xM;
             yStartM = yM;
             tp(xStartM, yStartM); cout<<missileSymbol;
+            if(viewedMap[yM-1][xM]=='&')
+            {
+                isMissile = false;
+                viewedMap[yM-1][xM]=' ';
+                tp(xStartM, yStartM); printf(" ");
+            }
         }
     }
     void isShot()
@@ -84,9 +90,23 @@ public:
         {
             if(xM - xStartM <= 20)
             {
-                tp(xM, yM); cout<<clear;
-                xM++;
-                tp(xM, yM); cout<<missileSymbol;
+                if(viewedMap[yM-1][xM+1]!='&' && viewedMap[yM-1][xM+1]!='#')
+                {
+                    tp(xM, yM); cout<<clear;
+                    xM++;
+                    tp(xM, yM); cout<<missileSymbol;
+                }
+                else if(viewedMap[yM-1][xM+1]=='&')
+                {
+                    tp(xM, yM); cout<<clear;
+                    isMissile = false;
+                    viewedMap[yM-1][xM+1]=' ';
+                }
+                else if(viewedMap[yM-1][xM+1]=='#')
+                {
+                    tp(xM, yM); cout<<clear;
+                    isMissile = false;
+                }
             }
             else
             {
@@ -108,10 +128,10 @@ public:
 			case 'w':
 			case 72:
 				{
-                    if(dirUp == true && Y>1)Y--;
-                    else if(dirDown == true && Y<24)Y++;
-                    else if(dirLeft == true && X>0)X--;
-                    else if(dirRight == true && X<79)X++;
+                    if(dirUp == true && Y>1 && viewedMap[Y-2][X]!='#' && viewedMap[Y-2][X]!='&')Y--;
+                    else if(dirDown == true && Y<24 && viewedMap[Y][X]!='#' && viewedMap[Y][X]!='&')Y++;
+                    else if(dirLeft == true && X>0 && viewedMap[Y-1][X-1]!='#' && viewedMap[Y-1][X-1]!='&')X--;
+                    else if(dirRight == true && X<79 && viewedMap[Y-1][X+1]!='#' && viewedMap[Y-1][X+1]!='&')X++;
                     /*if(Y>1)
                     {
                         dirUp = true;
@@ -124,10 +144,10 @@ public:
 			case 's':
             case 80:
 				{
-                    if(dirDown == true && Y>1)Y--;
-                    else if(dirUp == true && Y<24)Y++;
-                    else if(dirRight == true && X>0)X--;
-                    else if(dirLeft == true && X<79)X++;
+                    if(dirDown == true && Y>1 && viewedMap[Y-2][X]!='#' && viewedMap[Y-2][X]!='&')Y--;
+                    else if(dirUp == true && Y<24 && viewedMap[Y][X]!='#' && viewedMap[Y][X]!='&')Y++;
+                    else if(dirRight == true && X>0 && viewedMap[Y-1][X-1]!='#' && viewedMap[Y-1][X-1]!='&')X--;
+                    else if(dirLeft == true && X<79 && viewedMap[Y-1][X+1]!='#' && viewedMap[Y-1][X+1]!='&')X++;
                     /*if(Y<24)
                     {
                         dirDown = true;
@@ -251,29 +271,33 @@ public:
                 if(dirUp == true && Y>1)
                 {
                     tp(X, Y-1);
-                    setColor(1, 1);
-                    printf("#");
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y-2][X] = '&';
                     setColor(0, 15);
                 }
                 if(dirDown == true && Y<24)
                 {
                     tp(X, Y+1);
-                    setColor(1, 1);
-                    printf("#");
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y][X] = '&';
                     setColor(0, 15);
                 }
                 if(dirLeft == true && X>0)
                 {
                     tp(X-1, Y);
-                    setColor(1, 1);
-                    printf("#");
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y-1][X-1] = '&';
                     setColor(0, 15);
                 }
                 if(dirRight == true && X<79)
                 {
                     tp(X+1, Y);
-                    setColor(1, 1);
-                    printf("#");
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y-1][X+1] = '&';
                     setColor(0, 15);
                 }
             }

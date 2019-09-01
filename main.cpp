@@ -1,15 +1,13 @@
 #include <windows.h>
 #include <conio.h>
 #include <ctime>
+#include <fstream>
 
 #include "classes.hpp" //including file classes.hpp that includes mouser.hpp
 
 /*<voids>*/
 void menuBar(); //Displays menu
-void mapReader(); //Reads Map from file.
 /*</voids>*/
-
-char viewedMap[80][24]; //Map.
 
 int main()
 {
@@ -35,6 +33,7 @@ int main()
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
     
+    mapReader(); //Reads Map from file
     menuBar(); //Displays MenuBar
     
     while(true)
