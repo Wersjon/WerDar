@@ -81,6 +81,7 @@ int main()
             break;
             case 'y':
             case 'Y':
+                //Nothing important
                 setColor(4, 15);
                 clear();
                 menuBar();

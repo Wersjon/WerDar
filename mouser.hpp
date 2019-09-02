@@ -79,6 +79,7 @@ void mapReader()
         while(i2 < 80)
         {   
             if(viewedMap[i1][i2] == '#') setColor(1, 9);
+            else if(viewedMap[i1][i2] == '&') setColor(3, 11);
             else setColor(0, 15);
             printf("%c", viewedMap[i1][i2]);
             i2++;
