@@ -22,13 +22,13 @@ int main()
     clock_t timePassing; //timePassing is double Value.
 
     character player;
-    character darxe;
+    character comp;
     
     player.playercolor = 14;
-    darxe.playercolor = 11;
+    comp.playercolor = 11;
     
     player.spawn(3, 3);
-    darxe.spawn(4, 4);
+    comp.spawn(4, 4);
 
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
@@ -68,7 +68,7 @@ int main()
         setColor(0, 15);
 
         player.isShot(); //If player shot, missle is launched.
-        darxe.isShot();
+        comp.isShot();
         if(kbhit())
         {
             ch = getch();
@@ -86,11 +86,11 @@ int main()
                 menuBar();
             break;
             case 13: //Entere
-                darxe.shot();
+                comp.shot();
             break;
             case 224: //arrows
                 ch = getch();
-                darxe.go(ch);
+                comp.go(ch);
             break;
         
             default:  

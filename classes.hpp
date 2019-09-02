@@ -55,7 +55,6 @@ public:
     void hide() // spawn/hide
     {
         if(spawned) spawned = false;
-
         tp(X, Y); cout<<clear;
     }
     void shot()
