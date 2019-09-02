@@ -12,15 +12,19 @@ class character
 private:
     bool spawned = false;
     bool isMissile = false;
+    bool isBomb = false;
     
     char symbol = '$';
     char clear = ' ';
     char missileSymbol = '-';
+    char bombSymbol = 'X';
 
     short xM = 0;
     short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
+    short xB = 0;
+    short yB = 0;
 
 public:
     //bool isNewSecond = false;
@@ -56,6 +60,33 @@ public:
     {
         if(spawned) spawned = false;
         tp(X, Y); cout<<clear;
+    }
+    void putBomb()
+    {
+        if(!isBomb)
+        {
+            xB = X+1;
+            yB = Y;
+            tp(xB, yB); cout<<bombSymbol;
+            isBomb = true;
+        }
+    }
+    void runBomb()
+    {
+        if(isBomb)
+        {
+            viewedMap[yB-1][xB+1] = ' ';
+            tp(xB+1, yB); printf(" ");
+            viewedMap[yB-1][xB-1] = ' ';
+            tp(xB-1, yB); printf(" ");
+            viewedMap[yB-2][xB] = ' ';
+            tp(xB, yB-1); printf(" ");
+            viewedMap[yB][xB] = ' ';
+            tp(xB, yB+1); printf(" ");
+
+            tp(xB, yB); printf(" ");
+            isBomb = false;
+        }
     }
     void shot()
     {

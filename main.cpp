@@ -12,10 +12,10 @@ void menuBar(); //Displays menu
 int main()
 {
     unsigned char ch;
-    /*while(true)
+    /*int i;
+    while(i = getch())
     {
-        int i = getch();
-        cout<<i; //character id
+        cout<<i<<endl;
     }*/
     float timePassed; //Time that have passed.
     int hours, minutes, seconds, holder;
@@ -78,25 +78,40 @@ int main()
             case 'p':
             case 'P':
                 player.shot();
-            break;
+                break;
             case 'y':
             case 'Y':
-                //Nothing important
-                setColor(4, 15);
-                clear();
-                menuBar();
-            break;
+                {
+                    //Nothing important
+                    setColor(4, 15);
+                    clear();
+                    menuBar();
+                }
+                break;
             case 13: //Entere
                 comp.shot();
-            break;
+                break;
             case 224: //arrows
-                ch = getch();
-                comp.go(ch);
-            break;
-        
+                {
+                    ch = getch();
+                    switch (ch)
+                    {
+                    case 82: //Insert button
+                        comp.putBomb();
+                        break;
+                    case 71: //Home button
+                        comp.runBomb();
+                        break;
+                    
+                    default:
+                        comp.go(ch);
+                        break;
+                    }
+                }
+                break;
             default:  
                 player.go(ch);
-            break;
+                break;
             }
         }
     }
