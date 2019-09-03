@@ -535,6 +535,7 @@ public:
 
 			switch (n)
 			{
+            //up
 			case 1:
 			case 2:
 			case 3:
@@ -555,6 +556,7 @@ public:
                     symbol = '^';*/
 				}
 			break;
+            //down
 			case 5:
 			case 6:
 			case 7:
@@ -575,6 +577,7 @@ public:
                     symbol = 'v';*/
 				}
 			break;
+            //left
 			case 9:
                 {
                     if(dirLeft == true)
@@ -610,6 +613,7 @@ public:
                     symbol = '<';*/
 				}
 			break;
+            //right
 			case 10:
 				{
                     if(dirLeft == true)
