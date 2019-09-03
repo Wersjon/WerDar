@@ -113,7 +113,7 @@ int main()
         comp.isShot();
         AI.isShot();
 
-        int n = random(1,13); //random number UP 1-4; DOWN 5-8; SHOT 9,10 BOMB 13
+        int n = random(1,14); //random number UP 1-4; DOWN 5-8; SHOT 9,10 BOMB 13 BUILD 14
         switch (n)
         {
         case 11:
