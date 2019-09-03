@@ -30,12 +30,15 @@ private:
     
     char symbol = '^';
     char clear = ' ';
-    char missileSymbol = '-';
+    char missileSymbol;
+    char missileDir; //0 - up; 1 - right; 2 - down; 3 - left;
 
     short xM = 0;
     short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
+    short mode = 0;
+
 public:
     /*<bomb>*/
     short xB = 0;
@@ -116,6 +119,27 @@ public:
     void shot()
     {
         setColor(0, playercolor);//Sets color of missile.
+        if(!isMissile)
+        {
+            if(dirUp == true && viewedMap[Y-1][X]!='#' && Y>1)
+            {
+                isMissile = true;
+                missileSymbol = '|';
+                missileDir = 0;
+                xM = X;
+                yM = Y-1;
+                xStartM = xM;
+                yStartM = yM;
+                tp(xStartM, yStartM); printf("%c", missileSymbol);
+                if(viewedMap[yM][xM]=='&')
+                {
+                    isMissile = false; //Destroyes missile (in code)
+                    viewedMap[yM][xM]=' '; //Destroyes Wall
+                    tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
+                }
+            }
+        }
+        /*
         if(!isMissile && X<80 && viewedMap[Y][X+1]!='#')//Checks if player isn't next to barier or console walls
         {
             isMissile = true;
@@ -130,7 +154,7 @@ public:
                 viewedMap[yM][xM]=' '; //Destroyes Wall
                 tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
             }
-        }
+        }*/
     }
     void isShot()
     {
@@ -183,152 +207,83 @@ public:
 
 			switch (ch)
 			{
-			break;
-			case 'w':
-			case 72:
+			case 'W':
+            case 'w':
 				{
-                    //Depending on direction, it moves Left,Right,Top,Bottom.
-                    //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
-                    if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#' && viewedMap[Y-1][X]!='&')Y--;
-                    else if(dirDown == true && Y<24 && viewedMap[Y+1][X]!='#' && viewedMap[Y+1][X]!='&')Y++;
-                    else if(dirLeft == true && X>0 && viewedMap[Y][X-1]!='#' && viewedMap[Y][X-1]!='&')X--;
-                    else if(dirRight == true && X<79 && viewedMap[Y][X+1]!='#' && viewedMap[Y][X+1]!='&')X++;
-                    /*if(Y>1)
-                    {
-                        dirUp = true;
-                        dirDown = false; dirLeft = false; dirRight = false;
-					    Y--;
-                    }
-                    symbol = '^';*/
+                    dirUp = true; 
+                    dirDown = false; dirLeft = false; dirRight = false;
+                    symbol = '^';
+                    if(Y>1 && Y>1 && viewedMap[Y-1][X]==' ') Y--;
 				}
 			break;
+
 			case 's':
-            case 80:
+            case 'S':
 				{
-                    //Depending on direction, it moves Left,Right,Top,Bottom.
-                    //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
-                    if(dirDown == true && Y>1 && viewedMap[Y-1][X]!='#' && viewedMap[Y-1][X]!='&')Y--;
-                    else if(dirUp == true && Y<24 && viewedMap[Y+1][X]!='#' && viewedMap[Y+1][X]!='&')Y++;
-                    else if(dirRight == true && X>0 && viewedMap[Y][X-1]!='#' && viewedMap[Y][X-1]!='&')X--;
-                    else if(dirLeft == true && X<79 && viewedMap[Y][X+1]!='#' && viewedMap[Y][X+1]!='&')X++;
-                    /*if(Y<24)
-                    {
-                        dirDown = true;
-                        dirUp = false; dirLeft = false; dirRight = false;
-                        Y++;
-                    }
-                    symbol = 'v';*/
+                    dirDown = true; 
+                    dirUp = false; dirLeft = false; dirRight = false;
+                    symbol = 'v';
+                    if(Y<24 && viewedMap[Y+1][X]==' ' ) Y++;
 				}
 			break;
+
 			case 'a':
-            case 75:
+            case 'A':
                 {
-                    if(dirLeft == true)
-                    {
-                        dirDown = true;
-                        dirLeft = false;
-                        symbol = 'v';
-                    }
-                    else if(dirDown == true)
-                    {
-                        dirRight = true;
-                        dirDown = false;
-                        symbol = '>';
-                    }
-                    else if(dirRight == true)
-                    {
-                        dirUp = true;
-                        dirRight = false;
-                        symbol = '^';
-                    }
-                    else if(dirUp == true)
-                    {
-                        dirLeft = true;
-                        dirUp = false;
-                        symbol = '<';
-                    }
-                    /*if(X>0)
-                    {
-                        dirLeft = true;
-                        dirUp = false; dirDown = false; dirRight = false;
-                        X--;
-                    }
-                    symbol = '<';*/
+                    dirLeft = true;
+                    dirUp = false; dirDown = false; dirRight = false;
+                    symbol = '<';
+                    if(X>0 && viewedMap[Y][X-1]==' ') X--;
 				}
 			break;
+
 			case 'd':
-            case 77:
+            case 'D':
 				{
-                    if(dirLeft == true)
-                    {
-                        dirUp = true;
-                        dirLeft = false;
-                        symbol = '^';
-                    }
-                    else if(dirUp == true)
-                    {
-                        dirRight = true;
-                        dirUp = false;
-                        symbol = '>';
-                    }
-                    else if(dirRight == true)
-                    {
-                        dirDown = true;
-                        dirRight = false;
-                        symbol = 'v';
-                    }
-                    else if(dirDown == true)
-                    {
-                        dirLeft = true;
-                        dirDown = false;
-                        symbol = '<';
-                    }
-                    /*if(X<79)
-                    {
-                        dirRight = true;
-                        dirUp = false; dirDown = false; dirLeft = false;
-                        X++;
-                    }
-                    symbol = '>';*/
+                    dirRight = true;
+                    dirUp = false; dirDown = false; dirLeft = false;
+                    symbol = '>';
+                    if(X<79 && viewedMap[Y][X+1]==' ') X++;
 				}
 			break;
-			/*case 'e':
-				{
-                    if(Y>1 && X<79)
+
+            case 'e':
+            case 'E':
+            {
+                if(mode < 2)
+                {
+                    mode++;
+                }
+                else mode = 0;
+            }
+            break;
+
+            case 'u':
+            case 'U':
+            {
+                switch(mode)
+                {
+                    case 0: //Build
                     {
-                        dirUp = true; Y--;
-                        dirLeft = false; X++;
+                        if(viewedMap[Y-1][X] == ' ')
+                        {
+                            tp(X, Y-1);
+                            setColor(3, 11);
+                            printf("&");
+                            setColor(0, 15);
+                            viewedMap[Y-1][X] = '&';
+                        }
                     }
-				}
-			break;
-			case 'q':
-				{
-                    if(Y>1 && X>0)
+                    break;
+                    case 1: //shot
                     {
-                        dirUp = true; Y--;
-                        dirLeft = true; X--;
+                        shot();
                     }
-				}
-			break;
-			case 'z':
-				{
-                    if(Y<24 && X>0)
-                    {
-                        dirUp = false; Y++;
-                        dirLeft = true; X--;
-                    }
-				}
-			break;
-			case 'c':
-				{
-                    if(Y<24 && X<79)
-                    {
-                        dirUp = false; Y++;
-                        dirLeft = false; X++;
-                    }
-				}
-			break;*/
-            case 'b':
+                    break;
+                }
+            }
+            break;
+            /*case 'b':
             case 'B':
             {
                 if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
@@ -364,7 +319,7 @@ public:
                     setColor(0, 15);
                 }
             }
-            break;
+            break;*/
 			default:
 			break;
 			}
@@ -535,11 +490,7 @@ public:
 
 			switch (n)
 			{
-            //up
-			case 1:
-			case 2:
-			case 3:
-			case 4:
+			case 0:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
@@ -556,11 +507,7 @@ public:
                     symbol = '^';*/
 				}
 			break;
-            //down
-			case 5:
-			case 6:
-			case 7:
-			case 8:
+			case 1:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
@@ -577,8 +524,7 @@ public:
                     symbol = 'v';*/
 				}
 			break;
-            //left
-			case 9:
+			case 2:
                 {
                     if(dirLeft == true)
                     {
@@ -613,8 +559,7 @@ public:
                     symbol = '<';*/
 				}
 			break;
-            //right
-			case 10:
+			case 3:
 				{
                     if(dirLeft == true)
                     {
@@ -685,7 +630,7 @@ public:
                     }
 				}
 			break;*/
-            case 0: //0 off
+            case 4: //0 off
                 {
                     if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
                     {

@@ -23,11 +23,9 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    character comp;
     computer AI;
     
     player.playercolor = 14;
-    comp.playercolor = 11;
     
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
@@ -36,7 +34,6 @@ int main()
     menuBar(); //Displays MenuBar
 
     player.spawn(3, 3);
-    comp.spawn(4, 4);
     AI.spawn(1, 2);
     
     while(true)
@@ -46,33 +43,24 @@ int main()
 
         holder = seconds%60;
         seconds = timePassed; //how many seconds have been passed since program started
-        
-        if(seconds3 == 0 && comp.isBomb == true)
-        {
-            tp(comp.xB, comp.yB);
-            printf("3");
-        }
+
         if(seconds3 == 0 && AI.isBomb == true)
         {
             tp(AI.xB, AI.yB); 
             printf("3");
         }
-        else if(seconds3 == 1 && (comp.isBomb == true ||AI.isBomb == true))
+        else if(seconds3 == 1 && (AI.isBomb == true))
         {
-            tp(comp.xB, comp.yB); printf("2");
             tp(AI.xB, AI.yB); printf("2");
         }
-        else if(seconds3 == 2 && (comp.isBomb == true ||AI.isBomb == true))
+        else if(seconds3 == 2 && (AI.isBomb == true))
         {
-            tp(comp.xB, comp.yB); printf("1");
             tp(AI.xB, AI.yB); printf("1");
         }
-        if(comp.isBomb == true && comp.isNewSecond == true)seconds3++;
         if(AI.isBomb == true && AI.isNewSecond == true)seconds3++;
         if(seconds3 == 3)
         {
             seconds3 = 0;
-            comp.runBomb();
             AI.runBomb();
         }
 
@@ -85,13 +73,11 @@ int main()
         if(holder != seconds)
         {
             player.isNewSecond = true;
-            comp.isNewSecond = true;
             AI.isNewSecond = true;
         }
         else
         {
             player.isNewSecond = false;
-            comp.isNewSecond = false;
             AI.isNewSecond = false;
         }
 
@@ -110,7 +96,6 @@ int main()
         setColor(0, 15);
 
         player.isShot(); //If player shot, missle is launched.
-        comp.isShot();
         AI.isShot();
 
         int n = random(1,14); //random number UP 1-4; DOWN 5-8; SHOT 9,10 BOMB 13 BUILD 14
@@ -135,12 +120,8 @@ int main()
 
             switch (ch)
             {
-            case 'p':
-            case 'P':
-                player.shot();
-                break;
-            case 'y':
-            case 'Y':
+                case 'y':
+                case 'Y':
                 {
                     //Nothing important
                     setColor(4, 15);
@@ -148,31 +129,14 @@ int main()
                     menuBar();
                 }
                 break;
-            case 13: //Entere
-                comp.shot();
-                break;
-            case 'V':
-            case 'v':
-                comp.putBomb();
-            break;
-            case 224: //arrows
+                /*case 'V':
+                case 'v':
+                    comp.putBomb();
+                break;*/
+                default:  
                 {
-                    ch = getch();
-                    switch (ch)
-                    {
-                    //case 82: //Insert button
-                    /*case 71: //Home button
-                        comp.runBomb();
-                        break;
-                    */
-                    default:
-                        comp.go(ch);
-                        break;
-                    }
+                    player.go(ch);
                 }
-                break;
-            default:  
-                player.go(ch);
                 break;
             }
         }
