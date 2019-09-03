@@ -81,21 +81,29 @@ int main()
             AI.isNewSecond = false;
         }
 
-        Sleep(25); tp(11, 0); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(25); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
+        tp(11, 0);
         if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
         else printf("%i", hours); 
+        
         tp(14, 0);
-
         if(minutes<10) printf("0%i", minutes);
         else printf("%i", minutes);
+        
         tp(17,0);
-
         if(seconds<10)printf("0%i", seconds);
         else printf("%i", seconds);
+
+        tp(22, 0);
+        if(player.mode == 0)printf("&");
+        if(player.mode == 1)printf("-");
+        if(player.mode == 2)printf("X");
+
         setColor(0, 15);
 
         player.isShot(); //If player shot, missle is launched.
+        player.runBomb();
         AI.isShot();
 
         int n = random(1,14); //random number UP 1-4; DOWN 5-8; SHOT 9,10 BOMB 13 BUILD 14
@@ -129,10 +137,6 @@ int main()
                     menuBar();
                 }
                 break;
-                /*case 'V':
-                case 'v':
-                    comp.putBomb();
-                break;*/
                 default:  
                 {
                     player.go(ch);
@@ -147,6 +151,6 @@ void menuBar()
 {
     setColor(3, 0);
     tp(0, 0);
-    printf("TimePassed:HH:MM:SS                                                             ");
+    printf("TimePassed:HH:MM:SS M:&                                                         ");
     setColor(0, 15);
 }
