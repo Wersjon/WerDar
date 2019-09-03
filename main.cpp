@@ -49,21 +49,31 @@ int main()
         
         if(seconds3 == 0 && comp.isBomb == true)
         {
-            tp(comp.xB, comp.yB); printf("3");
+            tp(comp.xB, comp.yB);
+            printf("3");
         }
-        else if(seconds3 == 1 && comp.isBomb == true)
+        if(seconds3 == 0 && AI.isBomb == true)
+        {
+            tp(AI.xB, AI.yB); 
+            printf("3");
+        }
+        else if(seconds3 == 1 && (comp.isBomb == true ||AI.isBomb == true))
         {
             tp(comp.xB, comp.yB); printf("2");
+            tp(AI.xB, AI.yB); printf("2");
         }
-        else if(seconds3 == 2 && comp.isBomb == true)
+        else if(seconds3 == 2 && (comp.isBomb == true ||AI.isBomb == true))
         {
             tp(comp.xB, comp.yB); printf("1");
+            tp(AI.xB, AI.yB); printf("1");
         }
         if(comp.isBomb == true && comp.isNewSecond == true)seconds3++;
+        if(AI.isBomb == true && AI.isNewSecond == true)seconds3++;
         if(seconds3 == 3)
         {
             seconds3 = 0;
             comp.runBomb();
+            AI.runBomb();
         }
 
         minutes = seconds/60; //Sets how many minutes are you playing, without modulo 60
@@ -76,11 +86,13 @@ int main()
         {
             player.isNewSecond = true;
             comp.isNewSecond = true;
+            AI.isNewSecond = true;
         }
         else
         {
             player.isNewSecond = false;
             comp.isNewSecond = false;
+            AI.isNewSecond = false;
         }
 
         Sleep(25); tp(11, 0); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
@@ -109,7 +121,6 @@ int main()
             break;
         case 7:
             AI.putBomb();
-            AI.runBomb();
             break;
         
         default:
