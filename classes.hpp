@@ -12,22 +12,24 @@ class character
 private:
     bool spawned = false;
     bool isMissile = false;
-    bool isBomb = false;
     
-    char symbol = '$';
+    char symbol = '^';
     char clear = ' ';
     char missileSymbol = '-';
-    char bombSymbol = 'X';
 
     short xM = 0;
     short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
+public:
+    /*<bomb>*/
     short xB = 0;
     short yB = 0;
+    char bombSymbol = 'X';
+    bool isBomb = false;
+    /*</bomb>*/
 
-public:
-    //bool isNewSecond = false;
+    bool isNewSecond = false;
     short playercolor = 15;
     short X = 5, Y = 5;
 
@@ -75,23 +77,31 @@ public:
     {
         if(isBomb)
         {
-            viewedMap[yB-1][xB+1] = ' ';
-            tp(xB+1, yB); printf(" ");
-            viewedMap[yB-1][xB-1] = ' ';
-            tp(xB-1, yB); printf(" ");
-            viewedMap[yB-2][xB] = ' ';
-            tp(xB, yB-1); printf(" ");
+            setColor(4, 12);
+            viewedMap[yB][xB+1] = ' ';
+            tp(xB+1, yB); printf("X");
+            viewedMap[yB][xB-1] = ' ';
+            tp(xB-1, yB); printf("X");
+            viewedMap[yB-1][xB] = ' ';
+            tp(xB, yB-1); printf("X");
+            viewedMap[yB+1][xB] = ' ';
+            tp(xB, yB+1); printf("X");
             viewedMap[yB][xB] = ' ';
-            tp(xB, yB+1); printf(" ");
-
-            tp(xB, yB); printf(" ");
+            tp(xB, yB); printf("X");
             isBomb = false;
+            Sleep(50);
+            setColor(0, 15);
+            tp(xB+1, yB); printf(" ");
+            tp(xB-1, yB); printf(" ");
+            tp(xB, yB-1); printf(" ");
+            tp(xB, yB+1); printf(" ");
+            tp(xB, yB); printf(" ");
         }
     }
     void shot()
     {
         setColor(0, playercolor);//Sets color of missile.
-        if(!isMissile && X<80 && viewedMap[Y-1][X+1]!='#')//Checks if player isn't next to barier or console walls
+        if(!isMissile && X<80 && viewedMap[Y][X+1]!='#')//Checks if player isn't next to barier or console walls
         {
             isMissile = true;
             xM = X+1;
@@ -99,10 +109,10 @@ public:
             xStartM = xM;
             yStartM = yM;
             tp(xStartM, yStartM); cout<<missileSymbol;
-            if(viewedMap[yM-1][xM]=='&') //Checks if block next to it is wall
+            if(viewedMap[yM][xM]=='&') //Checks if block next to it is wall
             {
                 isMissile = false; //Destroyes missile (in code)
-                viewedMap[yM-1][xM]=' '; //Destroyes Wall
+                viewedMap[yM][xM]=' '; //Destroyes Wall
                 tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
             }
         }
@@ -119,23 +129,23 @@ public:
         {
             if(xM - xStartM <= 20) //Destroyes itself if it reaches 20 blocks
             {
-                if(viewedMap[yM-1][xM+1]!='&' && viewedMap[yM-1][xM+1]!='#') //Checks if next blocks aren't barriers or walls
+                if(viewedMap[yM][xM+1]!='&' && viewedMap[yM][xM+1]!='#') //Checks if next blocks aren't barriers or walls
                 {
                     //Those lines moves missile
                     tp(xM, yM); cout<<clear;
                     xM++;
                     tp(xM, yM); cout<<missileSymbol;
                 }
-                else if(viewedMap[yM-1][xM+1]=='&')
+                else if(viewedMap[yM][xM+1]=='&')
                 {
                     //If it touches wall, it kills it and itself.
                     tp(xM, yM); cout<<clear;
                     isMissile = false;
-                    viewedMap[yM-1][xM+1]=' ';
+                    viewedMap[yM][xM+1]=' ';
                     tp(xM+1, yM);
                     printf(" ");
                 }
-                else if(viewedMap[yM-1][xM+1]=='#')
+                else if(viewedMap[yM][xM+1]=='#')
                 {
                     //If it touches barrier it kills itself.
                     tp(xM, yM); cout<<clear;
@@ -164,10 +174,10 @@ public:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
-                    if(dirUp == true && Y>1 && viewedMap[Y-2][X]!='#' && viewedMap[Y-2][X]!='&')Y--;
-                    else if(dirDown == true && Y<24 && viewedMap[Y][X]!='#' && viewedMap[Y][X]!='&')Y++;
-                    else if(dirLeft == true && X>0 && viewedMap[Y-1][X-1]!='#' && viewedMap[Y-1][X-1]!='&')X--;
-                    else if(dirRight == true && X<79 && viewedMap[Y-1][X+1]!='#' && viewedMap[Y-1][X+1]!='&')X++;
+                    if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#' && viewedMap[Y-1][X]!='&')Y--;
+                    else if(dirDown == true && Y<24 && viewedMap[Y+1][X]!='#' && viewedMap[Y+1][X]!='&')Y++;
+                    else if(dirLeft == true && X>0 && viewedMap[Y][X-1]!='#' && viewedMap[Y][X-1]!='&')X--;
+                    else if(dirRight == true && X<79 && viewedMap[Y][X+1]!='#' && viewedMap[Y][X+1]!='&')X++;
                     /*if(Y>1)
                     {
                         dirUp = true;
@@ -182,10 +192,10 @@ public:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
-                    if(dirDown == true && Y>1 && viewedMap[Y-2][X]!='#' && viewedMap[Y-2][X]!='&')Y--;
-                    else if(dirUp == true && Y<24 && viewedMap[Y][X]!='#' && viewedMap[Y][X]!='&')Y++;
-                    else if(dirRight == true && X>0 && viewedMap[Y-1][X-1]!='#' && viewedMap[Y-1][X-1]!='&')X--;
-                    else if(dirLeft == true && X<79 && viewedMap[Y-1][X+1]!='#' && viewedMap[Y-1][X+1]!='&')X++;
+                    if(dirDown == true && Y>1 && viewedMap[Y-1][X]!='#' && viewedMap[Y-1][X]!='&')Y--;
+                    else if(dirUp == true && Y<24 && viewedMap[Y+1][X]!='#' && viewedMap[Y+1][X]!='&')Y++;
+                    else if(dirRight == true && X>0 && viewedMap[Y][X-1]!='#' && viewedMap[Y][X-1]!='&')X--;
+                    else if(dirLeft == true && X<79 && viewedMap[Y][X+1]!='#' && viewedMap[Y][X+1]!='&')X++;
                     /*if(Y<24)
                     {
                         dirDown = true;
@@ -306,36 +316,36 @@ public:
             case 'b':
             case 'B':
             {
-                if(dirUp == true && Y>1 && viewedMap[Y-2][X]!='#') //Builds block for direction Up
+                if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
                 {
                     tp(X, Y-1);
                     setColor(3, 11);
                     printf("&");
-                    viewedMap[Y-2][X] = '&';
+                    viewedMap[Y-1][X] = '&';
                     setColor(0, 15);
                 }
-                if(dirDown == true && Y<24 && viewedMap[Y][X]!='#')
+                if(dirDown == true && Y<24 && viewedMap[Y+1][X]!='#')
                 {
                     tp(X, Y+1);
                     setColor(3, 11);
                     printf("&");
-                    viewedMap[Y][X] = '&';
+                    viewedMap[Y+1][X] = '&';
                     setColor(0, 15);
                 }
-                if(dirLeft == true && X>0 && viewedMap[Y-1][X-1]!='#')
+                if(dirLeft == true && X>0 && viewedMap[Y][X-1]!='#')
                 {
                     tp(X-1, Y);
                     setColor(3, 11);
                     printf("&");
-                    viewedMap[Y-1][X-1] = '&';
+                    viewedMap[Y][X-1] = '&';
                     setColor(0, 15);
                 }
-                if(dirRight == true && X<79 && viewedMap[Y-1][X+1]!='#')
+                if(dirRight == true && X<79 && viewedMap[Y][X+1]!='#')
                 {
                     tp(X+1, Y);
                     setColor(3, 11);
                     printf("&");
-                    viewedMap[Y-1][X+1] = '&';
+                    viewedMap[Y][X+1] = '&';
                     setColor(0, 15);
                 }
             }

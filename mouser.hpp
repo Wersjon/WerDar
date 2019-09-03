@@ -8,7 +8,7 @@ using namespace std;
 HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
-char viewedMap[24][80]; //Map.
+char viewedMap[25][80]; //Map.
 
 void hideCursor() //Hides Cursor from user: (doesn't work if user resized window[?])
 {
@@ -47,6 +47,7 @@ void mapReader()
     {
         map.close();
         map.open("map.txt", ios::out); //changes input type to output, and draws how it looks.
+        map << "                                                                                " << endl;
         map << "################################################################################" << endl;
         int i = 2;
         while(i < 24)
@@ -59,7 +60,7 @@ void mapReader()
     map.close();
     map.open("map.txt", ios::in);
     //Get's values from map.txt and saves it into viewedMap.
-    int whatline = 0;
+    int whatline = 1;
     int i;
     while(getline(map, fstreamholder))
     {
@@ -71,9 +72,9 @@ void mapReader()
         }
         whatline++;
     }
-    int i1 = 0, i2 = 0;
+    int i1 = 1, i2 = 0;
     //draws map
-    while(i1 < 24)
+    while(i1 < 25)
     {
         tp(0, i1+1);
         while(i2 < 80)
