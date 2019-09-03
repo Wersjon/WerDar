@@ -11,6 +11,7 @@ void menuBar(); //Displays menu
 
 int main()
 {
+    srand(time(NULL));
     unsigned char ch;
     /*int i;
     while(i = getch())
@@ -23,18 +24,20 @@ int main()
     short seconds3 = 0;
     character player;
     character comp;
+    computer AI;
     
     player.playercolor = 14;
     comp.playercolor = 11;
     
-    player.spawn(3, 3);
-    comp.spawn(4, 4);
-
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
     
     mapReader(); //Reads Map from file
     menuBar(); //Displays MenuBar
+
+    player.spawn(3, 3);
+    comp.spawn(4, 4);
+    AI.spawn(1, 2);
     
     while(true)
     {
@@ -92,6 +95,20 @@ int main()
 
         player.isShot(); //If player shot, missle is launched.
         comp.isShot();
+
+        n = random(0,4);
+        switch (n)
+        {
+        case /* constant-expression */:
+            /* code */
+            break;
+        
+        default:
+            AI.go(n);
+            break;
+        }
+        
+        
         if(kbhit())
         {
             ch = getch();

@@ -1,7 +1,7 @@
-#include <iostream>
-#include <windows.h>
-#include <conio.h>
-#include <cstdio>
+//#include <iostream>
+//#include <windows.h>
+//#include <conio.h>
+//#include <cstdio>
 
 using namespace std;
 
