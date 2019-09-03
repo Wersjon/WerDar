@@ -30,13 +30,14 @@ private:
     
     char symbol = '^';
     char clear = ' ';
-    char missileSymbol = '-';
+    char missileSymbol;
+    char missileDir; //0 - up; 1 - right; 2 - down; 3 - left;
 
     short xM = 0;
     short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
-    short mode;
+    short mode = 0;
 
 public:
     /*<bomb>*/
@@ -118,6 +119,27 @@ public:
     void shot()
     {
         setColor(0, playercolor);//Sets color of missile.
+        if(!isMissile)
+        {
+            if(dirUp == true && viewedMap[Y-1][X]!='#' && Y>1)
+            {
+                isMissile = true;
+                missileSymbol = '|';
+                missileDir = 0;
+                xM = X;
+                yM = Y-1;
+                xStartM = xM;
+                yStartM = yM;
+                tp(xStartM, yStartM); printf("%c", missileSymbol);
+                if(viewedMap[yM][xM]=='&')
+                {
+                    isMissile = false; //Destroyes missile (in code)
+                    viewedMap[yM][xM]=' '; //Destroyes Wall
+                    tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
+                }
+            }
+        }
+        /*
         if(!isMissile && X<80 && viewedMap[Y][X+1]!='#')//Checks if player isn't next to barier or console walls
         {
             isMissile = true;
@@ -132,7 +154,7 @@ public:
                 viewedMap[yM][xM]=' '; //Destroyes Wall
                 tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
             }
-        }
+        }*/
     }
     void isShot()
     {
@@ -185,7 +207,6 @@ public:
 
 			switch (ch)
 			{
-			break;
 			case 'W':
             case 'w':
 				{
@@ -195,6 +216,7 @@ public:
                     if(Y>1 && Y>1 && viewedMap[Y-1][X]==' ') Y--;
 				}
 			break;
+
 			case 's':
             case 'S':
 				{
@@ -204,6 +226,7 @@ public:
                     if(Y<24 && viewedMap[Y+1][X]==' ' ) Y++;
 				}
 			break;
+
 			case 'a':
             case 'A':
                 {
@@ -213,19 +236,17 @@ public:
                     if(X>0 && viewedMap[Y][X-1]==' ') X--;
 				}
 			break;
+
 			case 'd':
             case 'D':
 				{
                     dirRight = true;
                     dirUp = false; dirDown = false; dirLeft = false;
                     symbol = '>';
-                    if(X<79)
-                    {
-                        X++;
-                    }
-                    
+                    if(X<79 && viewedMap[Y][X+1]==' ') X++;
 				}
 			break;
+
             case 'e':
             case 'E':
             {
@@ -234,6 +255,32 @@ public:
                     mode++;
                 }
                 else mode = 0;
+            }
+            break;
+
+            case 'u':
+            case 'U':
+            {
+                switch(mode)
+                {
+                    case 0: //Build
+                    {
+                        if(viewedMap[Y-1][X] == ' ')
+                        {
+                            tp(X, Y-1);
+                            setColor(3, 11);
+                            printf("&");
+                            setColor(0, 15);
+                            viewedMap[Y-1][X] = '&';
+                        }
+                    }
+                    break;
+                    case 1: //shot
+                    {
+                        shot();
+                    }
+                    break;
+                }
             }
             break;
             /*case 'b':
@@ -443,11 +490,7 @@ public:
 
 			switch (n)
 			{
-            //up
-			case 1:
-			case 2:
-			case 3:
-			case 4:
+			case 0:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
@@ -464,11 +507,7 @@ public:
                     symbol = '^';*/
 				}
 			break;
-            //down
-			case 5:
-			case 6:
-			case 7:
-			case 8:
+			case 1:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
@@ -485,8 +524,7 @@ public:
                     symbol = 'v';*/
 				}
 			break;
-            //left
-			case 9:
+			case 2:
                 {
                     if(dirLeft == true)
                     {
@@ -521,8 +559,7 @@ public:
                     symbol = '<';*/
 				}
 			break;
-            //right
-			case 10:
+			case 3:
 				{
                     if(dirLeft == true)
                     {
@@ -593,7 +630,7 @@ public:
                     }
 				}
 			break;*/
-            case 14: //0 off
+            case 6: //6 off
                 {
                     if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
                     {
