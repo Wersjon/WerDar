@@ -43,7 +43,7 @@ int main()
     {
         timePassing = clock(); //Starts counting time.
         timePassed = (double)timePassing/1000; //Gets what time is it.
-        
+
         holder = seconds%60;
         seconds = timePassed; //how many seconds have been passed since program started
         
@@ -101,13 +101,13 @@ int main()
         comp.isShot();
         AI.isShot();
 
-        int n = random(0,5);
+        int n = random(0,7); w w w w s s s s a d p p b
         switch (n)
         {
-        case 4:
+        case 6:
             AI.shot();
             break;
-        case 5:
+        case 7:
             AI.putBomb();
             AI.runBomb();
             break;

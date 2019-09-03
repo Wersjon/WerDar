@@ -532,10 +532,11 @@ public:
 		if(spawned)
 		{
 			tp(X, Y); cout<<clear;
-            
+
 			switch (n)
 			{
 			case 0:
+			case 4:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
@@ -553,6 +554,7 @@ public:
 				}
 			break;
 			case 1:
+			case 5:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
