@@ -43,8 +43,10 @@ int main()
     {
         timePassing = clock(); //Starts counting time.
         timePassed = (double)timePassing/1000; //Gets what time is it.
+        
         holder = seconds%60;
         seconds = timePassed; //how many seconds have been passed since program started
+        
         if(seconds3 == 0 && comp.isBomb == true)
         {
             tp(comp.xB, comp.yB); printf("3");
