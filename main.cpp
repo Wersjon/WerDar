@@ -113,16 +113,16 @@ int main()
         comp.isShot();
         AI.isShot();
 
-        int n = random(0,7); w w w w s s s s a d p p b
+        int n = random(1,13); 
         switch (n)
         {
-        case 6:
+        case 11:
+        case 12:
             AI.shot();
             break;
-        case 7:
+        case 13:
             AI.putBomb();
             break;
-        
         default:
             AI.go(n);
             break;

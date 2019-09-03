@@ -535,7 +535,9 @@ public:
 
 			switch (n)
 			{
-			case 0:
+			case 1:
+			case 2:
+			case 3:
 			case 4:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
@@ -553,8 +555,10 @@ public:
                     symbol = '^';*/
 				}
 			break;
-			case 1:
 			case 5:
+			case 6:
+			case 7:
+			case 8:
 				{
                     //Depending on direction, it moves Left,Right,Top,Bottom.
                     //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
@@ -571,7 +575,7 @@ public:
                     symbol = 'v';*/
 				}
 			break;
-			case 2:
+			case 9:
                 {
                     if(dirLeft == true)
                     {
@@ -606,7 +610,7 @@ public:
                     symbol = '<';*/
 				}
 			break;
-			case 3:
+			case 10:
 				{
                     if(dirLeft == true)
                     {
@@ -677,7 +681,7 @@ public:
                     }
 				}
 			break;*/
-            case 6: //6 off
+            case 0: //0 off
                 {
                     if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
                     {
