@@ -95,12 +95,17 @@ int main()
 
         player.isShot(); //If player shot, missle is launched.
         comp.isShot();
+        AI.isShot();
 
-        n = random(0,4);
+        int n = random(0,5);
         switch (n)
         {
-        case /* constant-expression */:
-            /* code */
+        case 4:
+            AI.shot();
+            break;
+        case 5:
+            AI.putBomb();
+            AI.runBomb();
             break;
         
         default:
