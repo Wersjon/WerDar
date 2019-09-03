@@ -40,18 +40,8 @@ int main()
     {
         timePassing = clock(); //Starts counting time.
         timePassed = (double)timePassing/1000; //Gets what time is it.
-        holder = seconds; //not used for now
+        holder = seconds%60;
         seconds = timePassed; //how many seconds have been passed since program started
-        if(holder != seconds)
-        {
-            player.isNewSecond = true;
-            comp.isNewSecond = true;
-        }
-        else
-        {
-            player.isNewSecond = false;
-            comp.isNewSecond = false;
-        }
         if(seconds3 == 0 && comp.isBomb == true)
         {
             tp(comp.xB, comp.yB); printf("3");
@@ -70,11 +60,23 @@ int main()
             seconds3 = 0;
             comp.runBomb();
         }
+
         minutes = seconds/60; //Sets how many minutes are you playing, without modulo 60
         hours = minutes/60; 
         seconds %= 60; //Sets how many seconds are you playing
         minutes %= 60;
         hours %= 24;
+
+        if(holder != seconds)
+        {
+            player.isNewSecond = true;
+            comp.isNewSecond = true;
+        }
+        else
+        {
+            player.isNewSecond = false;
+            comp.isNewSecond = false;
+        }
 
         Sleep(25); tp(11, 0); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
