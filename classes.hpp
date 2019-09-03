@@ -685,7 +685,7 @@ public:
                     }
 				}
 			break;*/
-            case 14: //0 off
+            case 0: //0 off
                 {
                     if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
                     {
