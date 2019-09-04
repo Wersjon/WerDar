@@ -44,7 +44,7 @@ int main()
         holder = seconds%60;
         seconds = timePassed; //how many seconds have been passed since program started
 
-        if(seconds3 == 0 && AI.isBomb == true)
+        /*if(seconds3 == 0 && AI.isBomb == true)
         {
             tp(AI.xB, AI.yB); 
             printf("3");
@@ -62,7 +62,9 @@ int main()
         {
             seconds3 = 0;
             AI.runBomb();
-        }
+        }*/
+        
+        //please rewrite bomb system for AI
 
         minutes = seconds/60; //Sets how many minutes are you playing, without modulo 60
         hours = minutes/60; 
@@ -81,7 +83,7 @@ int main()
             AI.isNewSecond = false;
         }
 
-        Sleep(50); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(33); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
         tp(11, 0);
         if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
@@ -159,5 +161,6 @@ void menuBar()
     setColor(3, 0);
     tp(0, 0);
     printf("TimePassed:HH:MM:SS M:&                                                         ");
+    tp(0, 1);
     setColor(0, 15);
 }

@@ -89,10 +89,17 @@ public:
     {
         if(!isBomb)
         {
-            if(Y>2 && X<79 && viewedMap[Y-1][X]==' ')
+            if(bombDir == 0 && Y>2 && X<79 && viewedMap[Y-1][X]==' ')
             {
                 xB = X;
                 yB = Y-1;
+                tp(xB, yB); printf("%c", bombSymbol);
+                isBomb = true;
+            }
+            if(bombDir == 3 && X>2 && Y>2 && viewedMap[Y][X-1]==' ')
+            {
+                xB = X-1;
+                yB = Y;
                 tp(xB, yB); printf("%c", bombSymbol);
                 isBomb = true;
             }
@@ -166,6 +173,22 @@ public:
                     tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
                 }
             }
+            if(missileDir == 3 && viewedMap[Y][X-1]!='#' && X>1)
+            {
+                isMissile = true;
+                missileSymbol = '-';
+                xM = X-1;
+                yM = Y;
+                xStartM = xM;
+                yStartM = yM;
+                tp(xStartM, yStartM); printf("%c", missileSymbol);
+                if(viewedMap[yM][xM]=='&')
+                {
+                    isMissile = false; //Destroyes missile (in code)
+                    viewedMap[yM][xM]=' '; //Destroyes Wall
+                    tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
+                }
+            }
         }
         /*
         if(!isMissile && X<80 && viewedMap[Y][X+1]!='#')//Checks if player isn't next to barier or console walls
@@ -189,7 +212,7 @@ public:
         setColor(0, playercolor);
         if(isMissile)
         {
-            if(missileDir == 0 && Y>1 && (yM-yStartM <= 20))
+            if(missileDir == 0 && Y>1 && (yStartM-yM < 13))
             {
                 if(viewedMap[yM-1][xM]==' ')
                 {
@@ -206,6 +229,33 @@ public:
                     tp(xM, yM-1); printf(" ");
                 }
                 else if(viewedMap[yM-1][xM]=='#' || Y>2)
+                {
+                    isMissile = false; //If missile is near console walls, it's disabled;
+                    tp(xM, yM); printf(" "); //Printf " " instead of missile char
+                }
+                else
+                {
+                    isMissile = false; //If missile is near console walls, it's disabled;
+                    tp(xM, yM); printf(" "); //Printf " " instead of missile char
+                }
+            }
+            else if(missileDir == 3 && X>1 && (xStartM-xM < 15))
+            {
+                if(viewedMap[yM][xM-1]==' ')
+                {
+                    tp(xM, yM); printf(" ");
+                    xM--;
+                    tp(xM, yM); printf("%c", missileSymbol);
+                }
+                else if(viewedMap[yM][xM-1]=='&')
+                {
+                    //If it touches wall, it kills it and itself.
+                    tp(xM, yM); printf(" ");
+                    isMissile = false;
+                    viewedMap[yM][xM-1]=' ';
+                    tp(xM-1, yM); printf(" ");
+                }
+                else if(viewedMap[yM][xM-1]=='#' || X>2)
                 {
                     isMissile = false; //If missile is near console walls, it's disabled;
                     tp(xM, yM); printf(" "); //Printf " " instead of missile char
@@ -347,6 +397,38 @@ public:
                     case 2: //bomb
                     {
                         if(isBomb == false) bombDir = 0;
+                        putBomb();
+                    }
+                    break;
+                }
+            }
+            break;
+            case 'h':
+            case 'H':
+            {
+                switch(mode)
+                {
+                    case 0: //Build
+                    {
+                        if(viewedMap[Y][X-1] == ' ')
+                        {
+                            tp(X-1, Y);
+                            setColor(3, 11);
+                            printf("&");
+                            setColor(0, 15);
+                            viewedMap[Y][X-1] = '&';
+                        }
+                    }
+                    break;
+                    case 1: //shot
+                    {
+                        if(isMissile == false)missileDir = 3;
+                        shot();
+                    }
+                    break;
+                    case 2: //bomb
+                    {
+                        if(isBomb == false) bombDir = 3;
                         putBomb();
                     }
                     break;
