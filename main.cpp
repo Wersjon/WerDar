@@ -31,10 +31,11 @@ int main()
     hideCursor(); //Hides cursor from player view.
     
     mapReader(); //Reads Map from file
-    menuBar(); //Displays MenuBar
 
     player.spawn(3, 3);
     AI.spawn(1, 2);
+
+    menuBar(); //Displays MenuBar
     
     while(true)
     {
@@ -44,7 +45,7 @@ int main()
         holder = seconds%60;
         seconds = timePassed; //how many seconds have been passed since program started
 
-        if(seconds3 == 0 && AI.isBomb == true)
+        /*if(seconds3 == 0 && AI.isBomb == true)
         {
             tp(AI.xB, AI.yB); 
             printf("3");
@@ -62,7 +63,9 @@ int main()
         {
             seconds3 = 0;
             AI.runBomb();
-        }
+        }*/
+        
+        //please rewrite bomb system for AI
 
         minutes = seconds/60; //Sets how many minutes are you playing, without modulo 60
         hours = minutes/60; 
@@ -81,7 +84,7 @@ int main()
             AI.isNewSecond = false;
         }
 
-        Sleep(50); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(33); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
         tp(11, 0);
         if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
@@ -113,9 +116,9 @@ int main()
         case 62:
             AI.shot();
             break;
-        case 63: // 1/20 5% for bomb
+        /*case 63: // 1/20 5% for bomb
             AI.putBomb();
-            break;
+            break;*/
         default:
             AI.go(n); //(4*2)/20 = 40% chance for move
             break;
@@ -159,5 +162,6 @@ void menuBar()
     setColor(3, 0);
     tp(0, 0);
     printf("TimePassed:HH:MM:SS M:&                                                         ");
+    tp(0, 1);
     setColor(0, 15);
 }
