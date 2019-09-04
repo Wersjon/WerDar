@@ -3,6 +3,7 @@
 //#include <conio.h>
 #include <cstdio>
 #include <vector>
+#define q(var) cout<<#var<<"="<<var //tests
 
 #include "mouser.hpp"
 
@@ -406,12 +407,19 @@ private:
     
     char symbol = 'C';
     char clear = ' ';
-    char missileSymbol = '-';
 
+    char missileSymbol = '-';
     short xM = 0;
     short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
+    void destroyMissile()
+    {
+        isMissile = false; //If missile is near console walls, it's disabled;
+        tp(xM, yM); printf(" "); //Printf " " instead of missile char
+    }
+
+    bool info = false;
 public:
     /*<bomb>*/
     short xB = 0;
@@ -511,10 +519,9 @@ public:
     void isShot()
     {
         setColor(0, color);
-        if(xM==79)
+        if(yM < 2 || yM > 23 || xM>78 || xM<1)
         {
-            isMissile = false; //If missile is near console walls, it's disabled;
-            tp(xM, yM); printf(" "); //Printf " " instead of missile char
+            destroyMissile();
         }
         if(isMissile/* && isNewSecond*/)
         {
@@ -559,148 +566,68 @@ public:
 
 			switch (n)
 			{
-			case 0:
+			case 72://up
+			case 73:
 				{
-                    //Depending on direction, it moves Left,Right,Top,Bottom.
-                    //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
-                    if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#' && viewedMap[Y-1][X]!='&')Y--;
-                    else if(dirDown == true && Y<24 && viewedMap[Y+1][X]!='#' && viewedMap[Y+1][X]!='&')Y++;
-                    else if(dirLeft == true && X>0 && viewedMap[Y][X-1]!='#' && viewedMap[Y][X-1]!='&')X--;
-                    else if(dirRight == true && X<79 && viewedMap[Y][X+1]!='#' && viewedMap[Y][X+1]!='&')X++;
-                    /*if(Y>1)
+                    if(Y > 2 && viewedMap[Y-1][X] != '#' && viewedMap[Y-1][X] != '&')
                     {
+                        Y--;
                         dirUp = true;
-                        dirDown = false; dirLeft = false; dirRight = false;
-					    Y--;
+                        dirDown = false;
+                        dirLeft = false;
+                        dirRight = false;
                     }
-                    symbol = '^';*/
 				}
 			break;
-			case 1:
+			case 80://down
+            case 79:
 				{
-                    //Depending on direction, it moves Left,Right,Top,Bottom.
-                    //If Direction is Up & Player isn't near console walls & player isn't near barrier block and neither wall, it can move.
-                    if(dirDown == true && Y>1 && viewedMap[Y-1][X]!='#' && viewedMap[Y-1][X]!='&')Y--;
-                    else if(dirUp == true && Y<24 && viewedMap[Y+1][X]!='#' && viewedMap[Y+1][X]!='&')Y++;
-                    else if(dirRight == true && X>0 && viewedMap[Y][X-1]!='#' && viewedMap[Y][X-1]!='&')X--;
-                    else if(dirLeft == true && X<79 && viewedMap[Y][X+1]!='#' && viewedMap[Y][X+1]!='&')X++;
-                    /*if(Y<24)
+                    if(Y < 23 && viewedMap[Y+1][X] != '#' && viewedMap[Y+1][X] != '&')
                     {
-                        dirDown = true;
-                        dirUp = false; dirLeft = false; dirRight = false;
                         Y++;
-                    }
-                    symbol = 'v';*/
-				}
-			break;
-			case 2:
-                {
-                    if(dirLeft == true)
-                    {
+                        dirUp = false;
                         dirDown = true;
                         dirLeft = false;
-                        symbol = 'v';
-                    }
-                    else if(dirDown == true)
-                    {
-                        dirRight = true;
-                        dirDown = false;
-                        symbol = '>';
-                    }
-                    else if(dirRight == true)
-                    {
-                        dirUp = true;
                         dirRight = false;
-                        symbol = '^';
                     }
-                    else if(dirUp == true)
+				}
+			break;
+			case 75://left
+            case 76:
+                {
+                    if(X > 1 && viewedMap[Y][X-1] != '#' && viewedMap[Y][X-1] != '&')
                     {
-                        dirLeft = true;
-                        dirUp = false;
-                        symbol = '<';
-                    }
-                    /*if(X>0)
-                    {
-                        dirLeft = true;
-                        dirUp = false; dirDown = false; dirRight = false;
                         X--;
-                    }
-                    symbol = '<';*/
-				}
-			break;
-			case 3:
-				{
-                    if(dirLeft == true)
-                    {
-                        dirUp = true;
-                        dirLeft = false;
-                        symbol = '^';
-                    }
-                    else if(dirUp == true)
-                    {
-                        dirRight = true;
                         dirUp = false;
-                        symbol = '>';
-                    }
-                    else if(dirRight == true)
-                    {
-                        dirDown = true;
-                        dirRight = false;
-                        symbol = 'v';
-                    }
-                    else if(dirDown == true)
-                    {
-                        dirLeft = true;
                         dirDown = false;
-                        symbol = '<';
-                    }
-                    /*if(X<79)
-                    {
-                        dirRight = true;
-                        dirUp = false; dirDown = false; dirLeft = false;
-                        X++;
-                    }
-                    symbol = '>';*/
-				}
-			break;
-			/*case 'e':
-				{
-                    if(Y>1 && X<79)
-                    {
-                        dirUp = true; Y--;
-                        dirLeft = false; X++;
+                        dirLeft = true;
+                        dirRight = false;
                     }
 				}
 			break;
-			case 'q':
-				{
-                    if(Y>1 && X>0)
-                    {
-                        dirUp = true; Y--;
-                        dirLeft = true; X--;
-                    }
-				}
-			break;
-			case 'z':
-				{
-                    if(Y<24 && X>0)
-                    {
-                        dirUp = false; Y++;
-                        dirLeft = true; X--;
-                    }
-				}
-			break;
-			case 'c':
-				{
-                    if(Y<24 && X<79)
-                    {
-                        dirUp = false; Y++;
-                        dirLeft = false; X++;
-                    }
-				}
-			break;*/
-            case 4: //0 off
+			case 77://right
+            case 78:
                 {
+                    if(X < 78 && viewedMap[Y][X+1] != '#' && viewedMap[Y][X+1] != '&')
+                    {
+                        X++;
+                        dirUp = false;
+                        dirDown = false;
+                        dirLeft = false;
+                        dirRight = true;
+                    }
+				}
+			break;
+            case 82: //Insert - show/hide info
+                {
+                    info = info ? 0 : 1;
+                    tp(16, 22); cout<<"        ";
+                    tp(16, 23); cout<<"        ";
+                    break;
+                }
+            case 0: //0 off 
+                {
+                    //old system
                     if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
                     {
                         tp(X, Y-1);
@@ -733,6 +660,7 @@ public:
                         viewedMap[Y][X+1] = '&';
                         setColor(0, 15);
                     }
+                    //new system? not yet xd :E
                 }
                 break;
 			default:
@@ -740,6 +668,15 @@ public:
 			}
 
 			tp(X, Y); cout<<symbol;
+            if(info) //if 'info' is true then show informations
+            {
+                tp(16, 22); cout<<"C: "<<X<<","<<Y<<" ";
+                tp(16, 23); cout<<n<<" ";
+                if(dirUp)    cout<<"Up   ";
+                if(dirDown)  cout<<"Down ";
+                if(dirLeft)  cout<<"Left ";
+                if(dirRight) cout<<"Right";
+            }
 		}
 	}
 };

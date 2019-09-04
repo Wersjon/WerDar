@@ -81,7 +81,7 @@ int main()
             AI.isNewSecond = false;
         }
 
-        Sleep(25); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(50); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
         tp(11, 0);
         if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
@@ -105,19 +105,19 @@ int main()
         player.isShot(); //If player shot, missle is launched.
         player.runBomb();
         AI.isShot();
-
-        int n = random(1,14); //random number UP 1-4; DOWN 5-8; SHOT 9,10 BOMB 13 BUILD 14
+        
+        int n = random(61, 80); //20 random numbers
         switch (n)
         {
-        case 11:
-        case 12:
+        case 61: // 2/20 10% for shot
+        case 62:
             AI.shot();
             break;
-        case 13:
+        case 63: // 1/20 5% for bomb
             AI.putBomb();
             break;
         default:
-            AI.go(n);
+            AI.go(n); //(4*2)/20 = 40% chance for move
             break;
         }
         
@@ -137,6 +137,13 @@ int main()
                     menuBar();
                 }
                 break;
+                case 224: //tests AI
+                {
+                    ch = getch();
+                    AI.go(ch);
+                }
+                break;
+
                 default:  
                 {
                     player.go(ch);
