@@ -31,10 +31,11 @@ int main()
     hideCursor(); //Hides cursor from player view.
     
     mapReader(); //Reads Map from file
-    menuBar(); //Displays MenuBar
 
     player.spawn(3, 3);
     AI.spawn(1, 2);
+
+    menuBar(); //Displays MenuBar
     
     while(true)
     {
@@ -115,9 +116,9 @@ int main()
         case 62:
             AI.shot();
             break;
-        case 63: // 1/20 5% for bomb
+        /*case 63: // 1/20 5% for bomb
             AI.putBomb();
-            break;
+            break;*/
         default:
             AI.go(n); //(4*2)/20 = 40% chance for move
             break;

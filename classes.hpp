@@ -48,19 +48,19 @@ private:
     short threesec = 0;
     /*</bomb>*/
 
-public:
-
-    short mode = 0;
-    bool isNewSecond = false;
-    short playercolor = 15;
-    short X = 5, Y = 5;
-
     /*<directions> //I've added 2 for buildings mechanics :p*/
     bool dirUp = true;
     bool dirDown = false;
 	bool dirLeft = false;
     bool dirRight = false;
     /*<directions>*/
+    
+public:
+
+    short mode = 0;
+    bool isNewSecond = false;
+    short playercolor = 15;
+    short X = 5, Y = 5;
     
     string name;
 
@@ -89,14 +89,14 @@ public:
     {
         if(!isBomb)
         {
-            if(bombDir == 0 && Y>2 && X<79 && viewedMap[Y-1][X]==' ')
+            if(bombDir == 0 && /*Y>1 && X<79 && */viewedMap[Y-1][X]==' ')
             {
                 xB = X;
                 yB = Y-1;
                 tp(xB, yB); printf("%c", bombSymbol);
                 isBomb = true;
             }
-            if(bombDir == 3 && X>2 && Y>2 && viewedMap[Y][X-1]==' ')
+            if(bombDir == 3 && /*X>1 && Y>1 &&*/ viewedMap[Y][X-1]==' ')
             {
                 xB = X-1;
                 yB = Y;
@@ -130,23 +130,44 @@ public:
             if(threesec == 3)
             {
                 setColor(4, 12);
-                viewedMap[yB][xB+1] = ' ';
-                tp(xB+1, yB); printf("X");
-                viewedMap[yB][xB-1] = ' ';
-                tp(xB-1, yB); printf("X");
-                viewedMap[yB-1][xB] = ' ';
-                tp(xB, yB-1); printf("X");
-                viewedMap[yB+1][xB] = ' ';
-                tp(xB, yB+1); printf("X");
+                if(xB<79)
+                {
+                    viewedMap[yB][xB+1] = ' ';
+                    tp(xB+1, yB); printf("X");
+                }
+                if(xB>0)
+                {
+                    viewedMap[yB][xB-1] = ' ';
+                    tp(xB-1, yB); printf("X");
+                }
+                if(yB>1)
+                {
+                    viewedMap[yB-1][xB] = ' ';
+                    tp(xB, yB-1); printf("X");
+                }
+                if(yB<24)
+                {
+                    viewedMap[yB+1][xB] = ' ';
+                    tp(xB, yB+1); printf("X");
+                }
                 viewedMap[yB][xB] = ' ';
                 tp(xB, yB); printf("X");
                 isBomb = false;
                 Sleep(50);
                 setColor(0, playercolor);
-                tp(xB+1, yB); printf(" ");
-                tp(xB-1, yB); printf(" ");
-                tp(xB, yB-1); printf(" ");
-                tp(xB, yB+1); printf(" ");
+
+                if(xB<79)tp(xB+1, yB); 
+                if(xB<79)printf(" ");
+
+                if(xB>0)tp(xB-1, yB); 
+                if(xB>0)printf(" ");
+                
+                if(yB>1)tp(xB, yB-1); 
+                if(yB>1)printf(" ");
+                
+                if(yB<24)tp(xB, yB+1); 
+                if(yB<24)printf(" ");
+
                 tp(xB, yB); printf(" ");
                 threesec = 0;
             }
@@ -189,30 +210,30 @@ public:
                     tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
                 }
             }
-        }
-        /*
-        if(!isMissile && X<80 && viewedMap[Y][X+1]!='#')//Checks if player isn't next to barier or console walls
-        {
-            isMissile = true;
-            xM = X+1;
-            yM = Y;
-            xStartM = xM;
-            yStartM = yM;
-            tp(xStartM, yStartM); cout<<missileSymbol;
-            if(viewedMap[yM][xM]=='&') //Checks if block next to it is wall
+            if(missileDir == 1 && viewedMap[Y+1][X]!='#' && Y>1)
             {
-                isMissile = false; //Destroyes missile (in code)
-                viewedMap[yM][xM]=' '; //Destroyes Wall
-                tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
+                isMissile = true;
+                missileSymbol = '|';
+                xM = X;
+                yM = Y+1;
+                xStartM = xM;
+                yStartM = yM;
+                tp(xStartM, yStartM); printf("%c", missileSymbol);
+                if(viewedMap[yM][xM]=='&')
+                {
+                    isMissile = false; //Destroyes missile (in code)
+                    viewedMap[yM][xM]=' '; //Destroyes Wall
+                    tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
+                }
             }
-        }*/
+        }
     }
     void isShot()
     {
         setColor(0, playercolor);
         if(isMissile)
         {
-            if(missileDir == 0 && Y>1 && (yStartM-yM < 13))
+            if(missileDir == 0 && Y>1 && (yStartM-yM < 12))
             {
                 if(viewedMap[yM-1][xM]==' ')
                 {
@@ -256,6 +277,33 @@ public:
                     tp(xM-1, yM); printf(" ");
                 }
                 else if(viewedMap[yM][xM-1]=='#' || X>2)
+                {
+                    isMissile = false; //If missile is near console walls, it's disabled;
+                    tp(xM, yM); printf(" "); //Printf " " instead of missile char
+                }
+                else
+                {
+                    isMissile = false; //If missile is near console walls, it's disabled;
+                    tp(xM, yM); printf(" "); //Printf " " instead of missile char
+                }
+            }
+            else if(missileDir == 1 && Y<25 && (yM-yStartM < 12))
+            {
+                if(viewedMap[yM+1][xM]==' ')
+                {
+                    tp(xM, yM); printf(" ");
+                    yM++;
+                    tp(xM, yM); printf("%c", missileSymbol);
+                }
+                else if(viewedMap[yM+1][xM]=='&')
+                {
+                    //If it touches wall, it kills it and itself.
+                    tp(xM, yM); printf(" ");
+                    isMissile = false;
+                    viewedMap[yM+1][xM]=' ';
+                    tp(xM, yM+1); printf(" ");
+                }
+                else if(viewedMap[yM+1][xM]=='#' || Y>2)
                 {
                     isMissile = false; //If missile is near console walls, it's disabled;
                     tp(xM, yM); printf(" "); //Printf " " instead of missile char
@@ -403,6 +451,7 @@ public:
                 }
             }
             break;
+
             case 'h':
             case 'H':
             {
@@ -429,6 +478,39 @@ public:
                     case 2: //bomb
                     {
                         if(isBomb == false) bombDir = 3;
+                        putBomb();
+                    }
+                    break;
+                }
+            }
+            break;
+
+            case 'j':
+            case 'J':
+            {
+                switch(mode)
+                {
+                    case 0: //Build
+                    {
+                        if(viewedMap[Y+1][X] == ' ')
+                        {
+                            tp(X, Y+1);
+                            setColor(3, 11);
+                            printf("&");
+                            setColor(0, 15);
+                            viewedMap[Y+1][X] = '&';
+                        }
+                    }
+                    break;
+                    case 1: //shot
+                    {
+                        if(isMissile == false)missileDir = 1;
+                        shot();
+                    }
+                    break;
+                    case 2: //bomb
+                    {
+                        if(isBomb == false) bombDir = 1;
                         putBomb();
                     }
                     break;
@@ -491,10 +573,10 @@ private:
     char clear = ' ';
 
     char missileSymbol = '-';
-    short xM = 0;
-    short yM = 0;
-    short xStartM = 0;
-    short yStartM = 0;
+    short xM = 1;
+    short yM = 1;
+    short xStartM = 1;
+    short yStartM = 1;
     void destroyMissile()
     {
         isMissile = false; //If missile is near console walls, it's disabled;
