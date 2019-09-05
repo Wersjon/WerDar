@@ -99,9 +99,12 @@ int main()
         else printf("%i", seconds);
 
         tp(22, 0);
-        if(player.mode == 0)printf("&");
-        if(player.mode == 1)printf("-");
-        if(player.mode == 2)printf("X");
+        switch (player.mode)
+        {
+            case 0: printf("&"); break;
+            case 1: printf("-"); break;
+            case 2: printf("X"); break;
+        }
 
         setColor(0, 15);
 
@@ -140,6 +143,7 @@ int main()
                     menuBar();
                 }
                 break;
+                case 13: AI.shot(); break;
                 case 224: //tests AI
                 {
                     ch = getch();
