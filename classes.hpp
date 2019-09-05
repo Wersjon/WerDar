@@ -76,15 +76,13 @@ public:
 			cout<<symbol;
 		}
 	}
-    void sayHello()
-    {
-        cout<<"Hi "<<name<<", symbol '"<<symbol<<"'"<<endl;
-    }
+
     void hide() // spawn/hide
     {
         if(spawned) spawned = false;
         tp(X, Y); cout<<clear;
     }
+    
     void putBomb()
     {
         if(!isBomb)
