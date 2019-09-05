@@ -713,12 +713,13 @@ public:
     void isShot()
     {
         setColor(0, color);
-        if(yM < 2 || yM > 23 || xM>78 || xM<1)
-        {
-            destroyMissile();
-        }
+        
         if(isMissile/* && isNewSecond*/)
         {
+            if(yM < 2 || yM > 23 || xM>78 || xM<1)
+            {
+                destroyMissile();
+            }
             switch (dir)
             {
             case 4: //right
@@ -771,6 +772,7 @@ public:
                         dir = 0;
                     }
                 }
+                break;
             case 1: //up
                 {
                     if(yStartM - yM <= 10)
@@ -785,6 +787,7 @@ public:
                         dir = 0;
                     }
                 }
+                break;
             case 2: //down
                 {
                     if(yM - yStartM <= 10)
@@ -799,6 +802,7 @@ public:
                         dir = 0;
                     }
                 }
+                break;
             
             default:
                 break;
