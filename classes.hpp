@@ -579,7 +579,9 @@ private:
     {
         isMissile = false; //If missile is near console walls, it's disabled;
         tp(xM, yM); printf(" "); //Printf " " instead of missile char
+        dir = 0;
     }
+    short dir; //temporary direction
 
     bool info = false;
 public:
@@ -665,16 +667,46 @@ public:
         if(!isMissile && X<80 && viewedMap[Y][X+1]!='#')//Checks if player isn't next to barier or console walls
         {
             isMissile = true;
-            xM = X+1;
-            yM = Y;
-            xStartM = xM;
-            yStartM = yM;
-            tp(xStartM, yStartM); cout<<missileSymbol;
+            xStartM = X;
+            yStartM = Y;
+            if(dirRight)
+            {
+                dir = 4;
+                missileSymbol = '-';
+                xM = X+1;
+                yM = Y;
+                tp(xM, yM); cout<<missileSymbol;
+            }
+            else if(dirLeft)
+            {
+                dir = 3;
+                missileSymbol = '-';
+                xM = X-1;
+                yM = Y;
+                tp(xM, yM); cout<<missileSymbol;
+            }
+            else if(dirUp)
+            {
+                dir = 1;
+                missileSymbol = '|';
+                xM = X;
+                yM = Y-1;
+                tp(xM, yM); cout<<missileSymbol;
+            }
+            else if(dirDown)
+            {
+                dir = 2;
+                missileSymbol = '|';
+                xM = X;
+                yM = Y+1;
+                tp(xM, yM); cout<<missileSymbol;
+            }
             if(viewedMap[yM][xM]=='&') //Checks if block next to it is wall
             {
                 isMissile = false; //Destroyes missile (in code)
+                dir = 0;
                 viewedMap[yM][xM]=' '; //Destroyes Wall
-                tp(xStartM, yStartM); printf(" "); //Destroyes missile (on screen)
+                tp(xM, yM); printf(" "); //Destroyes missile (on screen)
             }
         }
     }
@@ -687,35 +719,89 @@ public:
         }
         if(isMissile/* && isNewSecond*/)
         {
-            if(xM - xStartM <= 20) //Destroyes itself if it reaches 20 blocks
+            switch (dir)
             {
-                if(viewedMap[yM][xM+1]!='&' && viewedMap[yM][xM+1]!='#') //Checks if next blocks aren't barriers or walls
+            case 4: //right
                 {
-                    //Those lines moves missile
-                    tp(xM, yM); cout<<clear;
-                    xM++;
-                    tp(xM, yM); cout<<missileSymbol;
+                    if(xM - xStartM <= 10) //Destroyes itself if it reaches 10 blocks
+                    {
+                        if(viewedMap[yM][xM+1]!='&' && viewedMap[yM][xM+1]!='#') //Checks if next blocks aren't barriers or walls
+                        {
+                            //Those lines moves missile
+                            tp(xM, yM); cout<<clear;
+                            tp(++xM, yM); cout<<missileSymbol;
+                        }
+                        else if(viewedMap[yM][xM+1]=='&')
+                        {
+                            //If it touches wall, it kills it and itself.
+                            tp(xM, yM); cout<<clear;
+                            isMissile = false;
+                            dir = 0;
+                            viewedMap[yM][xM+1]=' ';
+                            tp(xM+1, yM);
+                            printf(" ");
+                        }
+                        else if(viewedMap[yM][xM+1]=='#')
+                        {
+                            //If it touches barrier it kills itself.
+                            tp(xM, yM); cout<<clear;
+                            isMissile = false;
+                            dir = 0;
+                        }
+                    }
+                    else
+                    {
+                        isMissile = false;
+                        tp(xM, yM); cout<<clear;
+                        dir = 0;
+                    }
                 }
-                else if(viewedMap[yM][xM+1]=='&')
+                break;
+            case 3: //left
                 {
-                    //If it touches wall, it kills it and itself.
-                    tp(xM, yM); cout<<clear;
-                    isMissile = false;
-                    viewedMap[yM][xM+1]=' ';
-                    tp(xM+1, yM);
-                    printf(" ");
+                    if(xStartM - xM <= 10)
+                    {
+                        tp(xM, yM); cout<<clear;
+                        tp(--xM, yM); cout<<missileSymbol;
+                    }
+                    else
+                    {
+                        isMissile = false;
+                        tp(xM, yM); cout<<clear;
+                        dir = 0;
+                    }
                 }
-                else if(viewedMap[yM][xM+1]=='#')
+            case 1: //up
                 {
-                    //If it touches barrier it kills itself.
-                    tp(xM, yM); cout<<clear;
-                    isMissile = false;
+                    if(yStartM - yM <= 10)
+                    {
+                        tp(xM, yM); cout<<clear;
+                        tp(xM, --yM); cout<<missileSymbol;
+                    }
+                    else
+                    {
+                        isMissile = false;
+                        tp(xM, yM); cout<<clear;
+                        dir = 0;
+                    }
                 }
-            }
-            else
-            {
-                isMissile = false;
-                tp(xM, yM); cout<<clear;
+            case 2: //down
+                {
+                    if(yM - yStartM <= 10)
+                    {
+                        tp(xM, yM); cout<<clear;
+                        tp(xM, ++yM); cout<<missileSymbol;
+                    }
+                    else
+                    {
+                        isMissile = false;
+                        tp(xM, yM); cout<<clear;
+                        dir = 0;
+                    }
+                }
+            
+            default:
+                break;
             }
         }
     }
