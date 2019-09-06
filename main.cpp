@@ -108,9 +108,21 @@ int main()
 
         setColor(0, 15);
 
-        player.isShot(); //If player shot, missle is launched.
+        if(player.isShot()) //If player shot, missle is launched.
+            if(player.xM == AI.X && player.yM == AI.Y) //if missile is launched - check
+            {
+                AI.hide(); //kill
+                tp(25, 0); printf("AI [*]");
+            }
+            
         player.runBomb();
-        AI.isShot();
+
+        if(AI.isShot())
+            if(AI.xM == player.X && AI.yM == player.Y)
+            {
+                player.hide(); //kill
+                tp(35, 0); printf("Player [*]");
+            }
         
         n = random(61, 80); //20 random numbers
         switch (n)
