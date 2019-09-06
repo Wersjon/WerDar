@@ -571,17 +571,17 @@ private:
     char clear = ' ';
 
     char missileSymbol = '-';
-    short xM = 1;
-    short yM = 1;
-    short xStartM = 1;
-    short yStartM = 1;
-    void destroyMissile()
+    short xM = 0;
+    short yM = 0;
+    short xStartM = 0;
+    short yStartM = 0;
+    void destroyMissile(short& xM, short& yM)
     {
         isMissile = false; //If missile is near console walls, it's disabled;
         tp(xM, yM); printf(" "); //Printf " " instead of missile char
         dir = 0;
     }
-    short dir; //temporary direction
+    short dir = 0; //temporary direction
 
     bool info = false;
 public:
@@ -594,7 +594,7 @@ public:
 
     bool isNewSecond = false;
     short color = 15;
-    short X = 5, Y = 5;
+    short X = 1, Y = 2;
 
     /*<directions> //I've added 2 for buildings mechanics :p*/
     bool dirUp = false;
@@ -605,15 +605,15 @@ public:
     
     string name;
 
-    void spawn(short x, short y)
+    void spawn(short& X, short& Y)
 	{
 		if(!spawned)
 		{
             setColor(0, color);
 			spawned = true;
-			X = x;
-			Y = y;
-			tp(x, y);
+            this->X = X;
+            this->Y = Y;
+			tp(X, Y);
 			cout<<symbol;
 		}
 	}
@@ -664,7 +664,8 @@ public:
     void shot()
     {
         setColor(0, color);//Sets color of missile.
-        if(!isMissile && X<80 && viewedMap[Y][X+1]!='#')//Checks if player isn't next to barier or console walls
+
+        if(!isMissile)
         {
             isMissile = true;
             xStartM = X;
@@ -675,7 +676,6 @@ public:
                 missileSymbol = '-';
                 xM = X+1;
                 yM = Y;
-                tp(xM, yM); cout<<missileSymbol;
             }
             else if(dirLeft)
             {
@@ -683,30 +683,32 @@ public:
                 missileSymbol = '-';
                 xM = X-1;
                 yM = Y;
-                tp(xM, yM); cout<<missileSymbol;
             }
             else if(dirUp)
             {
                 dir = 1;
-                missileSymbol = '|';
+                missileSymbol = ':';
                 xM = X;
                 yM = Y-1;
-                tp(xM, yM); cout<<missileSymbol;
             }
             else if(dirDown)
             {
                 dir = 2;
-                missileSymbol = '|';
+                missileSymbol = ':';
                 xM = X;
                 yM = Y+1;
-                tp(xM, yM); cout<<missileSymbol;
             }
-            if(viewedMap[yM][xM]=='&') //Checks if block next to it is wall
+
+            if(viewedMap[yM][xM] == '&')
             {
-                isMissile = false; //Destroyes missile (in code)
-                dir = 0;
-                viewedMap[yM][xM]=' '; //Destroyes Wall
-                tp(xM, yM); printf(" "); //Destroyes missile (on screen)
+                destroyMissile(xM, yM);
+                viewedMap[yM][xM] = ' ';
+            }
+            else if(viewedMap[yM][xM] == '#') isMissile = false;
+            else 
+            {
+                tp(xM, yM);
+                cout<<missileSymbol;
             }
         }
     }
@@ -716,91 +718,94 @@ public:
         
         if(isMissile/* && isNewSecond*/)
         {
-            if(yM < 2 || yM > 23 || xM>78 || xM<1)
+            /*if(yM <= 2 || yM >= 23 || xM >= 78 || xM <= 1)
             {
-                destroyMissile();
-            }
+                destroyMissile(xM, yM);
+            }*/
             switch (dir)
             {
             case 4: //right
                 {
                     if(xM - xStartM <= 10) //Destroyes itself if it reaches 10 blocks
                     {
-                        if(viewedMap[yM][xM+1]!='&' && viewedMap[yM][xM+1]!='#') //Checks if next blocks aren't barriers or walls
+                        if(viewedMap[yM][xM+1] == '&')
                         {
-                            //Those lines moves missile
-                            tp(xM, yM); cout<<clear;
+                            destroyMissile(xM, yM);
+                            viewedMap[yM][xM+1] = ' ';
+                            tp(xM+1, yM); printf(" ");
+                        }
+                        else if(viewedMap[yM][xM+1] == '#')
+                            destroyMissile(xM, yM);
+                        else
+                        {
+                            tp(xM, yM); printf(" ");
                             tp(++xM, yM); cout<<missileSymbol;
                         }
-                        else if(viewedMap[yM][xM+1]=='&')
-                        {
-                            //If it touches wall, it kills it and itself.
-                            tp(xM, yM); cout<<clear;
-                            isMissile = false;
-                            dir = 0;
-                            viewedMap[yM][xM+1]=' ';
-                            tp(xM+1, yM);
-                            printf(" ");
-                        }
-                        else if(viewedMap[yM][xM+1]=='#')
-                        {
-                            //If it touches barrier it kills itself.
-                            tp(xM, yM); cout<<clear;
-                            isMissile = false;
-                            dir = 0;
-                        }
                     }
-                    else
-                    {
-                        isMissile = false;
-                        tp(xM, yM); cout<<clear;
-                        dir = 0;
-                    }
+                    else destroyMissile(xM, yM);
                 }
                 break;
             case 3: //left
                 {
                     if(xStartM - xM <= 10)
                     {
-                        tp(xM, yM); cout<<clear;
-                        tp(--xM, yM); cout<<missileSymbol;
+                        if(viewedMap[yM][xM-1] == '&')
+                        {
+                            destroyMissile(xM, yM);
+                            viewedMap[yM][xM-1] = ' ';
+                            tp(xM-1, yM); printf(" ");
+                        }
+                        else if(viewedMap[yM][xM-1] == '#')
+                            destroyMissile(xM, yM);
+                        else
+                        {
+                            tp(xM, yM); printf(" ");
+                            tp(--xM, yM); cout<<missileSymbol;
+                        }
                     }
-                    else
-                    {
-                        isMissile = false;
-                        tp(xM, yM); cout<<clear;
-                        dir = 0;
-                    }
+                    else destroyMissile(xM, yM);
                 }
                 break;
             case 1: //up
                 {
                     if(yStartM - yM <= 10)
                     {
-                        tp(xM, yM); cout<<clear;
-                        tp(xM, --yM); cout<<missileSymbol;
+                        if(viewedMap[yM-1][xM] == '&')
+                        {
+                            destroyMissile(xM, yM);
+                            viewedMap[yM-1][xM] = ' ';
+                            tp(xM, yM-1); printf(" ");
+                        }
+                        else if(viewedMap[yM-1][xM] == '#')
+                            destroyMissile(xM, yM);
+                        else
+                        {
+                            tp(xM, yM); printf(" ");
+                            tp(xM, --yM); cout<<missileSymbol;
+                        }
                     }
-                    else
-                    {
-                        isMissile = false;
-                        tp(xM, yM); cout<<clear;
-                        dir = 0;
-                    }
+                    else destroyMissile(xM, yM);
                 }
                 break;
             case 2: //down
                 {
                     if(yM - yStartM <= 10)
                     {
-                        tp(xM, yM); cout<<clear;
-                        tp(xM, ++yM); cout<<missileSymbol;
+                        if(viewedMap[yM+1][xM] == '&')
+                        {
+                            destroyMissile(xM, yM);
+                            viewedMap[yM+1][xM] = ' ';
+                            tp(xM, yM+1); printf(" ");
+                        }
+                        else if(viewedMap[yM+1][xM] == '#')
+                            destroyMissile(xM, yM);
+                        else
+                        {
+                            tp(xM, yM); printf(" ");
+                            tp(xM, ++yM); cout<<missileSymbol;
+                        }
                     }
-                    else
-                    {
-                        isMissile = false;
-                        tp(xM, yM); cout<<clear;
-                        dir = 0;
-                    }
+                    else destroyMissile(xM, yM);
                 }
                 break;
             
@@ -809,7 +814,7 @@ public:
             }
         }
     }
-    void go(short n = 0)
+    void go(short& n)
 	{
         setColor(0, color);
 		if(spawned)
