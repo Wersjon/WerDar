@@ -651,7 +651,7 @@ void computer :: go(short& n)
             {
                 if(Y > 2 && viewedMap[Y-1][X] != '#' && viewedMap[Y-1][X] != '&')
                 {
-                    Y--;
+                    if(dirUp) Y--;
                     dirUp = true;
                     dirDown = false;
                     dirLeft = false;
@@ -664,7 +664,7 @@ void computer :: go(short& n)
             {
                 if(Y < 23 && viewedMap[Y+1][X] != '#' && viewedMap[Y+1][X] != '&')
                 {
-                    Y++;
+                    if(dirDown) Y++;
                     dirUp = false;
                     dirDown = true;
                     dirLeft = false;
@@ -677,7 +677,7 @@ void computer :: go(short& n)
             {
                 if(X > 1 && viewedMap[Y][X-1] != '#' && viewedMap[Y][X-1] != '&')
                 {
-                    X--;
+                    if(dirLeft) X--;
                     dirUp = false;
                     dirDown = false;
                     dirLeft = true;
@@ -690,7 +690,7 @@ void computer :: go(short& n)
             {
                 if(X < 78 && viewedMap[Y][X+1] != '#' && viewedMap[Y][X+1] != '&')
                 {
-                    X++;
+                    if(dirRight) X++;
                     dirUp = false;
                     dirDown = false;
                     dirLeft = false;
