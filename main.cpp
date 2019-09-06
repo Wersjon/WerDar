@@ -23,7 +23,7 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    computer AI;
+    computer AI; short n = 0;
     
     player.playercolor = 14;
     
@@ -33,7 +33,7 @@ int main()
     mapReader(); //Reads Map from file
 
     player.spawn(3, 3);
-    AI.spawn(1, 2);
+    AI.spawn(AI.X, AI.Y);
 
     menuBar(); //Displays MenuBar
     
@@ -112,7 +112,7 @@ int main()
         player.runBomb();
         AI.isShot();
         
-        int n = random(61, 80); //20 random numbers
+        n = random(61, 80); //20 random numbers
         switch (n)
         {
         case 61: // 2/20 10% for shot
@@ -146,8 +146,8 @@ int main()
                 case 13: AI.shot(); break;
                 case 224: //tests AI
                 {
-                    ch = getch();
-                    AI.go(ch);
+                    n = getch();
+                    AI.go(n);
                 }
                 break;
 
