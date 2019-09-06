@@ -577,7 +577,6 @@ private:
     {
         isMissile = false; //If missile is near console walls, it's disabled;
         tp(xM, yM); printf(" "); //Printf " " instead of missile char
-        dir = 0;
     }
     short dir = 0; //temporary direction
 
