@@ -124,7 +124,31 @@ int main()
                 tp(35, 0); printf("Player [*]");
             }
         
-        n = random(61, 80); //20 random numbers
+        if(AI.cord != 2 && AI.X <= AI.cord)
+        {
+            while(true)
+            {
+                n = random(61, 80);
+                if(n != 75 && n != 76) break;
+            }
+        }
+        else
+        {
+            AI.cord = 2;
+        }
+        if(AI.cord != 77 && AI.X >= AI.cord)
+        {
+            while(true)
+            {
+                n = random(61, 80);
+                if(n != 77 && n != 78) break;
+            }
+        }
+        else
+        {
+            AI.cord = 77;
+        }
+
         switch (n)
         {
         case 61: // 2/20 10% for shot

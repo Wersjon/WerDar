@@ -595,6 +595,8 @@ public:
     short color = 15;
     short X = 1, Y = 2;
 
+    short cord = 77;
+
     /*<directions> //I've added 2 for buildings mechanics :p*/
     bool dirUp = false;
     bool dirDown = false;
