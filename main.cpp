@@ -108,11 +108,51 @@ int main()
 
         setColor(0, 15);
 
-        player.isShot(); //If player shot, missle is launched.
+        if(player.isShot()) //If player shot, missle is launched.
+        if(player.xM == AI.X && player.yM == AI.Y) //if missile is launched - check
+        {
+            AI.hide(); //kill
+            tp(25, 0); printf("AI [*]");
+        }
+            
         player.runBomb();
-        AI.isShot();
+
+        if(AI.isShot())
+        if(AI.xM == player.X && AI.yM == player.Y)
+        {
+            player.hide(); //kill
+            tp(35, 0); printf("Player [*]");
+        }
         
-        n = random(61, 80); //20 random numbers
+        if(AI.cord != 2 && AI.X <= AI.cord)
+        {
+            if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 2;
+            if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 2;
+            while(true)
+            {
+                n = random(61, 80);
+                if(n != 75 && n != 76) break;
+            }
+        }
+        else
+        {
+            AI.cord = 2;
+        }
+        if(AI.cord != 77 && AI.X >= AI.cord)
+        {
+            if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 77;
+            if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 77;
+            while(true)
+            {
+                n = random(61, 80);
+                if(n != 77 && n != 78) break;
+            }
+        }
+        else
+        {
+            AI.cord = 77;
+        }
+
         switch (n)
         {
         case 61: // 2/20 10% for shot
