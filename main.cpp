@@ -3,6 +3,7 @@
 #include <ctime>
 #include <fstream>
 
+
 #include "classes.hpp" //including file classes.hpp that includes mouser.hpp
 
 /*<voids>*/
@@ -124,8 +125,11 @@ int main()
                 tp(35, 0); printf("Player [*]");
             }
         
+        
         if(AI.cord != 2 && AI.X <= AI.cord)
         {
+            if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 2;
+            if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 2;
             while(true)
             {
                 n = random(61, 80);
@@ -138,6 +142,8 @@ int main()
         }
         if(AI.cord != 77 && AI.X >= AI.cord)
         {
+            if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 77;
+            if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 77;
             while(true)
             {
                 n = random(61, 80);
