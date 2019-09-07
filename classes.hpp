@@ -686,14 +686,14 @@ public:
             else if(dirUp)
             {
                 dir = 1;
-                missileSymbol = ':';
+                missileSymbol = '|';
                 xM = X;
                 yM = Y-1;
             }
             else if(dirDown)
             {
                 dir = 2;
-                missileSymbol = ':';
+                missileSymbol = '|';
                 xM = X;
                 yM = Y+1;
             }
@@ -926,8 +926,8 @@ public:
 			tp(X, Y); cout<<symbol;
             if(info) //if 'info' is true then show informations
             {
-                tp(16, 22); cout<<"C: "<<X<<","<<Y<<" ";
-                tp(16, 23); cout<<n<<" ";
+                tp(16, 22);  cout<<"C: "<<X<<", "<<Y<<" ";
+                tp(16, 23);  cout<<n<<" ";
                 if(dirUp)    cout<<"Up   ";
                 if(dirDown)  cout<<"Down ";
                 if(dirLeft)  cout<<"Left ";
