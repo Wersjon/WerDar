@@ -34,8 +34,6 @@ private:
     char missileSymbol;
     char missileDir; //0 - up; 1 - right; 2 - down; 3 - left;
 
-    short xM = 0;
-    short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
 
@@ -56,7 +54,8 @@ private:
     /*<directions>*/
     
 public:
-
+    short xM = 0;
+    short yM = 0;
     short mode = 0;
     bool isNewSecond = false;
     short playercolor = 15;
@@ -226,7 +225,7 @@ public:
             }
         }
     }
-    void isShot()
+    int isShot()
     {
         setColor(0, playercolor);
         if(isMissile)
@@ -317,7 +316,8 @@ public:
                     isMissile = false; //If missile is near console walls, it's disabled;
                     tp(xM, yM); printf(" "); //Printf " " instead of missile char
             }
-        }
+        } else return 0;
+        return 1;
         /*if(xM==79)
         {
             isMissile = false; //If missile is near console walls, it's disabled;
@@ -571,8 +571,6 @@ private:
     char clear = ' ';
 
     char missileSymbol = '-';
-    short xM = 0;
-    short yM = 0;
     short xStartM = 0;
     short yStartM = 0;
     void destroyMissile(short& xM, short& yM)
@@ -584,6 +582,8 @@ private:
 
     bool info = false;
 public:
+    short xM = 0;
+    short yM = 0;
     /*<bomb>*/
     short xB = 0;
     short yB = 0;
@@ -595,6 +595,8 @@ public:
     short color = 15;
     short X = 1, Y = 2;
 
+    short cord = 77;
+
     /*<directions> //I've added 2 for buildings mechanics :p*/
     bool dirUp = false;
     bool dirDown = false;
@@ -604,335 +606,350 @@ public:
     
     string name;
 
-    void spawn(short& X, short& Y)
-	{
-		if(!spawned)
-		{
-            setColor(0, color);
-			spawned = true;
-            this->X = X;
-            this->Y = Y;
-			tp(X, Y);
-			cout<<symbol;
-		}
-	}
-    void sayHello()
-    {
-        cout<<"Hi "<<name<<", symbol '"<<symbol<<"'"<<endl;
-    }
-    void hide() // spawn/hide
-    {
-        if(spawned) spawned = false;
-        tp(X, Y); cout<<clear;
-    }
-    void putBomb()
-    {
-        if(!isBomb)
-        {
-            xB = X+1;
-            yB = Y;
-            tp(xB, yB); cout<<bombSymbol;
-            isBomb = true;
-        }
-    }
-    void runBomb()
-    {
-        if(isBomb)
-        {
-            setColor(4, 12);
-            viewedMap[yB][xB+1] = ' ';
-            tp(xB+1, yB); printf("X");
-            viewedMap[yB][xB-1] = ' ';
-            tp(xB-1, yB); printf("X");
-            viewedMap[yB-1][xB] = ' ';
-            tp(xB, yB-1); printf("X");
-            viewedMap[yB+1][xB] = ' ';
-            tp(xB, yB+1); printf("X");
-            viewedMap[yB][xB] = ' ';
-            tp(xB, yB); printf("X");
-            isBomb = false;
-            Sleep(50);
-            setColor(0, 15);
-            tp(xB+1, yB); printf(" ");
-            tp(xB-1, yB); printf(" ");
-            tp(xB, yB-1); printf(" ");
-            tp(xB, yB+1); printf(" ");
-            tp(xB, yB); printf(" ");
-        }
-    }
-    void shot()
-    {
-        setColor(0, color);//Sets color of missile.
+    void spawn(short& X, short& Y); //spawn AI
+    void hide(); // hide/kill AI;
 
-        if(!isMissile)
-        {
-            isMissile = true;
-            xStartM = X;
-            yStartM = Y;
-            if(dirRight)
-            {
-                dir = 4;
-                missileSymbol = '-';
-                xM = X+1;
-                yM = Y;
-            }
-            else if(dirLeft)
-            {
-                dir = 3;
-                missileSymbol = '-';
-                xM = X-1;
-                yM = Y;
-            }
-            else if(dirUp)
-            {
-                dir = 1;
-                missileSymbol = '|';
-                xM = X;
-                yM = Y-1;
-            }
-            else if(dirDown)
-            {
-                dir = 2;
-                missileSymbol = '|';
-                xM = X;
-                yM = Y+1;
-            }
+    void go(short& n); //move AI
 
-            if(viewedMap[yM][xM] == '&')
-            {
-                destroyMissile(xM, yM);
-                viewedMap[yM][xM] = ' ';
-            }
-            else if(viewedMap[yM][xM] == '#') isMissile = false;
-            else 
-            {
-                tp(xM, yM);
-                cout<<missileSymbol;
-            }
-        }
-    }
-    void isShot()
-    {
-        setColor(0, color);
-        
-        if(isMissile/* && isNewSecond*/)
-        {
-            /*if(yM <= 2 || yM >= 23 || xM >= 78 || xM <= 1)
-            {
-                destroyMissile(xM, yM);
-            }*/
-            switch (dir)
-            {
-            case 4: //right
-                {
-                    if(xM - xStartM <= 10) //Destroyes itself if it reaches 10 blocks
-                    {
-                        if(viewedMap[yM][xM+1] == '&')
-                        {
-                            destroyMissile(xM, yM);
-                            viewedMap[yM][xM+1] = ' ';
-                            tp(xM+1, yM); printf(" ");
-                        }
-                        else if(viewedMap[yM][xM+1] == '#')
-                            destroyMissile(xM, yM);
-                        else
-                        {
-                            tp(xM, yM); printf(" ");
-                            tp(++xM, yM); cout<<missileSymbol;
-                        }
-                    }
-                    else destroyMissile(xM, yM);
-                }
-                break;
-            case 3: //left
-                {
-                    if(xStartM - xM <= 10)
-                    {
-                        if(viewedMap[yM][xM-1] == '&')
-                        {
-                            destroyMissile(xM, yM);
-                            viewedMap[yM][xM-1] = ' ';
-                            tp(xM-1, yM); printf(" ");
-                        }
-                        else if(viewedMap[yM][xM-1] == '#')
-                            destroyMissile(xM, yM);
-                        else
-                        {
-                            tp(xM, yM); printf(" ");
-                            tp(--xM, yM); cout<<missileSymbol;
-                        }
-                    }
-                    else destroyMissile(xM, yM);
-                }
-                break;
-            case 1: //up
-                {
-                    if(yStartM - yM <= 10)
-                    {
-                        if(viewedMap[yM-1][xM] == '&')
-                        {
-                            destroyMissile(xM, yM);
-                            viewedMap[yM-1][xM] = ' ';
-                            tp(xM, yM-1); printf(" ");
-                        }
-                        else if(viewedMap[yM-1][xM] == '#')
-                            destroyMissile(xM, yM);
-                        else
-                        {
-                            tp(xM, yM); printf(" ");
-                            tp(xM, --yM); cout<<missileSymbol;
-                        }
-                    }
-                    else destroyMissile(xM, yM);
-                }
-                break;
-            case 2: //down
-                {
-                    if(yM - yStartM <= 10)
-                    {
-                        if(viewedMap[yM+1][xM] == '&')
-                        {
-                            destroyMissile(xM, yM);
-                            viewedMap[yM+1][xM] = ' ';
-                            tp(xM, yM+1); printf(" ");
-                        }
-                        else if(viewedMap[yM+1][xM] == '#')
-                            destroyMissile(xM, yM);
-                        else
-                        {
-                            tp(xM, yM); printf(" ");
-                            tp(xM, ++yM); cout<<missileSymbol;
-                        }
-                    }
-                    else destroyMissile(xM, yM);
-                }
-                break;
-            
-            default:
-                break;
-            }
-        }
-    }
-    void go(short& n)
-	{
-        setColor(0, color);
-		if(spawned)
-		{
-			tp(X, Y); cout<<clear;
+    void shot();
+    int isShot();
 
-			switch (n)
-			{
-			case 72://up
-			case 73:
-				{
-                    if(Y > 2 && viewedMap[Y-1][X] != '#' && viewedMap[Y-1][X] != '&')
-                    {
-                        Y--;
-                        dirUp = true;
-                        dirDown = false;
-                        dirLeft = false;
-                        dirRight = false;
-                    }
-				}
-			break;
-			case 80://down
-            case 79:
-				{
-                    if(Y < 23 && viewedMap[Y+1][X] != '#' && viewedMap[Y+1][X] != '&')
-                    {
-                        Y++;
-                        dirUp = false;
-                        dirDown = true;
-                        dirLeft = false;
-                        dirRight = false;
-                    }
-				}
-			break;
-			case 75://left
-            case 76:
-                {
-                    if(X > 1 && viewedMap[Y][X-1] != '#' && viewedMap[Y][X-1] != '&')
-                    {
-                        X--;
-                        dirUp = false;
-                        dirDown = false;
-                        dirLeft = true;
-                        dirRight = false;
-                    }
-				}
-			break;
-			case 77://right
-            case 78:
-                {
-                    if(X < 78 && viewedMap[Y][X+1] != '#' && viewedMap[Y][X+1] != '&')
-                    {
-                        X++;
-                        dirUp = false;
-                        dirDown = false;
-                        dirLeft = false;
-                        dirRight = true;
-                    }
-				}
-			break;
-            case 82: //Insert - show/hide info
-                {
-                    info = info ? 0 : 1;
-                    tp(16, 22); cout<<"        ";
-                    tp(16, 23); cout<<"        ";
-                    break;
-                }
-            case 0: //0 off 
-                {
-                    //old system
-                    if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
-                    {
-                        tp(X, Y-1);
-                        setColor(3, 11);
-                        printf("&");
-                        viewedMap[Y-1][X] = '&';
-                        setColor(0, 15);
-                    }
-                    if(dirDown == true && Y<24 && viewedMap[Y+1][X]!='#')
-                    {
-                        tp(X, Y+1);
-                        setColor(3, 11);
-                        printf("&");
-                        viewedMap[Y+1][X] = '&';
-                        setColor(0, 15);
-                    }
-                    if(dirLeft == true && X>0 && viewedMap[Y][X-1]!='#')
-                    {
-                        tp(X-1, Y);
-                        setColor(3, 11);
-                        printf("&");
-                        viewedMap[Y][X-1] = '&';
-                        setColor(0, 15);
-                    }
-                    if(dirRight == true && X<79 && viewedMap[Y][X+1]!='#')
-                    {
-                        tp(X+1, Y);
-                        setColor(3, 11);
-                        printf("&");
-                        viewedMap[Y][X+1] = '&';
-                        setColor(0, 15);
-                    }
-                    //new system? not yet xd :E
-                }
-                break;
-			default:
-			    break;
-			}
-
-			tp(X, Y); cout<<symbol;
-            if(info) //if 'info' is true then show informations
-            {
-                tp(16, 22);  cout<<"C: "<<X<<", "<<Y<<" ";
-                tp(16, 23);  cout<<n<<" ";
-                if(dirUp)    cout<<"Up   ";
-                if(dirDown)  cout<<"Down ";
-                if(dirLeft)  cout<<"Left ";
-                if(dirRight) cout<<"Right";
-            }
-		}
-	}
+    void putBomb();
+    void runBomb();
 };
+
+//https://cdn.discordapp.com/attachments/619506379274715147/619506611383173130/Screen_Shot_09-06-19_at_02.17_PM.PNG
+//:: https://www.p-programowanie.pl/cpp/klasy-c/
+
+void computer :: spawn(short& X, short& Y)
+{
+    if(!spawned)
+    {
+        setColor(0, color);
+        spawned = true;
+        this->X = X;
+        this->Y = Y;
+        tp(X, Y);
+        cout<<symbol;
+    }
+}
+void computer :: hide() // spawn/hide
+{
+    if(spawned) spawned = false;
+    tp(X, Y); cout<<clear;
+}
+
+void computer :: go(short& n) 
+{
+    setColor(0, color);
+    if(spawned)
+    {
+        tp(X, Y); cout<<clear;
+
+        switch (n)
+        {
+        case 72://up
+        case 73:
+            {
+                if(Y > 2 && viewedMap[Y-1][X] != '#' && viewedMap[Y-1][X] != '&')
+                {
+                    if(dirUp) Y--;
+                    dirUp = true;
+                    dirDown = false;
+                    dirLeft = false;
+                    dirRight = false;
+                }
+            }
+        break;
+        case 80://down
+        case 79:
+            {
+                if(Y < 23 && viewedMap[Y+1][X] != '#' && viewedMap[Y+1][X] != '&')
+                {
+                    if(dirDown) Y++;
+                    dirUp = false;
+                    dirDown = true;
+                    dirLeft = false;
+                    dirRight = false;
+                }
+            }
+        break;
+        case 75://left
+        case 76:
+            {
+                if(X > 1 && viewedMap[Y][X-1] != '#' && viewedMap[Y][X-1] != '&')
+                {
+                    if(dirLeft) X--;
+                    dirUp = false;
+                    dirDown = false;
+                    dirLeft = true;
+                    dirRight = false;
+                }
+            }
+        break;
+        case 77://right
+        case 78:
+            {
+                if(X < 78 && viewedMap[Y][X+1] != '#' && viewedMap[Y][X+1] != '&')
+                {
+                    if(dirRight) X++;
+                    dirUp = false;
+                    dirDown = false;
+                    dirLeft = false;
+                    dirRight = true;
+                }
+            }
+        break;
+        case 82: //Insert - show/hide info
+            {
+                info = info ? 0 : 1;
+                tp(16, 22); cout<<"        ";
+                tp(16, 23); cout<<"        ";
+                break;
+            }
+        case 0: //0 off 
+            {
+                //old system
+                if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
+                {
+                    tp(X, Y-1);
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y-1][X] = '&';
+                    setColor(0, 15);
+                }
+                if(dirDown == true && Y<24 && viewedMap[Y+1][X]!='#')
+                {
+                    tp(X, Y+1);
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y+1][X] = '&';
+                    setColor(0, 15);
+                }
+                if(dirLeft == true && X>0 && viewedMap[Y][X-1]!='#')
+                {
+                    tp(X-1, Y);
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y][X-1] = '&';
+                    setColor(0, 15);
+                }
+                if(dirRight == true && X<79 && viewedMap[Y][X+1]!='#')
+                {
+                    tp(X+1, Y);
+                    setColor(3, 11);
+                    printf("&");
+                    viewedMap[Y][X+1] = '&';
+                    setColor(0, 15);
+                }
+                //new system? not yet xd :E
+            }
+            break;
+        default:
+            break;
+        }
+
+        tp(X, Y); cout<<symbol;
+        if(info) //if 'info' is true then show informations
+        {
+            tp(16, 22); cout<<"C: "<<X<<","<<Y<<" ";
+            tp(16, 23); cout<<n<<" ";
+            if(dirUp)    cout<<"Up   ";
+            if(dirDown)  cout<<"Down ";
+            if(dirLeft)  cout<<"Left ";
+            if(dirRight) cout<<"Right";
+        }
+    }
+}
+
+void computer :: shot()
+{
+    setColor(0, color);//Sets color of missile.
+
+    if(!isMissile && spawned)
+    {
+        isMissile = true;
+        xStartM = X;
+        yStartM = Y;
+        if(dirRight)
+        {
+            dir = 4;
+            missileSymbol = '-';
+            xM = X+1;
+            yM = Y;
+        }
+        else if(dirLeft)
+        {
+            dir = 3;
+            missileSymbol = '-';
+            xM = X-1;
+            yM = Y;
+        }
+        else if(dirUp)
+        {
+            dir = 1;
+            missileSymbol = ':';
+            xM = X;
+            yM = Y-1;
+        }
+        else if(dirDown)
+        {
+            dir = 2;
+            missileSymbol = ':';
+            xM = X;
+            yM = Y+1;
+        }
+
+        if(viewedMap[yM][xM] == '&')
+        {
+            destroyMissile(xM, yM);
+            viewedMap[yM][xM] = ' ';
+        }
+        else if(viewedMap[yM][xM] == '#') isMissile = false;
+        else 
+        {
+            tp(xM, yM);
+            cout<<missileSymbol;
+        }
+    }
+}
+
+int computer :: isShot()
+{
+    setColor(0, color);
+    
+    if(isMissile/* && isNewSecond*/)
+    {
+        /*if(yM <= 2 || yM >= 23 || xM >= 78 || xM <= 1)
+        {
+            destroyMissile(xM, yM);
+        }*/
+        switch (dir)
+        {
+        case 4: //right
+            {
+                if(xM - xStartM < 10) //Destroyes itself if it reaches 10 blocks
+                {
+                    if(viewedMap[yM][xM+1] == '&')
+                    {
+                        destroyMissile(xM, yM);
+                        viewedMap[yM][xM+1] = ' ';
+                        tp(xM+1, yM); printf(" ");
+                    }
+                    else if(viewedMap[yM][xM+1] == '#')
+                        destroyMissile(xM, yM);
+                    else
+                    {
+                        tp(xM, yM); printf(" ");
+                        tp(++xM, yM); cout<<missileSymbol;
+                    }
+                }
+                else destroyMissile(xM, yM);
+            }
+            break;
+        case 3: //left
+            {
+                if(xStartM - xM < 10)
+                {
+                    if(viewedMap[yM][xM-1] == '&')
+                    {
+                        destroyMissile(xM, yM);
+                        viewedMap[yM][xM-1] = ' ';
+                        tp(xM-1, yM); printf(" ");
+                    }
+                    else if(viewedMap[yM][xM-1] == '#')
+                        destroyMissile(xM, yM);
+                    else
+                    {
+                        tp(xM, yM); printf(" ");
+                        tp(--xM, yM); cout<<missileSymbol;
+                    }
+                }
+                else destroyMissile(xM, yM);
+            }
+            break;
+        case 1: //up
+            {
+                if(yStartM - yM < 10)
+                {
+                    if(viewedMap[yM-1][xM] == '&')
+                    {
+                        destroyMissile(xM, yM);
+                        viewedMap[yM-1][xM] = ' ';
+                        tp(xM, yM-1); printf(" ");
+                    }
+                    else if(viewedMap[yM-1][xM] == '#')
+                        destroyMissile(xM, yM);
+                    else
+                    {
+                        tp(xM, yM); printf(" ");
+                        tp(xM, --yM); cout<<missileSymbol;
+                    }
+                }
+                else destroyMissile(xM, yM);
+            }
+            break;
+        case 2: //down
+            {
+                if(yM - yStartM < 10)
+                {
+                    if(viewedMap[yM+1][xM] == '&')
+                    {
+                        destroyMissile(xM, yM);
+                        viewedMap[yM+1][xM] = ' ';
+                        tp(xM, yM+1); printf(" ");
+                    }
+                    else if(viewedMap[yM+1][xM] == '#')
+                        destroyMissile(xM, yM);
+                    else
+                    {
+                        tp(xM, yM); printf(" ");
+                        tp(xM, ++yM); cout<<missileSymbol;
+                    }
+                }
+                else destroyMissile(xM, yM);
+            }
+            break;
+        
+        default:
+            break;
+        }
+    } else return 0;
+    return 1;
+}
+
+void computer :: putBomb()
+{
+    if(!isBomb)
+    {
+        xB = X+1;
+        yB = Y;
+        tp(xB, yB); cout<<bombSymbol;
+        isBomb = true;
+    }
+}
+void computer :: runBomb()
+{
+    if(isBomb)
+    {
+        setColor(4, 12);
+        viewedMap[yB][xB+1] = ' ';
+        tp(xB+1, yB); printf("X");
+        viewedMap[yB][xB-1] = ' ';
+        tp(xB-1, yB); printf("X");
+        viewedMap[yB-1][xB] = ' ';
+        tp(xB, yB-1); printf("X");
+        viewedMap[yB+1][xB] = ' ';
+        tp(xB, yB+1); printf("X");
+        viewedMap[yB][xB] = ' ';
+        tp(xB, yB); printf("X");
+        isBomb = false;
+        Sleep(50);
+        setColor(0, 15);
+        tp(xB+1, yB); printf(" ");
+        tp(xB-1, yB); printf(" ");
+        tp(xB, yB-1); printf(" ");
+        tp(xB, yB+1); printf(" ");
+        tp(xB, yB); printf(" ");
+    }
+}
