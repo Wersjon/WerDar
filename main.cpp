@@ -16,7 +16,12 @@ int main()
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
     displayLogo();
-    Sleep(5000);
+    for (size_t i = 0; i < 10; i++)
+    {
+        Sleep(500);
+        if(kbhit()) { getch(); break; }
+    }
+    
     srand(time(NULL));
     unsigned char ch;
     /*int i;
