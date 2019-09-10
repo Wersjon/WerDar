@@ -220,7 +220,7 @@ void displayLogo()
     setColor(0, 0); printf("    ");
     setColor(9, 9); printf("    ");
     setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
+    setColor(9, 9); printf("    "); 
     setColor(0, 0); printf("  ");
     setColor(9, 9); printf("          ");
     setColor(0, 0); printf("  ");
