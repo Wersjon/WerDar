@@ -132,6 +132,7 @@ int main()
             tp(35, 0); printf("Player [*]");
         }
         
+        ///*
         if(AI.cord != 2 && AI.X <= AI.cord)
         {
             if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 2;
@@ -167,14 +168,14 @@ int main()
         case 62:
             AI.shot();
             break;
-        /*case 63: // 1/20 5% for bomb
-            AI.putBomb();
-            break;*/
+        case 63: // 1/20 5% for bomb
+            //AI.putBomb();
+            break;
         default:
             AI.go(n); //(4*2)/20 = 40% chance for move
             break;
         }
-        
+        //*/
         
         if(kbhit())
         {

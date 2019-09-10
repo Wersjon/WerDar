@@ -652,52 +652,44 @@ void computer :: go(short& n)
         case 73:
             {
                 if(Y > 2 && viewedMap[Y-1][X] != '#' && viewedMap[Y-1][X] != '&')
-                {
                     if(dirUp) Y--;
-                    dirUp = true;
-                    dirDown = false;
-                    dirLeft = false;
-                    dirRight = false;
-                }
+                dirUp = true;
+                dirDown = false;
+                dirLeft = false;
+                dirRight = false;
             }
         break;
         case 80://down
         case 79:
             {
                 if(Y < 23 && viewedMap[Y+1][X] != '#' && viewedMap[Y+1][X] != '&')
-                {
                     if(dirDown) Y++;
-                    dirUp = false;
-                    dirDown = true;
-                    dirLeft = false;
-                    dirRight = false;
-                }
+                dirUp = false;
+                dirDown = true;
+                dirLeft = false;
+                dirRight = false;
             }
         break;
         case 75://left
         case 76:
             {
                 if(X > 1 && viewedMap[Y][X-1] != '#' && viewedMap[Y][X-1] != '&')
-                {
                     if(dirLeft) X--;
-                    dirUp = false;
-                    dirDown = false;
-                    dirLeft = true;
-                    dirRight = false;
-                }
+                dirUp = false;
+                dirDown = false;
+                dirLeft = true;
+                dirRight = false;
             }
         break;
         case 77://right
         case 78:
             {
                 if(X < 78 && viewedMap[Y][X+1] != '#' && viewedMap[Y][X+1] != '&')
-                {
                     if(dirRight) X++;
-                    dirUp = false;
-                    dirDown = false;
-                    dirLeft = false;
-                    dirRight = true;
-                }
+                dirUp = false;
+                dirDown = false;
+                dirLeft = false;
+                dirRight = true;
             }
         break;
         case 82: //Insert - show/hide info
