@@ -121,6 +121,15 @@ int main()
         {
             AI.hide(); //kill
             tp(25, 0); printf("AI [*]");
+            tp(32, 0);
+            if(hours<10) printf("0%i", hours);
+            else printf("%i", hours); 
+            tp(35, 0);
+            if(minutes<10) printf("0%i", minutes);
+            else printf("%i", minutes);
+            tp(38, 0);
+            if(seconds<10)printf("0%i", seconds);
+            else printf("%i", seconds);
         }
             
         player.runBomb();
@@ -130,6 +139,15 @@ int main()
         {
             player.hide(); //kill
             tp(35, 0); printf("Player [*]");
+            tp(46, 0);
+            if(hours<10) printf("0%i", hours);
+            else printf("%i", hours); 
+            tp(49, 0);
+            if(minutes<10) printf("0%i", minutes);
+            else printf("%i", minutes);
+            tp(52, 0);
+            if(seconds<10)printf("0%i", seconds);
+            else printf("%i", seconds);
         }
         
         ///*
