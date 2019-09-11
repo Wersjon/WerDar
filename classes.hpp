@@ -699,34 +699,36 @@ void computer :: go(short& n)
                 tp(16, 23); cout<<"        ";
                 break;
             }
-        case 0: //0 off 
+        case 65: //0 off
+        case 66:
+        case 67:
+        case 68:
             {
-                //old system
-                if(dirUp == true && Y>1 && viewedMap[Y-1][X]!='#') //Builds block for direction Up
+                if(dirUp && viewedMap[Y-1][X] == ' ') //Builds block for direction Up
                 {
                     tp(X, Y-1);
                     setColor(3, 11);
                     printf("&");
                     viewedMap[Y-1][X] = '&';
                     setColor(0, 15);
-                }
-                if(dirDown == true && Y<24 && viewedMap[Y+1][X]!='#')
+                }else
+                if(dirDown && viewedMap[Y+1][X] == ' ')
                 {
                     tp(X, Y+1);
                     setColor(3, 11);
                     printf("&");
                     viewedMap[Y+1][X] = '&';
                     setColor(0, 15);
-                }
-                if(dirLeft == true && X>0 && viewedMap[Y][X-1]!='#')
+                }else
+                if(dirLeft && viewedMap[Y][X-1] == ' ')
                 {
                     tp(X-1, Y);
                     setColor(3, 11);
                     printf("&");
                     viewedMap[Y][X-1] = '&';
                     setColor(0, 15);
-                }
-                if(dirRight == true && X<79 && viewedMap[Y][X+1]!='#')
+                }else
+                if(dirRight && viewedMap[Y][X+1] == ' ')
                 {
                     tp(X+1, Y);
                     setColor(3, 11);
@@ -734,7 +736,6 @@ void computer :: go(short& n)
                     viewedMap[Y][X+1] = '&';
                     setColor(0, 15);
                 }
-                //new system? not yet xd :E
             }
             break;
         default:

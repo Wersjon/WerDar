@@ -161,14 +161,16 @@ int main()
         {
             AI.cord = 77;
         }
-
+        
         switch (n)
         {
-        case 61: // 2/20 10% for shot
+        case 61: // 4/20 20% for shot
         case 62:
+        case 63:
+        case 64:
             AI.shot();
             break;
-        case 63: // 1/20 5% for bomb
+        case 69: // 1/20 5% for bomb
             //AI.putBomb();
             break;
         default:
