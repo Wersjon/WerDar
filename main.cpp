@@ -140,7 +140,7 @@ int main()
             while(true)
             {
                 n = random(61, 80);
-                if(n != 75 && n != 76) break;
+                if(n != 75 && n != 76 && n != 66 && n != 67) break;
             }
         }
         else
@@ -154,7 +154,7 @@ int main()
             while(true)
             {
                 n = random(61, 80);
-                if(n != 77 && n != 78) break;
+                if(n != 77 && n != 78 && n != 68 && n != 69) break;
             }
         }
         else
@@ -170,11 +170,11 @@ int main()
         case 64:
             AI.shot();
             break;
-        case 69: // 1/20 5% for bomb
+        case 70: // 1/20 5% for bomb
             //AI.putBomb();
             break;
         default:
-            AI.go(n); //(4*2)/20 = 40% chance for move
+            AI.go(n); //(4*2)+(2*2)/20 = 60% chance for move up/left/down/right % 10/20/10/20
             break;
         }
         //*/

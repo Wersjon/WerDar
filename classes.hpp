@@ -672,6 +672,8 @@ void computer :: go(short& n)
         break;
         case 75://left
         case 76:
+        case 66:
+        case 67:
             {
                 if(X > 1 && viewedMap[Y][X-1] != '#' && viewedMap[Y][X-1] != '&')
                     if(dirLeft) X--;
@@ -683,6 +685,8 @@ void computer :: go(short& n)
         break;
         case 77://right
         case 78:
+        case 68:
+        case 69:
             {
                 if(X < 78 && viewedMap[Y][X+1] != '#' && viewedMap[Y][X+1] != '&')
                     if(dirRight) X++;
@@ -700,9 +704,6 @@ void computer :: go(short& n)
                 break;
             }
         case 65: //0 off
-        case 66:
-        case 67:
-        case 68:
             {
                 if(dirUp && viewedMap[Y-1][X] == ' ') //Builds block for direction Up
                 {
