@@ -157,8 +157,19 @@ int main()
             if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 2;
             while(true)
             {
-                n = random(61, 80);
-                if(n != 75 && n != 76 && n != 66 && n != 67) break;
+                if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#')
+                {
+                    if(viewedMap[AI.Y][AI.X+1] == ' ')
+                        n = 77; //right
+                    else
+                        n = 64; //shot
+                    break;
+                }
+                else
+                {
+                    n = random(61, 80);
+                    if(n != 75 && n != 76 && n != 66 && n != 67) break;
+                }
             }
         }
         else
@@ -171,8 +182,19 @@ int main()
             if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 77;
             while(true)
             {
-                n = random(61, 80);
-                if(n != 77 && n != 78 && n != 68 && n != 69) break;
+                if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#')
+                {
+                    if(viewedMap[AI.Y][AI.X-1] == ' ')
+                        n = 75; //left
+                    else
+                        n = 64; //shot
+                    break;
+                }
+                else
+                {
+                    n = random(61, 80);
+                    if(n != 77 && n != 78 && n != 68 && n != 69) break;
+                }
             }
         }
         else
