@@ -782,14 +782,14 @@ void computer :: shot()
         else if(dirUp)
         {
             dir = 1;
-            missileSymbol = ':';
+            missileSymbol = '|'; //PANIE DARXE, PROSZE NIE ZMIENIAĆ TEGO POCISKU12ON2ONO1NO1NO1NEee!!!NOOENOENON1111
             xM = X;
             yM = Y-1;
         }
         else if(dirDown)
         {
             dir = 2;
-            missileSymbol = ':';
+            missileSymbol = '|'; //PANIE DARXE, PROSZE NIE ZMIENIAĆ TEGO POCISKU12ON2ONO1NO1NO1NEee!!!NOOENOENON1111
             xM = X;
             yM = Y+1;
         }
