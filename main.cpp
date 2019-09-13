@@ -159,10 +159,8 @@ int main()
             {
                 if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#')
                 {
-                    if(viewedMap[AI.Y][AI.X+1] == ' ')
-                        n = 77; //right
-                    else
-                        n = 64; //shot
+                    int temp[2] = {77, 64};
+                    n = temp[random(0, 1)];
                     break;
                 }
                 else
@@ -184,10 +182,8 @@ int main()
             {
                 if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#')
                 {
-                    if(viewedMap[AI.Y][AI.X-1] == ' ')
-                        n = 75; //left
-                    else
-                        n = 64; //shot
+                    int temp[2] = {75, 64};
+                    n = temp[random(0, 1)];
                     break;
                 }
                 else
