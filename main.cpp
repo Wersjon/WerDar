@@ -117,7 +117,7 @@ int main()
         setColor(0, 15);
 
         if(player.isShot()) //If player shot, missle is launched.
-        if(player.xM == AI.X && player.yM == AI.Y) //if missile is launched - check
+        if(player.xM == AI.X && player.yM == AI.Y && AI.spawned) //if missile is launched - check
         {
             AI.hide(); //kill
             tp(25, 0); printf("AI [*]");
@@ -135,7 +135,7 @@ int main()
         player.runBomb();
 
         if(AI.isShot())
-        if(AI.xM == player.X && AI.yM == player.Y)
+        if(AI.xM == player.X && AI.yM == player.Y && player.spawned)
         {
             player.hide(); //kill
             tp(35, 0); printf("Player [*]");

@@ -26,7 +26,6 @@ int random(int from, int to)
 class character
 {
 private:
-    bool spawned = false;
     bool isMissile = false;
     
     char symbol = '^';
@@ -54,6 +53,7 @@ private:
     /*<directions>*/
     
 public:
+    bool spawned = false;
     short xM = 0;
     short yM = 0;
     short mode = 0;
@@ -654,7 +654,6 @@ public:
 class computer
 {
 private:
-    bool spawned = false;
     bool isMissile = false;
     
     char symbol = 'C';
@@ -672,6 +671,7 @@ private:
 
     bool info = false;
 public:
+    bool spawned = false;
     short xM = 0;
     short yM = 0;
     /*<bomb>*/
