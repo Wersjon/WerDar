@@ -157,12 +157,12 @@ int main()
             if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 2;
             while(true)
             {
-                if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#' && viewedMap[AI.Y-1][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X+1] == '#')
+                if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#')
                 {
                     int temp[2] = {77, 64}; //right or shot
                     n = temp[random(0, 1)];
                     break;
-                }
+                }/*
                 if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#')
                 {
                     int temp[2] = {75, 80}; //left or down
@@ -174,7 +174,7 @@ int main()
                     int temp[2] = {72, 80}; //left or up
                     n = temp[random(0, 1)];
                     break;
-                }
+                }*/
                 else
                 {
                     n = random(61, 80);
@@ -192,7 +192,7 @@ int main()
             if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 77;
             while(true)
             {
-                if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#' && viewedMap[AI.Y-1][AI.X-1] == '#' && viewedMap[AI.Y+1][AI.X-1] == '#')
+                if(viewedMap[AI.Y-1][AI.X] == '#' && viewedMap[AI.Y+1][AI.X] == '#')
                 {
                     int temp[2] = {75, 64};
                     n = temp[random(0, 1)];
