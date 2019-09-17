@@ -651,7 +651,7 @@ public:
 	}
 };
 
-class computer
+class computer //ai
 {
 private:
     bool isMissile = false;
@@ -699,7 +699,7 @@ public:
     void spawn(short& X, short& Y); //spawn AI
     void hide(); // hide/kill AI;
 
-    void go(short& n); //move AI
+    void go(short n); //move AI
 
     void shot();
     int isShot();
@@ -729,7 +729,7 @@ void computer :: hide() // spawn/hide
     tp(X, Y); cout<<clear;
 }
 
-void computer :: go(short& n) 
+void computer :: go(short n) 
 {
     setColor(0, color);
     if(spawned)
@@ -740,6 +740,7 @@ void computer :: go(short& n)
         {
         case 72://up
         case 73:
+        case 1:
             {
                 if(Y > 2 && viewedMap[Y-1][X] != '#' && viewedMap[Y-1][X] != '&')
                     if(dirUp) Y--;
@@ -751,6 +752,7 @@ void computer :: go(short& n)
         break;
         case 80://down
         case 79:
+        case 2:
             {
                 if(Y < 23 && viewedMap[Y+1][X] != '#' && viewedMap[Y+1][X] != '&')
                     if(dirDown) Y++;
@@ -764,6 +766,7 @@ void computer :: go(short& n)
         case 76:
         case 66:
         case 67:
+        case 3:
             {
                 if(X > 1 && viewedMap[Y][X-1] != '#' && viewedMap[Y][X-1] != '&')
                     if(dirLeft) X--;
@@ -777,6 +780,7 @@ void computer :: go(short& n)
         case 78:
         case 68:
         case 69:
+        case 4:
             {
                 if(X < 78 && viewedMap[Y][X+1] != '#' && viewedMap[Y][X+1] != '&')
                     if(dirRight) X++;
@@ -872,14 +876,14 @@ void computer :: shot()
         else if(dirUp)
         {
             dir = 1;
-            missileSymbol = '|'; //PANIE DARXE, PROSZE NIE ZMIENIAĆ TEGO POCISKU12ON2ONO1NO1NO1NEee!!!NOOENOENON1111
+            missileSymbol = '|';
             xM = X;
             yM = Y-1;
         }
         else if(dirDown)
         {
             dir = 2;
-            missileSymbol = '|'; //PANIE DARXE, PROSZE NIE ZMIENIAĆ TEGO POCISKU12ON2ONO1NO1NO1NEee!!!NOOENOENON1111
+            missileSymbol = '|';
             xM = X;
             yM = Y+1;
         }
