@@ -40,7 +40,7 @@ int main()
     
     mapReader(); //Reads Map from file
 
-    player.spawn(3, 3);
+    player.spawn(48, 15);
     AI.spawn(AI.X, AI.Y);
 
     menuBar(); //Displays MenuBar
