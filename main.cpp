@@ -153,10 +153,6 @@ int main()
         ///*
         if(AI.cord != 2 && AI.X <= AI.cord)
         {
-            if (AI.X < player.X+1)
-                AI.go(4);
-            if (AI.Y < player.Y+1)
-                AI.go(2);
             if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 2;
             if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 2;
             while(true)
@@ -192,10 +188,6 @@ int main()
         }
         if(AI.cord != 77 && AI.X >= AI.cord)
         {
-            if (AI.X > player.X+1) //testing
-                AI.go(3);
-            if (AI.Y > player.Y+1)
-                AI.go(1);
             if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 77;
             if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 77;
             while(true)
