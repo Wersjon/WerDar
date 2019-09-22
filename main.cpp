@@ -162,19 +162,22 @@ int main()
                     int temp[2] = {77, 64}; //right or shot
                     n = temp[random(0, 1)];
                     break;
-                }/*
+                }
+
                 if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#')
                 {
-                    int temp[2] = {75, 80}; //left or down
+                    int temp[2] = {75, 80};
                     n = temp[random(0, 1)];
                     break;
                 }
+                
                 if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X] == '#')
                 {
-                    int temp[2] = {72, 80}; //left or up
+                    int temp[2] = {72, 80};
                     n = temp[random(0, 1)];
                     break;
-                }*/
+                }
+
                 else
                 {
                     n = random(61, 80);
