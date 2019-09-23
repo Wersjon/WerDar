@@ -161,7 +161,6 @@ int main()
                 {
                     int temp[2] = {77, 64}; //right or shot
                     n = temp[random(0, 1)];
-                    break;
                 }
 
                 if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#')
