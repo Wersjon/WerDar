@@ -151,46 +151,83 @@ int main()
         }
         
         ///*
+        // 789
+        // 456
+        // 123
+        //right
         if(AI.cord != 2 && AI.X <= AI.cord)
         {
-            if(AI.check(6, '#') && AI.check(8, '#')) AI.cord = 77;
-            if(AI.check(6, '#') && AI.check(2, '#')) AI.cord = 77;
-            while(true)
+            if(AI.check(6, '#') && AI.check(8, '#'))
             {
-                if(AI.check(8, '#') && AI.check(2, '#'))
-                {
-                    int temp[2] = {77, 64}; //right or shot
-                    n = temp[random(0, 1)];
-                    break;
-                }
+                AI.cord = 2;
+                if(AI.check(2, '#'))
+                    n = 3;
                 else
                 {
-                    n = random(61, 80);
-                    if(n != 75 && n != 76 && n != 66 && n != 67) break;
+                    int temp[2] = {2, 3};
+                    n = temp[random(0, 1)];
                 }
+            } 
+            else if(AI.check(6, '#') && AI.check(2, '#'))
+            {
+                AI.cord = 2;
+                int temp[2] = {1, 3};
+                n = temp[random(0, 1)];
+            }
+            else if(AI.check(8, '#') && AI.check(2, '#'))
+            {
+                int temp[2] = {4, 64}; //right or shot
+                n = temp[random(0, 1)];
+            }
+            else
+            {
+                int temp[20] = {
+                    61, 62, 63, 64, 65, 68, 69, 70, //66,67
+                    71, 72, 73, 74, 77, 78, 79, 80 //75,76
+                };
+                n = temp[random(0, 19)];
             }
         }
         else
         {
             AI.cord = 2;
+            // 789
+            // 456
+            // 123
         }
+
+        //left
         if(AI.cord != 77 && AI.X >= AI.cord)
         {
-            if(AI.check(4, '#') && AI.check(8, '#')) AI.cord = 77;
-            if(AI.check(4, '#') && AI.check(2, '#')) AI.cord = 77;
-            while(true)
+            if(AI.check(4, '#') && AI.check(8, '#'))
             {
-                if(AI.check(8, '#') && AI.check(2, '#'))
-                {
-                    int temp[2] = {75, 64}; //left or shot
-                    n = temp[random(0, 1)];
-                    break;
-                }
+                AI.cord = 77;
+                if(AI.check(2, '#'))
+                    n = 4;
                 else
                 {
-                    n = random(61, 80);
-                    if(n != 77 && n != 78 && n != 68 && n != 69) break;
+                    int temp[2] = {2, 4};
+                    n = temp[random(0, 1)];
                 }
+            } 
+            else if(AI.check(4, '#') && AI.check(2, '#'))
+            {
+                AI.cord = 77;
+                int temp[2] = {1, 4};
+                n = temp[random(0, 1)];
+            }
+            else if(AI.check(8, '#') && AI.check(2, '#'))
+            {
+                int temp[2] = {3, 64}; //left or shot
+                n = temp[random(0, 1)];
+            }
+            else
+            {
+                int temp[20] = {
+                    61, 62, 63, 64, 65, 66, 67, 70, //68, 69
+                    71, 72, 73, 74, 75, 76, 79, 80 //77, 78
+                };
+                n = temp[random(0, 19)];
             }
         }
         else
