@@ -153,14 +153,15 @@ int main()
         ///*
         if(AI.cord != 2 && AI.X <= AI.cord)
         {
-            if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 2;
-            if(viewedMap[AI.Y][AI.X+1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 2;
+            if(AI.check(6, '#') && AI.check(8, '#')) AI.cord = 77;
+            if(AI.check(6, '#') && AI.check(2, '#')) AI.cord = 77;
             while(true)
             {
-                if(AI.check(2, '#') && AI.check(8, '#'))
+                if(AI.check(8, '#') && AI.check(2, '#'))
                 {
                     int temp[2] = {77, 64}; //right or shot
                     n = temp[random(0, 1)];
+                    break;
                 }
                 else
                 {
@@ -175,11 +176,11 @@ int main()
         }
         if(AI.cord != 77 && AI.X >= AI.cord)
         {
-            if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y-1][AI.X] == '#') AI.cord = 77;
-            if(viewedMap[AI.Y][AI.X-1] == '#' && viewedMap[AI.Y+1][AI.X] == '#') AI.cord = 77;
+            if(AI.check(4, '#') && AI.check(8, '#')) AI.cord = 77;
+            if(AI.check(4, '#') && AI.check(2, '#')) AI.cord = 77;
             while(true)
             {
-                if(AI.check(2, '#') && AI.check(8, '#'))
+                if(AI.check(8, '#') && AI.check(2, '#'))
                 {
                     int temp[2] = {75, 64}; //left or shot
                     n = temp[random(0, 1)];

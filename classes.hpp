@@ -1046,20 +1046,20 @@ void computer :: runBomb()
 
 int computer :: check(short pos, char ch)
 {
-    // 1 2 3
-    // 4 5 6
     // 7 8 9
+    // 4 5 6
+    // 1 2 3
     switch (pos)
     {
-    case 1: if(viewedMap[Y-1][X-1] == ch) return 1;
-    case 2: if(viewedMap[Y-1][X] == ch) return 1;
-    case 3: if(viewedMap[Y-1][X+1] == ch) return 1;
-    case 4: if(viewedMap[Y][X-1] == ch) return 1;
-    case 5: if(viewedMap[Y][X] == ch) return 1;
-    case 6: if(viewedMap[Y][X+1] == ch) return 1;
-    case 7: if(viewedMap[Y+1][X-1] == ch) return 1;
-    case 8: if(viewedMap[Y+1][X] == ch) return 1;
-    case 9: if(viewedMap[Y+1][X+1] == ch) return 1;
+    case 7: if(viewedMap[Y-1][X-1] == ch) return 1; break;
+    case 8: if(viewedMap[Y-1][X] == ch) return 1; break;
+    case 9: if(viewedMap[Y-1][X+1] == ch) return 1; break;
+    case 4: if(viewedMap[Y][X-1] == ch) return 1; break;
+    case 5: if(viewedMap[Y][X] == ch) return 1; break;
+    case 6: if(viewedMap[Y][X+1] == ch) return 1; break;
+    case 1: if(viewedMap[Y+1][X-1] == ch) return 1; break;
+    case 2: if(viewedMap[Y+1][X] == ch) return 1; break;
+    case 3: if(viewedMap[Y+1][X+1] == ch) return 1; break;
     
     default:
         break;
