@@ -235,6 +235,7 @@ int main()
             AI.cord = 77;
         }
         
+        
         switch (n)
         {
         case 61: // 4/20 20% for shot
