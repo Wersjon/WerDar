@@ -34,9 +34,10 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    const short compSize = 50;
+    const short compSize = 25;
     computer AI; short n = 0, nComp[compSize];
     computer comp[compSize];
+    short killCounter = 0;
     
     player.playercolor = 14;
     mapReader(); //Reads Map from file
@@ -119,6 +120,9 @@ int main()
             case 1: printf("-"); break;
             case 2: printf("X"); break;
         }
+        setColor(11, 0);
+        tp(60, 0);
+        printf("Kills: ");printf("%i",killCounter);
 
         setColor(0, 15);
 
@@ -129,6 +133,7 @@ int main()
                 if(comp[i].spawned && player.xM == comp[i].X && player.yM == comp[i].Y)
                 {
                     comp[i].hide();
+                    killCounter++;
                     player.isMissile = false;
                 }
             }
