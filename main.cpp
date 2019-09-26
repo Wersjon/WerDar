@@ -34,16 +34,17 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    computer AI; short n = 0, nComp[5];
-    computer comp[5];
+    const short compSize = 50;
+    computer AI; short n = 0, nComp[compSize];
+    computer comp[compSize];
     
     player.playercolor = 14;
     mapReader(); //Reads Map from file
 
     player.spawn(48, 15);
-    AI.spawn(AI.X, AI.Y);
 
-    for (size_t i = 0; i < 5; i++)
+    AI.spawn(AI.X, AI.Y);
+    for (size_t i = 0; i < compSize; i++)
     {
         comp[i].spawn(comp[i].X, comp[i].Y);
     }
@@ -122,19 +123,29 @@ int main()
         setColor(0, 15);
 
         if(player.isShot()) //If player shot, missle is launched.
-        if(player.xM == AI.X && player.yM == AI.Y && AI.spawned) //if missile is launched - check
         {
-            AI.hide(); //kill
-            tp(25, 0); printf("AI [*]");
-            tp(32, 0);
-            if(hours<10) printf("0%i", hours);
-            else printf("%i", hours); 
-            tp(35, 0);
-            if(minutes<10) printf("0%i", minutes);
-            else printf("%i", minutes);
-            tp(38, 0);
-            if(seconds<10)printf("0%i", seconds);
-            else printf("%i", seconds);
+            for (size_t i = 0; i < compSize; i++)
+            {
+                if(comp[i].spawned && player.xM == comp[i].X && player.yM == comp[i].Y)
+                {
+                    comp[i].hide();
+                }
+            }
+            
+            if(player.xM == AI.X && player.yM == AI.Y && AI.spawned) //if missile is launched - check
+            {
+                AI.hide(); //kill
+                tp(25, 0); printf("AI [*]");
+                tp(32, 0);
+                if(hours<10) printf("0%i", hours);
+                else printf("%i", hours); 
+                tp(35, 0);
+                if(minutes<10) printf("0%i", minutes);
+                else printf("%i", minutes);
+                tp(38, 0);
+                if(seconds<10)printf("0%i", seconds);
+                else printf("%i", seconds);
+            }
         }
             
         player.runBomb();
@@ -255,8 +266,7 @@ int main()
             AI.go(n); //(4*2)+(2*2)/20 = 60% chance for move up/left/down/right % 10/20/10/20
             break;
         }
-
-        for (size_t i = 0; i < 5; i++)
+        for (size_t i = 0; i < compSize; i++)
         {
             nComp[i] = random(61,80);
             switch (nComp[i])
@@ -271,6 +281,7 @@ int main()
                 comp[i].go(n);
                 break;
             }
+            comp[i].isShot();
         }
         
         //*/
