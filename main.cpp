@@ -129,6 +129,7 @@ int main()
                 if(comp[i].spawned && player.xM == comp[i].X && player.yM == comp[i].Y)
                 {
                     comp[i].hide();
+                    player.isMissile = false;
                 }
             }
             
@@ -151,7 +152,7 @@ int main()
         player.runBomb();
 
         if(AI.isShot())
-        if(AI.xM == player.X && AI.yM == player.Y && player.spawned)
+        if(player.spawned && AI.xM == player.X && AI.yM == player.Y)
         {
             player.hide(); //kill
             tp(35, 0); printf("Player [*]");
@@ -165,6 +166,27 @@ int main()
             if(seconds<10)printf("0%i", seconds);
             else printf("%i", seconds);
         }
+        for (size_t i = 0; i < compSize; i++)
+        {
+            if(comp[i].isShot())
+            {
+                if(player.spawned && comp[i].xM == player.X && comp[i].yM == player.Y)
+                {
+                    player.hide(); //kill
+                    tp(35, 0); printf("Player [*]");
+                    tp(46, 0);
+                    if(hours<10) printf("0%i", hours);
+                    else printf("%i", hours); 
+                    tp(49, 0);
+                    if(minutes<10) printf("0%i", minutes);
+                    else printf("%i", minutes);
+                    tp(52, 0);
+                    if(seconds<10)printf("0%i", seconds);
+                    else printf("%i", seconds);
+                }
+            }
+        }
+        
         
         ///*
         // 789
@@ -281,7 +303,6 @@ int main()
                 comp[i].go(n);
                 break;
             }
-            comp[i].isShot();
         }
         
         //*/

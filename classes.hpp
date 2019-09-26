@@ -26,8 +26,6 @@ int random(int from, int to)
 class character
 {
 private:
-    bool isMissile = false;
-    
     char symbol = '^';
     char clear = ' ';
     char missileSymbol;
@@ -53,6 +51,7 @@ private:
     /*<directions>*/
     
 public:
+    bool isMissile = false;
     bool spawned = false;
     short xM = 0;
     short yM = 0;
