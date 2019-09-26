@@ -34,14 +34,19 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    computer AI; short n = 0;
+    computer AI; short n = 0, nComp[5];
+    computer comp[5];
     
     player.playercolor = 14;
-    
     mapReader(); //Reads Map from file
 
     player.spawn(48, 15);
     AI.spawn(AI.X, AI.Y);
+
+    for (size_t i = 0; i < 5; i++)
+    {
+        comp[i].spawn(comp[i].X, comp[i].Y);
+    }
 
     menuBar(); //Displays MenuBar
     
@@ -235,7 +240,6 @@ int main()
             AI.cord = 77;
         }
         
-        
         switch (n)
         {
         case 61: // 4/20 20% for shot
@@ -251,6 +255,24 @@ int main()
             AI.go(n); //(4*2)+(2*2)/20 = 60% chance for move up/left/down/right % 10/20/10/20
             break;
         }
+
+        for (size_t i = 0; i < 5; i++)
+        {
+            nComp[i] = random(61,80);
+            switch (nComp[i])
+            {
+            case 61:
+            case 62:
+            case 63:
+            case 64:
+                comp[i].shot();
+                break;
+            default:
+                comp[i].go(n);
+                break;
+            }
+        }
+        
         //*/
         
         if(kbhit())
