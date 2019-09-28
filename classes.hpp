@@ -654,8 +654,6 @@ class computer //ai
 {
 private:
     bool isMissile = false;
-    
-    char symbol = 'C';
     char clear = ' ';
 
     char missileSymbol = '-';
@@ -670,6 +668,7 @@ private:
 
     bool info = false;
 public:
+    char symbol = 'C';
     bool spawned = false;
     short xM = 0;
     short yM = 0;

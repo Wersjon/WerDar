@@ -34,7 +34,7 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    const short compSize = 25;
+    const short compSize = 10;
     computer AI; short n = 0, nComp[compSize];
     computer comp[compSize];
     short killCounter = 0;
@@ -99,7 +99,7 @@ int main()
             AI.isNewSecond = false;
         }
 
-        Sleep(33); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(30); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
         tp(11, 0);
         if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
@@ -192,11 +192,6 @@ int main()
             }
         }
         
-        
-        ///*
-        // 789
-        // 456
-        // 123
         //right
         if(AI.cord != 2 && AI.X <= AI.cord)
         {
@@ -234,9 +229,6 @@ int main()
         else
         {
             AI.cord = 2;
-            // 789
-            // 456
-            // 123
         }
 
         //left
