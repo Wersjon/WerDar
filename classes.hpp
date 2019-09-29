@@ -706,6 +706,7 @@ public:
     void runBomb();
 
     int check(short pos, char ch);
+    short rand();
 };
 
 //https://cdn.discordapp.com/attachments/619506379274715147/619506611383173130/Screen_Shot_09-06-19_at_02.17_PM.PNG
@@ -1062,5 +1063,87 @@ int computer :: check(short pos, char ch)
     default:
         break;
     }
+    return 0;
+}
+
+short computer :: rand()
+{
+    if(cord != 2 && X <= cord)
+    {
+        if(check(6, '#') && check(8, '#'))
+        {
+            cord = 2;
+            if(check(2, '#'))
+                return 3;
+            else
+            {
+                int temp[2] = {2, 3};
+                return temp[random(0, 1)];
+            }
+        } 
+        else if(check(6, '#') && check(2, '#'))
+        {
+            cord = 2;
+            int temp[2] = {1, 3};
+            return temp[random(0, 1)];
+        }
+        else if(check(8, '#') && check(2, '#'))
+        {
+            int temp[2] = {4, 64}; //right or shot
+            return temp[random(0, 1)];
+        }
+        else
+        {
+            int temp[20] = {
+                61, 62, 63, 64, 65, 68, 69, 70, //66,67
+                71, 72, 73, 74, 77, 78, 79, 80 //75,76
+            };
+            return temp[random(0, 19)];
+        }
+    }
+    else
+    {
+        cord = 2;
+    }
+
+    //left
+    if(cord != 77 && X >= cord)
+    {
+        if(check(4, '#') && check(8, '#'))
+        {
+            cord = 77;
+            if(check(2, '#'))
+                return 4;
+            else
+            {
+                int temp[2] = {2, 4};
+                return temp[random(0, 1)];
+            }
+        } 
+        else if(check(4, '#') && check(2, '#'))
+        {
+            cord = 77;
+            int temp[2] = {1, 4};
+            return temp[random(0, 1)];
+        }
+        else if(check(8, '#') && check(2, '#'))
+        {
+            int temp[2] = {3, 64}; //left or shot
+            return temp[random(0, 1)];
+        }
+        else
+        {
+            int temp[20] = {
+                61, 62, 63, 64, 65, 66, 67, 70, //68, 69
+                71, 72, 73, 74, 75, 76, 79, 80 //77, 78
+            };
+            return temp[random(0, 19)];
+        }
+    }
+    else
+    {
+        cord = 77;
+    }
+
     return 0;
 }
