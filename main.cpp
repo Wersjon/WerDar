@@ -34,17 +34,19 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    const short compSize = 10;
+    const short compSize = 15;
     computer AI; short n = 0, nComp[compSize];
     computer comp[compSize];
     short killCounter = 0;
+    short _FPS = 30;
+    const short FPS = 1000/_FPS;
     
     player.playercolor = 14;
     mapReader(); //Reads Map from file
 
     player.spawn(48, 15);
 
-    AI.spawn(AI.X, AI.Y);
+    AI.spawn(AI.X, AI.Y); AI.symbol = 'A';
     for (size_t i = 0; i < compSize; i++)
     {
         comp[i].spawn(comp[i].X, comp[i].Y);
@@ -99,7 +101,7 @@ int main()
             AI.isNewSecond = false;
         }
 
-        Sleep(30); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(FPS); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
         tp(11, 0);
         if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
@@ -192,99 +194,9 @@ int main()
             }
         }
         
-        //right
-        if(AI.cord != 2 && AI.X <= AI.cord)
-        {
-            if(AI.check(6, '#') && AI.check(8, '#'))
-            {
-                AI.cord = 2;
-                if(AI.check(2, '#'))
-                    n = 3;
-                else
-                {
-                    int temp[2] = {2, 3};
-                    n = temp[random(0, 1)];
-                }
-            } 
-            else if(AI.check(6, '#') && AI.check(2, '#'))
-            {
-                AI.cord = 2;
-                int temp[2] = {1, 3};
-                n = temp[random(0, 1)];
-            }
-            else if(AI.check(8, '#') && AI.check(2, '#'))
-            {
-                int temp[2] = {4, 64}; //right or shot
-                n = temp[random(0, 1)];
-            }
-            else
-            {
-                int temp[20] = {
-                    61, 62, 63, 64, 65, 68, 69, 70, //66,67
-                    71, 72, 73, 74, 77, 78, 79, 80 //75,76
-                };
-                n = temp[random(0, 19)];
-            }
-        }
-        else
-        {
-            AI.cord = 2;
-        }
-
-        //left
-        if(AI.cord != 77 && AI.X >= AI.cord)
-        {
-            if(AI.check(4, '#') && AI.check(8, '#'))
-            {
-                AI.cord = 77;
-                if(AI.check(2, '#'))
-                    n = 4;
-                else
-                {
-                    int temp[2] = {2, 4};
-                    n = temp[random(0, 1)];
-                }
-            } 
-            else if(AI.check(4, '#') && AI.check(2, '#'))
-            {
-                AI.cord = 77;
-                int temp[2] = {1, 4};
-                n = temp[random(0, 1)];
-            }
-            else if(AI.check(8, '#') && AI.check(2, '#'))
-            {
-                int temp[2] = {3, 64}; //left or shot
-                n = temp[random(0, 1)];
-            }
-            else
-            {
-                int temp[20] = {
-                    61, 62, 63, 64, 65, 66, 67, 70, //68, 69
-                    71, 72, 73, 74, 75, 76, 79, 80 //77, 78
-                };
-                n = temp[random(0, 19)];
-            }
-        }
-        else
-        {
-            AI.cord = 77;
-        }
         
-        switch (n)
-        {
-        case 61: // 4/20 20% for shot
-        case 62:
-        case 63:
-        case 64:
-            AI.shot();
-            break;
-        case 70: // 1/20 5% for bomb
-            //AI.putBomb();
-            break;
-        default:
-            AI.go(n); //(4*2)+(2*2)/20 = 60% chance for move up/left/down/right % 10/20/10/20
-            break;
-        }
+        AI.go(AI.rand()); //(4*2)+(2*2)/20 = 60% chance for move up/left/down/right % 10/20/10/20
+
         for (size_t i = 0; i < compSize; i++)
         {
             nComp[i] = random(61,80);
@@ -297,7 +209,7 @@ int main()
                 comp[i].shot();
                 break;
             default:
-                comp[i].go(n);
+                comp[i].go(nComp[i]);
                 break;
             }
         }

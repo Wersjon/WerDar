@@ -791,6 +791,13 @@ void computer :: go(short n)
                 dirRight = true;
             }
         break;
+        case 61: // 4/20 20% for shot
+        case 62:
+        case 63:
+        case 64:
+            shot();
+            break;
+        //case 70: bomb
         case 82: //Insert - show/hide info
             {
                 info = info ? 0 : 1;
