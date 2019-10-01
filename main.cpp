@@ -35,11 +35,12 @@ int main()
     short seconds3 = 0;
     character player;
     const short compSize = 15;
-    computer AI; short n = 0, nComp[compSize];
+    computer AI;
     computer comp[compSize];
     short killCounter = 0;
-    short _FPS = 30;
-    const short FPS = 1000/_FPS;
+    short FPS = 30;
+    short _FPS = 1000/FPS;
+    bool info = false;
     
     player.playercolor = 14;
     mapReader(); //Reads Map from file
@@ -101,7 +102,7 @@ int main()
             AI.isNewSecond = false;
         }
 
-        Sleep(FPS); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
+        Sleep(_FPS); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
 
         tp(11, 0);
         if(hours<10) printf("0%i", hours); //displays how many hours you are playing with or without 0 before.
@@ -125,6 +126,8 @@ int main()
         setColor(11, 0);
         tp(60, 0);
         printf("Kills: ");printf("%i",killCounter);
+        tp(71, 0);
+        printf("FPS ");printf("%i ",FPS);
 
         setColor(0, 15);
 
@@ -199,19 +202,7 @@ int main()
 
         for (size_t i = 0; i < compSize; i++)
         {
-            nComp[i] = random(61,80);
-            switch (nComp[i])
-            {
-            case 61:
-            case 62:
-            case 63:
-            case 64:
-                comp[i].shot();
-                break;
-            default:
-                comp[i].go(nComp[i]);
-                break;
-            }
+            comp[i].go(comp[i].rand());
         }
         
         //*/
@@ -231,19 +222,37 @@ int main()
                 }
                 break;
                 case 13: AI.shot(); break;
+                //Change FPS + and -
+                case 43: if(FPS>=890) FPS = 60; else if(FPS<60) _FPS = 1000/(FPS++); else _FPS = 1000/(FPS+=10); break;
+                case 45: if(FPS>=70) _FPS = 1000/(FPS-=10); else if(FPS>1) _FPS = 1000/(FPS--); break;
                 case 224: //tests AI
                 {
-                    n = getch();
+                    int n = getch();
                     AI.go(n);
+                    if(n == 82) //Insert - show/hide info
+                    {
+                        info = info ? 0 : 1;
+                        tp(16, 22); cout<<"        ";
+                        tp(16, 23); cout<<"        ";
+                        break;
+                    }
+                    break;
                 }
-                break;
-
                 default:  
                 {
                     player.go(ch);
+                    break;
                 }
-                break;
             }
+        }
+        if(info) //if 'info' is true then show informations
+        {
+            tp(16, 22); cout<<"C: "<<AI.X<<","<<AI.Y<<" ";
+            tp(16, 23); cout<<"D: ";
+            if(AI.dirUp)    cout<<"Up   ";
+            if(AI.dirDown)  cout<<"Down ";
+            if(AI.dirLeft)  cout<<"Left ";
+            if(AI.dirRight) cout<<"Right";
         }
     }
 }

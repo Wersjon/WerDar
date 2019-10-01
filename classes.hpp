@@ -665,8 +665,6 @@ private:
         tp(xM, yM); printf(" "); //Printf " " instead of missile char
     }
     short dir = 0; //temporary direction
-
-    bool info = false;
 public:
     char symbol = 'C';
     bool spawned = false;
@@ -798,13 +796,6 @@ void computer :: go(short n)
             shot();
             break;
         //case 70: bomb
-        case 82: //Insert - show/hide info
-            {
-                info = info ? 0 : 1;
-                tp(16, 22); cout<<"        ";
-                tp(16, 23); cout<<"        ";
-                break;
-            }
         case 65: //0 off
             {
                 if(dirUp && viewedMap[Y-1][X] == ' ') //Builds block for direction Up
@@ -846,15 +837,6 @@ void computer :: go(short n)
         }
 
         tp(X, Y); cout<<symbol;
-        if(info) //if 'info' is true then show informations
-        {
-            tp(16, 22); cout<<"C: "<<X<<","<<Y<<" ";
-            tp(16, 23); cout<<n<<" ";
-            if(dirUp)    cout<<"Up   ";
-            if(dirDown)  cout<<"Down ";
-            if(dirLeft)  cout<<"Left ";
-            if(dirRight) cout<<"Right";
-        }
     }
 }
 
