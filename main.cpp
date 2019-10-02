@@ -10,11 +10,6 @@ void menuBar(); //Displays menu
 void displayLogo();
 /*</voids>*/
 
-void init()
-{
-    ;
-}
-
 int main()
 {
     SetConsoleTitleA("Wer-Dar");
