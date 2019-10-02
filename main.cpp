@@ -10,6 +10,11 @@ void menuBar(); //Displays menu
 void displayLogo();
 /*</voids>*/
 
+void init()
+{
+    ;
+}
+
 int main()
 {
     SetConsoleTitleA("Wer-Dar");
@@ -34,23 +39,42 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    const short compSize = 15;
+    const short compSize = 30;
     computer AI;
     computer comp[compSize];
     short killCounter = 0;
-    short FPS = 30;
-    short _FPS = 1000/FPS;
+    short FPS = 30; short _FPS = 1000/FPS;
     bool info = false;
+    short xStart = 1, xEnd = 78, yStart = 2, yEnd = 23;
     
     player.playercolor = 14;
     mapReader(); //Reads Map from file
 
     player.spawn(48, 15);
 
-    AI.spawn(AI.X, AI.Y); AI.symbol = 'A';
-    for (size_t i = 0; i < compSize; i++)
+    
+
+    //AI - random positions
     {
-        comp[i].spawn(comp[i].X, comp[i].Y);
+        short x,y;
+        while(true)
+        {
+            x = random(1,78);
+            y = random(2,23);
+            if(viewedMap[y][x] == ' ') break;
+        }
+        AI.spawn(x, y);
+        for (size_t i = 0; i < compSize; i++)
+        {
+            while(true)
+            {
+                x = random(1,78);
+                y = random(2,23);
+                if(viewedMap[y][x] == ' ') break;
+            }
+            comp[i].spawn(x, y);
+            if(i>1) Sleep(100);
+        }
     }
 
     menuBar(); //Displays MenuBar
