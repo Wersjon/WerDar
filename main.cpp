@@ -54,7 +54,8 @@ int main()
         {
             x = random(1,78);
             y = random(2,23);
-            if(viewedMap[y][x] == ' ') break;
+            if(viewedMap[y][x] == ' ')
+                if(x < 37 || x > 58 || y < 15 || y > 18) break;
         }
         AI.spawn(x, y);
         for (size_t i = 0; i < compSize; i++)
@@ -216,7 +217,7 @@ int main()
         }
         
         
-        //AI.go(AI.rand()); //(4*2)+(2*2)/20 = 60% chance for move up/left/down/right % 10/20/10/20
+        AI.go(AI.rand()); //(4*2)+(2*2)/20 = 60% chance for move up/left/down/right % 10/20/10/20
 
         for (size_t i = 0; i < compSize; i++)
         {
