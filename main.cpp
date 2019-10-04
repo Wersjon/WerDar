@@ -34,7 +34,7 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    const short compSize = 30;
+    const short compSize = 10;
     computer AI;
     computer comp[compSize];
     short killCounter = 0;
@@ -272,6 +272,7 @@ int main()
             if(AI.dirRight) cout<<"Right";
         }
     }
+    return 0;
 }
 
 void menuBar()
