@@ -1136,3 +1136,54 @@ short computer :: rand()
 
     return 0;
 }
+
+class menu
+{
+private:
+short choose = 1;
+
+public:
+	void show()
+	{
+		tp(0, 0);
+		setColor(0, 7);
+		cout<<"START GAME "<<endl;
+		cout<<"SELECT LEVEL "<<endl;
+		cout<<"QUIT "<<endl;
+		cout<<"\nChoose: W and S"<<endl;
+		switch (choose)
+		{
+		case 1:
+			tp(0, 0);
+			setColor(0, 15);
+			cout<<" START GAME"<<endl;
+			break;
+		case 2:
+			tp(0, 1);
+			setColor(0, 15);
+			cout<<" SELECT LEVEL"<<endl;
+			break;
+		case 3:
+			tp(0, 2);
+			setColor(0, 15);
+			cout<<" QUIT"<<endl;
+			break;
+			
+		default:
+			break;
+		}	
+	}
+	void changeOption(char c)
+	{
+		if(c == 'w')
+		{
+			if(choose == 1) choose = 3;
+			else choose--;
+		}
+		else if(c == 's')
+		{
+			if(choose == 3) choose = 1;
+			else choose++;
+		}
+	}
+}menu;
