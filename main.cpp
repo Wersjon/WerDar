@@ -15,6 +15,18 @@ int main()
     SetConsoleTitleA("Wer-Dar");
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
+    while (true)
+	{
+		menu.show();
+		char c = getch();
+        if(c == 13)
+        {
+            if(menu.choose == 1) break;
+            if(menu.choose == 2) ;
+            if(menu.choose == 3) return 0;
+        }
+		menu.changeOption(c);
+	}
     displayLogo();
     for (size_t i = 0; i < 10; i++)
     {

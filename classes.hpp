@@ -1140,17 +1140,17 @@ short computer :: rand()
 class menu
 {
 private:
-short choose = 1;
 
 public:
+    short choose = 1;
 	void show()
 	{
 		tp(0, 0);
 		setColor(0, 7);
 		cout<<"START GAME "<<endl;
-		cout<<"SELECT LEVEL "<<endl;
+		cout<<"SELECT LEVEL (not yet)"<<endl;
 		cout<<"QUIT "<<endl;
-		cout<<"\nChoose: W and S"<<endl;
+		cout<<"\nW, S and ENTER"<<endl;
 		switch (choose)
 		{
 		case 1:
