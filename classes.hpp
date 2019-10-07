@@ -1142,14 +1142,15 @@ class menu
 private:
 
 public:
+    string levelName = "EASY";
     short choose = 1;
 	void show()
 	{
 		tp(0, 0);
 		setColor(0, 7);
-		cout<<"START GAME "<<endl;
-		cout<<"SELECT LEVEL (not yet)"<<endl;
-		cout<<"QUIT "<<endl;
+		cout<<"START GAME"<<endl;
+		cout<<"SELECT LEVEL"<<endl;
+		cout<<"QUIT"<<endl;
 		cout<<"\nW, S and ENTER"<<endl;
 		switch (choose)
 		{
@@ -1161,7 +1162,7 @@ public:
 		case 2:
 			tp(0, 1);
 			setColor(0, 15);
-			cout<<" SELECT LEVEL"<<endl;
+			cout<<" SELECT LEVEL "; setColor(0, 7); cout<<levelName<<endl;
 			break;
 		case 3:
 			tp(0, 2);
@@ -1171,18 +1172,54 @@ public:
 			
 		default:
 			break;
-		}	
+		}
 	}
-	void changeOption(char c)
+	void showLevels()
+	{
+        clear();
+		tp(0, 0);
+		setColor(0, 7);
+		cout<<"EASY "<<endl;
+		cout<<"MEDIUM "<<endl;
+		cout<<"HARD "<<endl;
+		cout<<"VERY HARD "<<endl;
+		switch (choose)
+		{
+		case 1:
+			tp(0, 0);
+			setColor(0, 15);
+			cout<<" EASY"<<endl;
+			break;
+		case 2:
+			tp(0, 1);
+			setColor(0, 15);
+			cout<<" MEDIUM"<<endl;
+			break;
+		case 3:
+			tp(0, 2);
+			setColor(0, 15);
+			cout<<" HARD"<<endl;
+			break;
+		case 4:
+			tp(0, 3);
+			setColor(0, 15);
+			cout<<" VERY HARD"<<endl;
+			break;
+			
+		default:
+			break;
+		}
+	}
+	void changeOption(char c, short n)
 	{
 		if(c == 'w')
 		{
-			if(choose == 1) choose = 3;
+			if(choose == 1) choose = n;
 			else choose--;
 		}
 		else if(c == 's')
 		{
-			if(choose == 3) choose = 1;
+			if(choose == n) choose = 1;
 			else choose++;
 		}
 	}

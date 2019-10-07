@@ -15,17 +15,43 @@ int main()
     SetConsoleTitleA("Wer-Dar");
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
+    short compSize = 4;
     while (true)
 	{
+        clear();
 		menu.show();
 		char c = getch();
+        menu.changeOption(c, 3);
         if(c == 13)
         {
             if(menu.choose == 1) break;
-            if(menu.choose == 2) ;
+            if(menu.choose == 2)
+            {
+                menu.choose = 1;
+                while(true)
+                {
+                    menu.showLevels();
+                    c = getch();
+                    menu.changeOption(c, 4);
+                    if(c == 13)
+                    {
+                        switch (menu.choose)
+                        {
+                        case 1: compSize = 4; menu.levelName = "EASY"; break;
+                        case 2: compSize = 9; menu.levelName = "MEDIUM"; break;
+                        case 3: compSize = 19; menu.levelName = "HARD"; break;
+                        case 4: compSize = 34; menu.levelName = "VERY HARD"; break;
+                        
+                        default:
+                            break;
+                        }
+                        menu.choose = 1;
+                        break;
+                    }
+                }
+            }
             if(menu.choose == 3) return 0;
         }
-		menu.changeOption(c);
 	}
     displayLogo();
     for (size_t i = 0; i < 10; i++)
@@ -46,7 +72,6 @@ int main()
     clock_t timePassing; //timePassing is double Value.
     short seconds3 = 0;
     character player;
-    const short compSize = 10;
     computer AI;
     computer comp[compSize];
     short killCounter = 0;
