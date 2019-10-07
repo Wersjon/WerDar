@@ -1157,17 +1157,17 @@ public:
 		case 1:
 			tp(0, 0);
 			setColor(0, 15);
-			cout<<" START GAME"<<endl;
+			cout<<"> START GAME"<<endl;
 			break;
 		case 2:
 			tp(0, 1);
 			setColor(0, 15);
-			cout<<" SELECT LEVEL "; setColor(0, 7); cout<<levelName<<endl;
+			cout<<"> SELECT LEVEL: "; setColor(0, 7); cout<<levelName<<endl;
 			break;
 		case 3:
 			tp(0, 2);
 			setColor(0, 15);
-			cout<<" QUIT"<<endl;
+			cout<<"> QUIT"<<endl;
 			break;
 			
 		default:
@@ -1188,22 +1188,22 @@ public:
 		case 1:
 			tp(0, 0);
 			setColor(0, 15);
-			cout<<" EASY"<<endl;
+			cout<<"> EASY"<<endl;
 			break;
 		case 2:
 			tp(0, 1);
 			setColor(0, 15);
-			cout<<" MEDIUM"<<endl;
+			cout<<"> MEDIUM"<<endl;
 			break;
 		case 3:
 			tp(0, 2);
 			setColor(0, 15);
-			cout<<" HARD"<<endl;
+			cout<<"> HARD"<<endl;
 			break;
 		case 4:
 			tp(0, 3);
 			setColor(0, 15);
-			cout<<" VERY HARD"<<endl;
+			cout<<"> VERY HARD"<<endl;
 			break;
 			
 		default:
