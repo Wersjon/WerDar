@@ -12,12 +12,14 @@ void displayLogo();
 
 int main()
 {
+    srand(time(NULL));
     SetConsoleTitleA("Wer-Dar");
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
     short compSize = 4;
-    while (true)
-	{
+
+    while(true){
+    while (true){
         clear();
 		menu.show();
 		char c = getch();
@@ -52,7 +54,7 @@ int main()
             }
             if(menu.choose == 3) return 0;
         }
-	}
+    }
     displayLogo();
     for (size_t i = 0; i < 10; i++)
     {
@@ -60,7 +62,6 @@ int main()
         if(kbhit()) { getch(); break; }
     }
     
-    srand(time(NULL));
     unsigned char ch;
     /*int i;
     while(i = getch())
@@ -201,6 +202,7 @@ int main()
             if(player.xM == AI.X && player.yM == AI.Y && AI.spawned) //if missile is launched - check
             {
                 AI.hide(); //kill
+                killCounter++;
                 tp(25, 0); printf("AI [*]");
                 tp(32, 0);
                 if(hours<10) printf("0%i", hours);
@@ -230,6 +232,7 @@ int main()
             tp(52, 0);
             if(seconds<10)printf("0%i", seconds);
             else printf("%i", seconds);
+            Sleep(2000); break;
         }
         for (size_t i = 0; i < compSize; i++)
         {
@@ -265,6 +268,7 @@ int main()
         if(kbhit())
         {
             ch = getch();
+            if (ch == 27) break;
             switch (ch)
             {
                 case 'y':
@@ -308,6 +312,7 @@ int main()
             if(AI.dirLeft)  cout<<"Left ";
             if(AI.dirRight) cout<<"Right";
         }
+    }//while
     }
     return 0;
 }
