@@ -26,7 +26,9 @@ int main()
         menu.changeOption(c, 3);
         if(c == 13)
         {
-            if(menu.choose == 1) break;
+            if(menu.choose == 1) {
+                menu.flag = 1; break;
+            }
             if(menu.choose == 2)
             {
                 menu.choose = 1;
@@ -55,13 +57,10 @@ int main()
             if(menu.choose == 3) return 0;
         }
     }
+
     displayLogo();
-    for (size_t i = 0; i < 10; i++)
-    {
-        Sleep(500);
-        if(kbhit()) { getch(); break; }
-    }
-    
+    menu.wait(5); //wait 5 seconds
+
     unsigned char ch;
     /*int i;
     while(i = getch())
@@ -111,7 +110,7 @@ int main()
         }
     }
     
-    while(true)
+    while(menu.flag)
     {
         timePassing = clock(); //Starts counting time.
         timePassed = (double)timePassing/1000; //Gets what time is it.
@@ -203,16 +202,15 @@ int main()
             {
                 AI.hide(); //kill
                 killCounter++;
-                tp(25, 0); printf("AI [*]");
-                tp(32, 0);
-                if(hours<10) printf("0%i", hours);
-                else printf("%i", hours); 
-                tp(35, 0);
-                if(minutes<10) printf("0%i", minutes);
-                else printf("%i", minutes);
-                tp(38, 0);
+                setColor(0, 15); tp(26, 1);
+                printf("You won! AI has been defeated: ");
+                if(hours<10) printf("0%i ", hours);
+                else printf("%i ", hours); 
+                if(minutes<10) printf("0%i ", minutes);
+                else printf("%i ", minutes);
                 if(seconds<10)printf("0%i", seconds);
                 else printf("%i", seconds);
+                menu.wait(5); menu.flag = 0;
             }
         }
             
@@ -222,17 +220,15 @@ int main()
         if(player.spawned && AI.xM == player.X && AI.yM == player.Y)
         {
             player.hide(); //kill
-            tp(35, 0); printf("Player [*]");
-            tp(46, 0);
-            if(hours<10) printf("0%i", hours);
-            else printf("%i", hours); 
-            tp(49, 0);
-            if(minutes<10) printf("0%i", minutes);
-            else printf("%i", minutes);
-            tp(52, 0);
+            setColor(0, 15); tp(26, 1);
+            printf("GAME OVER! You died ");
+            if(hours<10) printf("0%i ", hours);
+            else printf("%i ", hours); 
+            if(minutes<10) printf("0%i ", minutes);
+            else printf("%i ", minutes);
             if(seconds<10)printf("0%i", seconds);
             else printf("%i", seconds);
-            Sleep(2000); break;
+            menu.wait(4); menu.flag = 0;
         }
         for (size_t i = 0; i < compSize; i++)
         {
@@ -241,16 +237,15 @@ int main()
                 if(player.spawned && comp[i].xM == player.X && comp[i].yM == player.Y)
                 {
                     player.hide(); //kill
-                    tp(35, 0); printf("Player [*]");
-                    tp(46, 0);
-                    if(hours<10) printf("0%i", hours);
-                    else printf("%i", hours); 
-                    tp(49, 0);
-                    if(minutes<10) printf("0%i", minutes);
-                    else printf("%i", minutes);
-                    tp(52, 0);
+                    setColor(0, 15); tp(26, 1);
+                    printf("GAME OVER! You died ");
+                    if(hours<10) printf("0%i ", hours);
+                    else printf("%i ", hours); 
+                    if(minutes<10) printf("0%i ", minutes);
+                    else printf("%i ", minutes);
                     if(seconds<10)printf("0%i", seconds);
                     else printf("%i", seconds);
+                    menu.wait(4); menu.flag = 0;
                 }
             }
         }
@@ -305,6 +300,7 @@ int main()
         }
         if(info) //if 'info' is true then show informations
         {
+            tp(16, 21); cout<<"P: "<<player.X<<","<<player.Y<<" ";
             tp(16, 22); cout<<"C: "<<AI.X<<","<<AI.Y<<" ";
             tp(16, 23); cout<<"D: ";
             if(AI.dirUp)    cout<<"Up   ";

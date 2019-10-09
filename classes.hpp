@@ -1144,6 +1144,8 @@ private:
 public:
     string levelName = "EASY";
     short choose = 1;
+    bool flag = 0;
+
 	void show()
 	{
 		tp(0, 0);
@@ -1223,4 +1225,12 @@ public:
 			else choose++;
 		}
 	}
+    void wait(short seconds)
+    {
+        for (size_t i = 0; i < seconds; i++)
+        {
+            Sleep(1000);
+            if(kbhit()) { getch(); break; }
+        }
+    }
 }menu;
