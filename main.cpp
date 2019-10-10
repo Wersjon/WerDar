@@ -62,11 +62,7 @@ int main()
     menu.wait(5); //wait 5 seconds
 
     unsigned char ch;
-    /*int i;
-    while(i = getch())
-    {
-        cout<<i<<endl;
-    }*/
+
     float timePassed; //Time that have passed.
     int hours, minutes, seconds, holder;
     clock_t timePassing; //timePassing is double Value.
