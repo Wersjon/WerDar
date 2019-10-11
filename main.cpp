@@ -198,16 +198,9 @@ int main()
             {
                 AI.hide(); //kill
                 killCounter++;
-                setColor(0, 15); tp(26, 1);
-                printf("You won! AI has been defeated: ");
-                if(hours<10) printf("0%i ", hours);
-                else printf("%i ", hours); 
-                if(minutes<10) printf("0%i ", minutes);
-                else printf("%i ", minutes);
-                if(seconds<10)printf("0%i", seconds);
-                else printf("%i", seconds);
-                Sleep(2000);
-                menu.wait(5); menu.flag = 0;
+                setColor(0, 15); tp(23, 1);
+                printf("You won! AI has been defeated. Return [ESC]");
+                while(getch() != 27); menu.flag = 0;
             }
         }
             
@@ -218,15 +211,8 @@ int main()
         {
             player.hide(); //kill
             setColor(0, 15); tp(26, 1);
-            printf("GAME OVER! You died ");
-            if(hours<10) printf("0%i ", hours);
-            else printf("%i ", hours); 
-            if(minutes<10) printf("0%i ", minutes);
-            else printf("%i ", minutes);
-            if(seconds<10)printf("0%i", seconds);
-            else printf("%i", seconds);
-            Sleep(1000);
-            menu.wait(4); menu.flag = 0;
+            printf("GAME OVER! Return [ESC]");
+            while(getch() != 27); menu.flag = 0;
         }
         for (size_t i = 0; i < compSize; i++)
         {
@@ -236,15 +222,8 @@ int main()
                 {
                     player.hide(); //kill
                     setColor(0, 15); tp(26, 1);
-                    printf("GAME OVER! You died ");
-                    if(hours<10) printf("0%i ", hours);
-                    else printf("%i ", hours); 
-                    if(minutes<10) printf("0%i ", minutes);
-                    else printf("%i ", minutes);
-                    if(seconds<10)printf("0%i", seconds);
-                    else printf("%i", seconds);
-                    Sleep(1000);
-                    menu.wait(4); menu.flag = 0;
+                    printf("GAME OVER! Return [ESC]");
+                    while(getch() != 27); menu.flag = 0;
                 }
             }
         }
