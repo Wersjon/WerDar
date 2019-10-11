@@ -206,6 +206,7 @@ int main()
                 else printf("%i ", minutes);
                 if(seconds<10)printf("0%i", seconds);
                 else printf("%i", seconds);
+                Sleep(2000);
                 menu.wait(5); menu.flag = 0;
             }
         }
@@ -224,6 +225,7 @@ int main()
             else printf("%i ", minutes);
             if(seconds<10)printf("0%i", seconds);
             else printf("%i", seconds);
+            Sleep(1000);
             menu.wait(4); menu.flag = 0;
         }
         for (size_t i = 0; i < compSize; i++)
@@ -241,6 +243,7 @@ int main()
                     else printf("%i ", minutes);
                     if(seconds<10)printf("0%i", seconds);
                     else printf("%i", seconds);
+                    Sleep(1000);
                     menu.wait(4); menu.flag = 0;
                 }
             }
