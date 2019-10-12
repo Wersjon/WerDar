@@ -66,6 +66,7 @@ int main()
     float timePassed; //Time that have passed.
     int hours, minutes, seconds, holder;
     clock_t timePassing; //timePassing is double Value.
+    clock_t time;
     short seconds3 = 0;
     character player;
     computer AI;
@@ -106,9 +107,10 @@ int main()
         }
     }
     
+    time = clock();
     while(menu.flag)
     {
-        timePassing = clock(); //Starts counting time.
+        timePassing = clock() - time; //Starts counting time.
         timePassed = (double)timePassing/1000; //Gets what time is it.
 
         holder = seconds%60;
