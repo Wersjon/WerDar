@@ -1140,9 +1140,10 @@ short computer :: rand()
 class menu
 {
 private:
-
+    int hours, minutes, seconds;
 public:
     string levelName = "EASY";
+    clock_t records[4];
     short choose = 1;
     bool flag = 0;
 
@@ -1190,22 +1191,38 @@ public:
 		case 1:
 			tp(0, 0);
 			setColor(0, 15);
-			cout<<"> EASY"<<endl;
+			cout<<"> EASY ";
+            timeSetup(records[0]); setColor(0, 7);
+            cout<<((hours<10)?"0":"")<<hours<<":";
+            cout<<((minutes<10)?"0":"")<<minutes<<":";
+            cout<<((seconds<10)?"0":"")<<seconds<<endl;
 			break;
 		case 2:
 			tp(0, 1);
 			setColor(0, 15);
-			cout<<"> MEDIUM"<<endl;
+			cout<<"> MEDIUM";
+            timeSetup(records[1]); setColor(0, 7);
+            cout<<((hours<10)?"0":"")<<hours<<":";
+            cout<<((minutes<10)?"0":"")<<minutes<<":";
+            cout<<((seconds<10)?"0":"")<<seconds<<endl;
 			break;
 		case 3:
 			tp(0, 2);
 			setColor(0, 15);
-			cout<<"> HARD"<<endl;
+			cout<<"> HARD";
+            timeSetup(records[2]); setColor(0, 7);
+            cout<<((hours<10)?"0":"")<<hours<<":";
+            cout<<((minutes<10)?"0":"")<<minutes<<":";
+            cout<<((seconds<10)?"0":"")<<seconds<<endl;
 			break;
 		case 4:
 			tp(0, 3);
 			setColor(0, 15);
-			cout<<"> VERY HARD"<<endl;
+			cout<<"> VERY HARD";
+            timeSetup(records[3]); setColor(0, 7);
+            cout<<((hours<10)?"0":"")<<hours<<":";
+            cout<<((minutes<10)?"0":"")<<minutes<<":";
+            cout<<((seconds<10)?"0":"")<<seconds<<endl;
 			break;
 			
 		default:
@@ -1232,5 +1249,14 @@ public:
             Sleep(1000);
             if(kbhit()) { getch(); break; }
         }
+    }
+    
+    void timeSetup(int seconds)
+    {
+        minutes = seconds/60;
+        hours = minutes/60; 
+        seconds %= 60;
+        minutes %= 60;
+        hours %= 24;
     }
 }menu;
