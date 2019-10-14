@@ -21,6 +21,7 @@ int main()
     while(true){
     while (true){
         clear();
+        menu.choose = 1;
 		menu.show();
 		char c = getch();
         menu.changeOption(c, 3);
@@ -41,10 +42,10 @@ int main()
                     {
                         switch (menu.choose)
                         {
-                        case 1: compSize = 4; menu.levelName = "EASY"; break;
-                        case 2: compSize = 9; menu.levelName = "MEDIUM"; break;
-                        case 3: compSize = 19; menu.levelName = "HARD"; break;
-                        case 4: compSize = 34; menu.levelName = "VERY HARD"; break;
+                        case 1: compSize = 4; menu.levelName = "EASY"; menu.levelID = 1; break;
+                        case 2: compSize = 9; menu.levelName = "MEDIUM"; menu.levelID = 2; break;
+                        case 3: compSize = 19; menu.levelName = "HARD"; menu.levelID = 3; break;
+                        case 4: compSize = 34; menu.levelName = "VERY HARD"; menu.levelID = 4; break;
                         
                         default:
                             break;
@@ -203,6 +204,13 @@ int main()
                 setColor(0, 15); tp(23, 1);
                 printf("You won! AI has been defeated. Return [ESC]");
                 while(getch() != 27); menu.flag = 0;
+                switch (menu.levelID)
+                {
+                case 1: menu.records[0] = timePassed; break;
+                case 2: menu.records[1] = timePassed; break;
+                case 3: menu.records[2] = timePassed; break;
+                case 4: menu.records[3] = timePassed; break;
+                }
             }
         }
             

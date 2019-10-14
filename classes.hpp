@@ -1143,6 +1143,7 @@ private:
     int hours, minutes, seconds;
 public:
     string levelName = "EASY";
+    short levelID = 1;
     clock_t records[4];
     short choose = 1;
     bool flag = 0;
@@ -1165,7 +1166,7 @@ public:
 		case 2:
 			tp(0, 1);
 			setColor(0, 15);
-			cout<<"> SELECT LEVEL: "; setColor(0, 7); cout<<levelName<<endl;
+			cout<<"> SELECT LEVEL  "; setColor(0, 7); cout<<levelName<<endl;
 			break;
 		case 3:
 			tp(0, 2);
@@ -1191,38 +1192,26 @@ public:
 		case 1:
 			tp(0, 0);
 			setColor(0, 15);
-			cout<<"> EASY ";
-            timeSetup(records[0]); setColor(0, 7);
-            cout<<((hours<10)?"0":"")<<hours<<":";
-            cout<<((minutes<10)?"0":"")<<minutes<<":";
-            cout<<((seconds<10)?"0":"")<<seconds<<endl;
+			cout<<"> EASY  ";
+            showTime(records[0]); 
 			break;
 		case 2:
 			tp(0, 1);
 			setColor(0, 15);
-			cout<<"> MEDIUM";
-            timeSetup(records[1]); setColor(0, 7);
-            cout<<((hours<10)?"0":"")<<hours<<":";
-            cout<<((minutes<10)?"0":"")<<minutes<<":";
-            cout<<((seconds<10)?"0":"")<<seconds<<endl;
+			cout<<"> MEDIUM  ";
+            showTime(records[1]);
 			break;
 		case 3:
 			tp(0, 2);
 			setColor(0, 15);
-			cout<<"> HARD";
-            timeSetup(records[2]); setColor(0, 7);
-            cout<<((hours<10)?"0":"")<<hours<<":";
-            cout<<((minutes<10)?"0":"")<<minutes<<":";
-            cout<<((seconds<10)?"0":"")<<seconds<<endl;
+			cout<<"> HARD  ";
+            showTime(records[2]);
 			break;
 		case 4:
 			tp(0, 3);
 			setColor(0, 15);
-			cout<<"> VERY HARD";
-            timeSetup(records[3]); setColor(0, 7);
-            cout<<((hours<10)?"0":"")<<hours<<":";
-            cout<<((minutes<10)?"0":"")<<minutes<<":";
-            cout<<((seconds<10)?"0":"")<<seconds<<endl;
+			cout<<"> VERY HARD  ";
+            showTime(records[3]);
 			break;
 			
 		default:
@@ -1251,12 +1240,16 @@ public:
         }
     }
     
-    void timeSetup(int seconds)
+    void showTime(int seconds)
     {
         minutes = seconds/60;
         hours = minutes/60; 
         seconds %= 60;
         minutes %= 60;
         hours %= 24;
+        setColor(0, 7);
+        cout<<((hours<10)?"0":"")<<hours<<":";
+        cout<<((minutes<10)?"0":"")<<minutes<<":";
+        cout<<((seconds<10)?"0":"")<<seconds<<endl;
     }
 }menu;
