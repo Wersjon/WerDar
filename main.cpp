@@ -19,9 +19,9 @@ int main()
     short compSize = 4;
 
     while(true){
+    menu.choose = 1;
     while (true){
         clear();
-        menu.choose = 1;
 		menu.show();
 		char c = getch();
         menu.changeOption(c, 3);
@@ -42,14 +42,12 @@ int main()
                     {
                         switch (menu.choose)
                         {
-                        case 1: compSize = 4; menu.levelName = "EASY"; menu.levelID = 1; break;
-                        case 2: compSize = 9; menu.levelName = "MEDIUM"; menu.levelID = 2; break;
-                        case 3: compSize = 19; menu.levelName = "HARD"; menu.levelID = 3; break;
-                        case 4: compSize = 34; menu.levelName = "VERY HARD"; menu.levelID = 4; break;
-                        
-                        default:
-                            break;
+                        case 1: compSize = 4; menu.levelName = "EASY"; break;
+                        case 2: compSize = 9; menu.levelName = "MEDIUM"; break;
+                        case 3: compSize = 19; menu.levelName = "HARD"; break;
+                        case 4: compSize = 34; menu.levelName = "VERY HARD"; break;
                         }
+                        menu.levelID = menu.choose;
                         menu.choose = 1;
                         break;
                     }
@@ -206,10 +204,10 @@ int main()
                 while(getch() != 27); menu.flag = 0;
                 switch (menu.levelID)
                 {
-                case 1: menu.records[0] = timePassed; break;
-                case 2: menu.records[1] = timePassed; break;
-                case 3: menu.records[2] = timePassed; break;
-                case 4: menu.records[3] = timePassed; break;
+                case 1: if(menu.records[0] > timePassed || menu.records[0] == 0) menu.records[0] = timePassed; break;
+                case 2: if(menu.records[1] > timePassed || menu.records[1] == 0) menu.records[1] = timePassed; break;
+                case 3: if(menu.records[2] > timePassed || menu.records[2] == 0) menu.records[2] = timePassed; break;
+                case 4: if(menu.records[3] > timePassed || menu.records[3] == 0) menu.records[3] = timePassed; break;
                 }
             }
         }

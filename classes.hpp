@@ -1144,7 +1144,7 @@ private:
 public:
     string levelName = "EASY";
     short levelID = 1;
-    clock_t records[4];
+    clock_t records[4] = {0, 0, 0, 0};
     short choose = 1;
     bool flag = 0;
 
