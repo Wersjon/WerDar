@@ -8,6 +8,7 @@
 /*<voids>*/
 void menuBar(); //Displays menu
 void displayLogo();
+void start();
 /*</voids>*/
 
 int main()
@@ -17,48 +18,6 @@ int main()
     system("mode con:cols=80 lines=25"); //Sets console mode to 80x25
     hideCursor(); //Hides cursor from player view.
     short compSize = 4;
-
-    while(true){
-    menu.choose = 1;
-    while (true){
-        clear();
-		menu.show();
-		char c = getch();
-        menu.changeOption(c, 3);
-        if(c == 13)
-        {
-            if(menu.choose == 1) {
-                menu.flag = 1; break;
-            }
-            if(menu.choose == 2)
-            {
-                menu.choose = 1;
-                while(true)
-                {
-                    menu.showLevels();
-                    c = getch();
-                    menu.changeOption(c, 4);
-                    if(c == 13)
-                    {
-                        switch (menu.choose)
-                        {
-                        case 1: compSize = 4; menu.levelName = "EASY"; break;
-                        case 2: compSize = 9; menu.levelName = "MEDIUM"; break;
-                        case 3: compSize = 19; menu.levelName = "HARD"; break;
-                        case 4: compSize = 34; menu.levelName = "VERY HARD"; break;
-                        }
-                        menu.levelID = menu.choose;
-                        menu.choose = 1;
-                        break;
-                    }
-                }
-            }
-            if(menu.choose == 3) return 0;
-        }
-    }
-
-    displayLogo();
-    menu.wait(5); //wait 5 seconds
 
     unsigned char ch;
 
@@ -75,6 +34,20 @@ int main()
     bool info = false;
     short xStart = 1, xEnd = 78, yStart = 2, yEnd = 23;
     
+    displayLogo();
+    for (size_t i = 0; i < 5; i++)
+    {
+        Sleep(500);
+        if(kbhit()) 
+        { 
+            getch(); 
+            break;
+        }
+    }
+    displayMenu();
+
+    start();
+
     player.playercolor = 14;
     mapReader(); //Reads Map from file
 
@@ -107,7 +80,7 @@ int main()
     }
     
     time = clock();
-    while(menu.flag)
+    while(true)
     {
         timePassing = clock() - time; //Starts counting time.
         timePassed = (double)timePassing/1000; //Gets what time is it.
@@ -201,14 +174,7 @@ int main()
                 killCounter++;
                 setColor(0, 15); tp(23, 1);
                 printf("You won! AI has been defeated. Return [ESC]");
-                while(getch() != 27); menu.flag = 0;
-                switch (menu.levelID)
-                {
-                case 1: if(menu.records[0] > timePassed || menu.records[0] == 0) menu.records[0] = timePassed; break;
-                case 2: if(menu.records[1] > timePassed || menu.records[1] == 0) menu.records[1] = timePassed; break;
-                case 3: if(menu.records[2] > timePassed || menu.records[2] == 0) menu.records[2] = timePassed; break;
-                case 4: if(menu.records[3] > timePassed || menu.records[3] == 0) menu.records[3] = timePassed; break;
-                }
+                while(getch() != 27);
             }
         }
             
@@ -220,7 +186,7 @@ int main()
             player.hide(); //kill
             setColor(0, 15); tp(26, 1);
             printf("GAME OVER! Return [ESC]");
-            while(getch() != 27); menu.flag = 0;
+            while(getch() != 27);
         }
         for (size_t i = 0; i < compSize; i++)
         {
@@ -231,7 +197,7 @@ int main()
                     player.hide(); //kill
                     setColor(0, 15); tp(26, 1);
                     printf("GAME OVER! Return [ESC]");
-                    while(getch() != 27); menu.flag = 0;
+                    while(getch() != 27);
                 }
             }
         }
@@ -295,7 +261,6 @@ int main()
             if(AI.dirRight) cout<<"Right";
         }
     }//while
-    }
     return 0;
 }
 
@@ -308,255 +273,108 @@ void menuBar()
     setColor(0, 15);
 }
 
-void displayLogo()
-{   
-    tp(0, 0); setColor(0, 0); clear();
-    tp(16, 2);
-    setColor(9, 9); printf("    ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("          ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("          ");
-    setColor(0, 0); printf("                                    ");
-    
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("        "); 
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("    ");
-    setColor(9, 9); printf("    "); 
+void start()
+{
+    string options[4] = {"Start", "Options", "Test", "Quit"};
+    unsigned char currentOption = 0; //0: start; etc.
+    unsigned char everyfive = 5;
+    bool animdone = false;
+    char znak;
 
-    tp(16, 4);
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(0, 0); printf("      ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  ");
-
-    tp(18, 5);
-    setColor(9, 9); printf("    "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("    ");
-    setColor(9, 9); printf("          "); 
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    "); 
-    setColor(1, 1); printf("  ");
-
-    tp(18, 6);
-    setColor(9, 9); printf("                ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("        ");
-    setColor(9, 9); printf("          ");
-    setColor(1, 1); printf("    ");
-
-    tp(18, 7);
-    setColor(9, 9); printf("      ");
-    setColor(1, 1); printf("    ");
-    setColor(9, 9); printf("      ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("      ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-
-    tp(20, 8); 
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("      ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-
-    tp(20, 9);
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("          ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-
-    tp(22, 10);
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("    ");
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("      ");
-    setColor(1, 1); printf("          ");
-    setColor(0, 0); printf("  ");
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("      ");
-    setColor(1, 1); printf("    ");
-
-    tp(16, 12);
-    setColor(9, 9); printf("                                                ");
-
-    tp(18, 13);
-    setColor(1, 1); printf("                                                ");
-
-    tp(16, 15);
-    setColor(9, 9); printf("          ");
-    setColor(0, 0); printf("          ");
-    setColor(9, 9); printf("      ");
-    setColor(0, 0); printf("      ");
-    setColor(9, 9); printf("          ");
-
-    tp(16, 16);
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(0, 0); printf("        ");
-    setColor(9, 9); printf("      ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("    ");
-    setColor(9, 9); printf("    ");
-
-    tp(16, 17);
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-
-    tp(16, 18);
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-
-    tp(16, 19);
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("          ");
-    setColor(1, 1); printf("    ");
-
-    tp(16, 20);
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("              ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    
-    tp(16, 21);
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("      ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-
-    tp(16, 22);
-    setColor(9, 9); printf("          ");
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(9, 9); printf("    ");
-    setColor(1, 1); printf("  ");
-    setColor(0, 0); printf("    ");
-    setColor(9, 9); printf("    ");
-
-    tp(18, 23);
-    setColor(1, 1); printf("          ");
-    setColor(0, 0); printf("      ");
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("      ");
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("  ");
-    setColor(1, 1); printf("    ");
-    setColor(0, 0); printf("      ");
-    setColor(1, 1); printf("    ");
+    while(true)
+    {
+        if(animdone && everyfive == 5)
+        {
+            if(currentOption%2 == 0)setColor(7,4);
+            if(currentOption%2 == 1)setColor(8,4);
+            tp(34, 11+currentOption);
+            cout << "              ";
+            tp(34, 11+currentOption);
+            cout << "->" << options[currentOption];
+            animdone = false;
+            everyfive = 0;
+        }
+        else if(!animdone && everyfive == 5)
+        {
+            if(currentOption%2 == 0)setColor(7,1);
+            if(currentOption%2 == 1)setColor(8,1);
+            tp(34, 11+currentOption);
+            cout << "              ";
+            tp(34, 11+currentOption);
+            cout << "> " << options[currentOption];
+            animdone = true;
+            everyfive = 0;
+        }
+        Sleep(50);
+        everyfive++;
+        if(kbhit())
+        {
+            znak = getch();
+            switch(znak)
+            {
+                case 'W':
+                case 'w':
+                {
+                    if(currentOption>0)
+                    {
+                        if(currentOption%2 == 0)setColor(7,0);
+                        if(currentOption%2 == 1)setColor(8,0);
+                        tp(34, 11+currentOption);
+                        cout << "              ";
+                        tp(34, 11+currentOption);
+                        cout << options[currentOption];
+                        currentOption--;
+                        everyfive = 5;
+                    }
+                    break;
+                }
+                case 'S':
+                case 's':
+                {
+                    if(currentOption<3)
+                    {
+                        if(currentOption%2 == 0)setColor(7,0);
+                        if(currentOption%2 == 1)setColor(8,0);
+                        tp(34, 11+currentOption);
+                        cout << "              ";
+                        tp(34, 11+currentOption);
+                        cout << options[currentOption];
+                        currentOption++;
+                        everyfive = 5;
+                    }
+                    break;
+                }
+                case 13:
+                {
+                    switch(currentOption)
+                    {
+                        case 0:
+                        {
+                            return;
+                            break;
+                        }
+                        case 1:
+                        {
+                            break;
+                        }
+                        case 2:
+                        {
+                            break;
+                        }
+                        case 3:
+                        {
+                            exit(0);
+                            break;
+                        }
+                    }
+                    break;
+                }
+                break;
+                default:
+                {
+                    break;
+                }
+            }
+        }
+    }
 }
