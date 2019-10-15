@@ -35,15 +35,7 @@ int main()
     short xStart = 1, xEnd = 78, yStart = 2, yEnd = 23;
     
     displayLogo();
-    for (size_t i = 0; i < 5; i++)
-    {
-        Sleep(500);
-        if(kbhit()) 
-        { 
-            getch(); 
-            break;
-        }
-    }
+    menu.wait(5); //waiting for 5 seconds (with 500ms break)
     displayMenu();
 
     start();
