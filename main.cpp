@@ -25,12 +25,12 @@ int main()
     int hours, minutes, seconds, holder;
     clock_t timePassing; //timePassing is double Value.
     clock_t time;
-    short seconds3 = 0;
+    short seconds3 = 0, cFPS = 0;
     character player;
     computer AI;
     computer comp[compSize];
     short killCounter = 0;
-    short FPS = 30; short _FPS = 1000/FPS;
+    short FPS = 60; short _FPS = 1000/FPS;
     bool info = false;
     short xStart = 1, xEnd = 78, yStart = 2, yEnd = 23;
     
@@ -112,11 +112,16 @@ int main()
         {
             player.isNewSecond = true;
             AI.isNewSecond = true;
+            setColor(11, 0);
+            tp(71, 0);
+            printf("FPS: ");  printf("%i ", cFPS);
+            cFPS=0;
         }
         else
         {
             player.isNewSecond = false;
             AI.isNewSecond = false;
+            cFPS++;
         }
 
         Sleep(_FPS); setColor(11, 0); //!important Sleep OZNACZA JAK SZYBKO DZIEJE SIĘ AKCJA
@@ -143,8 +148,6 @@ int main()
         setColor(11, 0);
         tp(60, 0);
         printf("Kills: ");printf("%i",killCounter);
-        tp(71, 0);
-        printf("FPS ");printf("%i ",FPS);
 
         setColor(0, 15);
 
