@@ -6,9 +6,9 @@
 #include "classes.hpp" //including file classes.hpp that includes mouser.hpp
 
 /*<voids>*/
-void menuBar(); //Displays menu
-void displayLogo();
 void start();
+void load();
+void logoBar();
 /*</voids>*/
 
 int main()
@@ -34,9 +34,9 @@ int main()
     bool info = false;
     short xStart = 1, xEnd = 78, yStart = 2, yEnd = 23;
     
-    displayLogo();
+    load("logo");
     menu.wait(5); //waiting for 5 seconds (with 500ms break)
-    displayMenu();
+    load("menu");
 
     start();
 
@@ -44,7 +44,7 @@ int main()
     mapReader(); //Reads Map from file
 
     player.spawn(48, 15);
-    menuBar(); //Displays MenuBar
+    load("menu");
 
     //AI - random positions
     {
@@ -217,8 +217,8 @@ int main()
                 case 'Y':
                 {
                     //Nothing important
-                    displayLogo();
-                    menuBar();
+                    load("logo");
+                    logoBar();
                 }
                 break;
                 case 13: AI.shot(); break;
@@ -259,7 +259,7 @@ int main()
     return 0;
 }
 
-void menuBar()
+void logoBar()
 {
     setColor(3, 0);
     tp(0, 0);
@@ -276,26 +276,35 @@ void start()
     bool animdone = false;
     char znak;
 
+    tp(36, 11);setColor(11,0);
+    cout << options[0];
+    tp(36, 12);setColor(3,0);
+    cout << options[1];
+    tp(36, 13);setColor(11,0);
+    cout << options[2];
+    tp(36, 14);setColor(3,0);
+    cout << options[3];
+
     while(true)
     {
         if(animdone && everyfive == 5)
         {
-            if(currentOption%2 == 0)setColor(7,4);
-            if(currentOption%2 == 1)setColor(8,4);
-            tp(34, 11+currentOption);
-            cout << "              ";
-            tp(34, 11+currentOption);
+            if(currentOption%2 == 0)setColor(11, 4);
+            if(currentOption%2 == 1)setColor(3, 4);
+            tp(36, 11+currentOption);
+            cout << "            ";
+            tp(36, 11+currentOption);
             cout << "->" << options[currentOption];
             animdone = false;
             everyfive = 0;
         }
         else if(!animdone && everyfive == 5)
         {
-            if(currentOption%2 == 0)setColor(7,1);
-            if(currentOption%2 == 1)setColor(8,1);
-            tp(34, 11+currentOption);
-            cout << "              ";
-            tp(34, 11+currentOption);
+            if(currentOption%2 == 0)setColor(11, 1);
+            if(currentOption%2 == 1)setColor(3, 1);
+            tp(36, 11+currentOption);
+            cout << "            ";
+            tp(36, 11+currentOption);
             cout << "> " << options[currentOption];
             animdone = true;
             everyfive = 0;
@@ -312,11 +321,11 @@ void start()
                 {
                     if(currentOption>0)
                     {
-                        if(currentOption%2 == 0)setColor(7,0);
-                        if(currentOption%2 == 1)setColor(8,0);
-                        tp(34, 11+currentOption);
-                        cout << "              ";
-                        tp(34, 11+currentOption);
+                        if(currentOption%2 == 0)setColor(11,0);
+                        if(currentOption%2 == 1)setColor(3,0);
+                        tp(36, 11+currentOption);
+                        cout << "            ";
+                        tp(36, 11+currentOption);
                         cout << options[currentOption];
                         currentOption--;
                         everyfive = 5;
@@ -328,11 +337,11 @@ void start()
                 {
                     if(currentOption<3)
                     {
-                        if(currentOption%2 == 0)setColor(7,0);
-                        if(currentOption%2 == 1)setColor(8,0);
-                        tp(34, 11+currentOption);
-                        cout << "              ";
-                        tp(34, 11+currentOption);
+                        if(currentOption%2 == 0)setColor(11,0);
+                        if(currentOption%2 == 1)setColor(3,0);
+                        tp(36, 11+currentOption);
+                        cout << "            ";
+                        tp(36, 11+currentOption);
                         cout << options[currentOption];
                         currentOption++;
                         everyfive = 5;

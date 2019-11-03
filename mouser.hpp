@@ -90,323 +90,64 @@ void mapReader()
     }
 }
 
-void displayLogo()
-    {
-        tp(0, 0); setColor(0, 0); clear();
-        tp(16, 2);
-        setColor(9, 9); printf("    ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("          ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("          ");
-        setColor(0, 0); printf("                                    ");
-        
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("        "); 
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("    ");
-        setColor(9, 9); printf("    "); 
-
-        tp(16, 4);
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(0, 0); printf("      ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  ");
-
-        tp(18, 5);
-        setColor(9, 9); printf("    "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("    ");
-        setColor(9, 9); printf("          "); 
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    "); 
-        setColor(1, 1); printf("  ");
-
-        tp(18, 6);
-        setColor(9, 9); printf("                ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("        ");
-        setColor(9, 9); printf("          ");
-        setColor(1, 1); printf("    ");
-
-        tp(18, 7);
-        setColor(9, 9); printf("      ");
-        setColor(1, 1); printf("    ");
-        setColor(9, 9); printf("      ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("      ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-
-        tp(20, 8); 
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("      ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-
-        tp(20, 9);
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("          ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-
-        tp(22, 10);
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("    ");
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("      ");
-        setColor(1, 1); printf("          ");
-        setColor(0, 0); printf("  ");
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("      ");
-        setColor(1, 1); printf("    ");
-
-        tp(16, 12);
-        setColor(9, 9); printf("                                                ");
-
-        tp(18, 13);
-        setColor(1, 1); printf("                                                ");
-
-        tp(16, 15);
-        setColor(9, 9); printf("          ");
-        setColor(0, 0); printf("          ");
-        setColor(9, 9); printf("      ");
-        setColor(0, 0); printf("      ");
-        setColor(9, 9); printf("          ");
-
-        tp(16, 16);
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(0, 0); printf("        ");
-        setColor(9, 9); printf("      ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("    ");
-        setColor(9, 9); printf("    ");
-
-        tp(16, 17);
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-
-        tp(16, 18);
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-
-        tp(16, 19);
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("          ");
-        setColor(1, 1); printf("    ");
-
-        tp(16, 20);
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("              ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        
-        tp(16, 21);
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("      ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-
-        tp(16, 22);
-        setColor(9, 9); printf("          ");
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(9, 9); printf("    ");
-        setColor(1, 1); printf("  ");
-        setColor(0, 0); printf("    ");
-        setColor(9, 9); printf("    ");
-
-        tp(18, 23);
-        setColor(1, 1); printf("          ");
-        setColor(0, 0); printf("      ");
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("      ");
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("  ");
-        setColor(1, 1); printf("    ");
-        setColor(0, 0); printf("      ");
-        setColor(1, 1); printf("    ");
-
-    }
-
-void displayMenu()
+int whatColor(char x)
 {
-    setColor(8, 0);
-    tp(30, 9);
-    printf("                      ");
-    tp(30, 11);
-    printf("  ");
-    tp(50, 11);
-    printf("  ");
-    tp(18, 13);
-    printf("              ");
-    tp(50, 13);
-    printf("                ");
-    tp(30, 15);
-    printf("  ");
-    tp(50, 15);
-    printf("  ");
+    //if(x == '0')return 0;
+    if(x == '1')return 1;
+    else if(x == '2')return 2;
+    else if(x == '3')return 3;
+    else if(x == '4')return 4;
+    else if(x == '5')return 5;
+    else if(x == '6')return 6;
+    else if(x == '7')return 7;
+    else if(x == '8')return 8;
+    else if(x == '9')return 9;
+    else if(x == 'A')return 10;
+    else if(x == 'B')return 11;
+    else if(x == 'C')return 12;
+    else if(x == 'D')return 13;
+    else if(x == 'E')return 14;
+    else if(x == 'F')return 15;
+    else return 0;
+}
 
-    setColor(7, 0);
-    tp(30, 10);
-    printf("  ");
-    tp(50, 10);
-    printf("  ");
-    tp(16, 12);
-    printf("                ");
-    tp(50, 12);
-    printf("              ");
-    tp(30, 14);
-    printf("  ");
-    tp(50, 14);
-    printf("  ");
-    tp(30, 16);
-    printf("                      ");
+void load(string filename)
+{
+    /*Wer-Dar Paint v-1.0*/
+    char area[80][25];
 
-    setColor(0, 0);
-    tp(32, 10);
-    printf("                  ");
-    tp(32, 11);
-    printf("  ");
-    tp(48, 11);
-    printf("  ");
-    tp(32, 12);
-    printf("  ");
-    tp(48, 12);
-    printf("  ");
-    tp(32, 13);
-    printf("  ");
-    tp(48, 13);
-    printf("  ");
-    tp(32, 14);
-    printf("  ");
-    tp(48, 14);
-    printf("  ");
-    tp(32, 15);
-    printf("                  ");
+    fstream openfile;
+    string holder;
+    int i1=0, i2=0;
 
-    setColor(7, 0);
-    tp(34, 13);
-    printf("Test          ");
-
-    setColor(8, 0);
-    tp(34, 12);
-    printf("Options       ");
-    tp(34, 14);
-    printf("Quit/Exit     ");
+    openfile.open("images/" + filename + ".wdi", ios::in);
+    if(openfile.good() == false)
+    {
+        cout << "error 404";
+        openfile.close();
+        return;
+    }
+    openfile.close();
+    openfile.open("images/" + filename + ".wdi", ios::in);
+    while(getline(openfile, holder))
+    {
+        if(i1>0)
+        {
+            while(i2<80)
+            {
+                area[i2][i1-1] = holder[i2];
+                if(area[i2][i1-1] != '#')
+                {
+                    tp(i2, i1-1);
+                    setColor(whatColor(area[i2][i1-1]), whatColor(area[i2][i1-1]));
+                    printf("%c", area[i2][i1-1]);
+                }
+                i2++;
+            }
+        }
+        i2=0;
+        i1++;
+    }
+    tp(0, 0);
+    openfile.close();
 }
