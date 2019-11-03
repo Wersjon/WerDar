@@ -18,6 +18,19 @@ short currentColor = 15;
 
 int main()
 {
+HANDLE hOut;
+    CONSOLE_SCREEN_BUFFER_INFO SBInfo;
+    COORD NewSBSize;
+    int Status;
+
+    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    GetConsoleScreenBufferInfo(hOut, &SBInfo);
+    NewSBSize.X = SBInfo.dwSize.X - 2;
+    NewSBSize.Y = SBInfo.dwSize.Y;
+
+    Status = SetConsoleScreenBufferSize(hOut, NewSBSize);
+
     int i=0;
     int i2 = 0;
     while(i<25)
@@ -195,6 +208,8 @@ void load()
         i2=0;
         i1++;
     }
+    setColor(0,0);
+    printf("%70s");
     tp(0, 0);
     openfile.close();
 }

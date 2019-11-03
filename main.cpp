@@ -44,7 +44,7 @@ int main()
     mapReader(); //Reads Map from file
 
     player.spawn(48, 15);
-    load("menu");
+    logoBar();
 
     //AI - random positions
     {
