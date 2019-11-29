@@ -113,7 +113,7 @@ int whatColor(char x)
 
 void load(string filename)
 {
-    /*Wer-Dar Paint v-1.0*/
+    /*Wer-Dar Paint v-1.2*/
     char area[80][25];
 
     fstream openfile;
@@ -136,7 +136,7 @@ void load(string filename)
             while(i2<80)
             {
                 area[i2][i1-1] = holder[i2];
-                if(area[i2][i1-1] != '#')
+                if(area[i2][i1-1] != 177 && area[i2][i1-1] != '#')
                 {
                     tp(i2, i1-1);
                     setColor(whatColor(area[i2][i1-1]), whatColor(area[i2][i1-1]));
