@@ -109,7 +109,7 @@ int whatColor(char x)
     else return 0;
 }
 
-void load(string filename)
+void loadfile(string filename)
 {
     /*Wer-Dar Paint v-1.1*/
     char area[80][25];

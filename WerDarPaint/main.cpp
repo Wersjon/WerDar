@@ -4,12 +4,14 @@ using namespace std;
 
 /*
 
+// Wer-Dar Paint v-1.3
 // Few things before you get started
 // This app requires special treatment for cmd, it's written when app is opened (main function)
 
 */
 
 char area[80][25];
+char area2[80][25];
 
 void keypressed(char input);
 void clicked();
@@ -19,19 +21,21 @@ int whatColor(char x);
 char whatChar(short x);
 void save();
 void load();
+void displayChar();
 
 int px, py;
-short currentColor = 15;
-char invisible = 177; // Replace invisible with '#' if needed
+short currentColor = 15, secondaryColor = 15;
+char invisible = 177; // Replace invisible with '%' if needed
 
 char toolbar[34] =
 {
-    '0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F', invisible, invisible
+    '0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F', '#', '#'
 };
 
 int main()
 {
-    load("load");
+    SetConsoleOutputCP(852);
+    loadfile("load");
     setColor(0, 15);
     tp(1,1); printf("Edit modes: Turn off Quick edit mode;");
     setColor(12, 15); printf(" T");
@@ -52,8 +56,17 @@ int main()
     {
         tp(i, 25);
         setColor(whatColor(toolbar[i]), whatColor(toolbar[i]));
-        if(toolbar[i] == invisible)setColor(8, 7);
+        if(toolbar[i] == '#')setColor(8, 7);
         printf("%c", toolbar[i]);
+        tp(i+35, 25);
+        setColor(0, whatColor(toolbar[i]));
+        printf("%c", invisible);
+        if(i > 31)
+        {
+            tp(i+35, 25);
+            setColor(8, 7);
+            printf("#");
+        }
         i++;
     }
     /* while to display whole map area */
@@ -63,9 +76,10 @@ int main()
     {
         while(i2<80)
         {
-            area[i2][i] = invisible;
+            area[i2][i] = '#';
+            area2[i2][i] = '#';
             setColor(whatColor(area[i2][i]), whatColor(area[i2][i]));
-            if(area[mx][my]==invisible)setColor(8, 7);
+            if(area[mx][my]=='#')setColor(8, 7);
             printf("%c", area[i2][i]);
             i2++;
         }
@@ -83,18 +97,37 @@ void keypressed(char input)
     {
         currentColor++;
         if(currentColor == 17)currentColor = 0;
-        setColor(whatColor(area[mx][my]), currentColor);
+        setColor(currentColor, secondaryColor);
         tp(mx, my);
         printf("X");
+        displayChar();
     }
     else if(input == '[')
     {
         currentColor--;
         if(currentColor == -1)currentColor = 16;
-        setColor(whatColor(area[mx][my]), currentColor);
-        if(currentColor == 16 && area[mx][my] == '0')setColor(0, 15);
+        setColor(currentColor, secondaryColor);
         tp(mx, my);
         printf("X");
+        displayChar();
+    }
+    else if(input == ';' || input == ':')
+    {
+        secondaryColor++;
+        if(secondaryColor == 17)secondaryColor = 0;
+        setColor(currentColor, secondaryColor);
+        tp(mx, my);
+        printf("X");
+        displayChar();
+    }
+    else if(input == '\'' || input == '\"')
+    {
+        secondaryColor--;
+        if(secondaryColor == -1)secondaryColor = 16;
+        setColor(currentColor, secondaryColor);
+        tp(mx, my);
+        printf("X");
+        displayChar();
     }
     else if(input == ' ')
     {
@@ -110,20 +143,25 @@ void keypressed(char input)
 }
 void clicked()
 {
-    
     if(my < 25 && mx < 80)
     {
         tp(mx, my);
-        setColor(currentColor, currentColor);
-        if(area[mx][my]==invisible)setColor(8, 7);
-        printf("%c", whatChar(currentColor));
+        setColor(currentColor, secondaryColor);
+        if(area[mx][my]=='#')setColor(8, 7);
+        printf("%c", invisible);
         setColor(0,15);
         area[mx][my] = whatChar(currentColor);
+        area2[mx][my] = whatChar(secondaryColor);
     }
     if(my == 25 && mx < 34)
     {
         currentColor = mx/2;
         if(mx/2 > (mx+1)/2)currentColor = (mx+1)/2;
+    }
+    if(my == 25 && mx > 34 && mx < 70)
+    {
+        secondaryColor = (mx-35)/2;
+        if((mx-35)/2 > (mx-34)/2)secondaryColor = (mx-34)/2;
     }
 }
 void doubleClicked()
@@ -135,22 +173,32 @@ void moved()
     if(doClick)clicked();
     if(py < 25)
     {
-        setColor(whatColor(area[px][py]), whatColor(area[px][py]));
-        if(area[px][py]==invisible)setColor(8, 7);
+        setColor(whatColor(area[px][py]), whatColor(area2[px][py]));
+        if(area[px][py]=='#')setColor(8, 7);
         tp(px, py);
-        printf("%c", area[px][py]);
+        if(area[px][py]=='#')printf("#");
+        else printf("%c", invisible);
     }
-    if(py == 25)
+    if(py == 25 && px < 34)
     {
         setColor(whatColor(toolbar[px]), whatColor(toolbar[px]));
-        if(toolbar[px]==invisible)setColor(8, 7);
+        if(toolbar[px]=='#')setColor(8, 7);
         tp(px, 25);
-        printf("%c", toolbar[px]);
+        if(toolbar[px]=='#') printf("#");
+        else printf("%c", invisible);
+    }
+    if(py == 25 && px > 34 && px < 70)
+    {
+        setColor(0, whatColor(toolbar[px-35]));
+        if(toolbar[px-35] == '#') setColor(8, 7);
+        tp(px, 25);
+        if(toolbar[px-35] == '#') printf("#");
+        else printf("%c", invisible);
     }
     if(my < 25 && mx < 80)
     {
-        setColor(whatColor(area[mx][my]), currentColor);
-        if(area[mx][my]==invisible)setColor(8, currentColor);
+        setColor(currentColor, secondaryColor);
+        if(area[mx][my]=='#')setColor(currentColor, secondaryColor);
         tp(mx, my);
         printf("X");
         px = mx;
@@ -161,11 +209,23 @@ void moved()
     {
         tp(mx, my);
         setColor(whatColor(toolbar[mx]), currentColor);
-        if(toolbar[mx] == invisible)setColor(8, currentColor);
+        if(toolbar[mx] == '#')setColor(8, currentColor);
         printf("X");
         px = mx;
         py = my;
+        displayChar();
+    }
+    if(my == 25 && mx > 34 && mx < 70)
+    {
+        tp(mx, my);
+        setColor(currentColor, whatColor(toolbar[mx-35]));
+        if(toolbar[mx-35]=='#') setColor(currentColor, 7);
+        if(toolbar[mx-35]=='#') printf("#");
+        else printf("%c", invisible);
+        px = mx;
+        py = my;
         //currentColor = (mx+1)/2
+        displayChar();
     }
 }
 char whatChar(short x)
@@ -186,16 +246,16 @@ char whatChar(short x)
     else if(x == 13)return 'D';
     else if(x == 14)return 'E';
     else if(x == 15)return 'F';
-    else if(x == 16)return invisible;
+    else if(x == 16)return '#';
     else return '0';
 }
 
 void save()
 {
     fstream newfile;
-    short whatchar=0, whatline=0;
+    short whatchar = 0, whatline = 0;
     newfile.open("export.wdi", ios::out);
-    newfile << "Wer-Dar Image v-1.2"<<endl;
+    newfile << "Wer-Dar Image v-1.3" << endl;
     newfile.close();
 
     tp(0, 0);
@@ -211,11 +271,24 @@ void save()
         whatchar = 0;
         whatline++;
     }
+    newfile << endl << endl;
+    whatchar=0; whatline=0;
+    while(whatline < 25)
+    {
+        while(whatchar < 80)
+        {  
+            newfile << area2[whatchar][whatline];
+            whatchar++;
+        }
+        newfile<<endl;
+        whatchar = 0;
+        whatline++;
+    }
     newfile.close();
 }
 void load()
 {
-    /*Wer-Dar Paint v-1.2*/
+    /*Wer-Dar Paint v-1.3*/
     fstream openfile;
     string holder;
     int i1=0, i2=0;
@@ -231,22 +304,47 @@ void load()
     openfile.open("export.wdi", ios::in);
     while(getline(openfile, holder))
     {
-        if(i1>0)
+        if(i1 < 26 && i1>0)
         {
             while(i2<80)
             {
                 area[i2][i1-1] = holder[i2];
-                setColor(whatColor(area[i2][i1-1]), whatColor(area[i2][i1-1]));
-                if(area[i2][i1-1]==invisible)setColor(8, 7);
-                printf("%c", area[i2][i1-1]);
                 i2++;
             }
         }
-        i2=0;
-        i1++;
+        if(i1 > 27)
+        {
+            while(i2<80)
+            {
+                area2[i2][i1-28] = holder[i2];
+                i2++;
+            }
+        }
+    i2=0;
+    i1++;
     }
-    setColor(0,0);
-    printf("%70s");
-    tp(0, 0);
+    i1=0; i2=0;
+    while(i1 < 25)
+    {
+        tp(0, i1);
+        while(i2 < 80)
+        {
+            if(area[i2][i1]=='#') setColor(8, 7);
+            else setColor(whatColor(area[i2][i1]), whatColor(area2[i2][i1]));
+            if(area[i2][i1]=='#') printf("#");
+            else printf("%c", invisible);
+            i2++;
+        }
+        i1++; i2 = 0;
+    }
+    /*setColor(0,0);
+    printf("%70s");*/
     openfile.close();
+}
+
+void displayChar()
+{
+    tp(34, 25);
+    setColor(currentColor, secondaryColor);
+    printf("%c", invisible); 
 }
