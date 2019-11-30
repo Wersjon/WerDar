@@ -1,8 +1,3 @@
-//#include <iostream>
-//#include <windows.h>
-//#include <conio.h>
-//#include <cstdio>
-
 using namespace std;
 
 HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
@@ -92,7 +87,6 @@ void mapReader()
 
 int whatColor(char x)
 {
-    //if(x == '0')return 0;
     if(x == '1')return 1;
     else if(x == '2')return 2;
     else if(x == '3')return 3;
@@ -166,7 +160,8 @@ void load(string filename)
 
 /*void load(string filename)
 {
-    /*Wer-Dar Paint v-1.2
+    //Wer-Dar Paint v-1.2
+
     char area[80][25];
 
     fstream openfile;
