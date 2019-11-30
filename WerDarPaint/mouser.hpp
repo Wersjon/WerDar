@@ -111,13 +111,13 @@ int whatColor(char x)
 
 void loadfile(string filename)
 {
-    /*Wer-Dar Paint v-1.3*/
+    // Wer-Dar Paint v-1.3
     char area[80][25], area2[80][25], invisible = 177;
     fstream openfile;
     string holder;
     int i1=0, i2=0;
 
-    openfile.open("images/"+filename+".wdi", ios::in);
+    openfile.open(filename+".wdi", ios::in);
     if(openfile.good() == false)
     {
         cout << "error 404";
@@ -125,7 +125,7 @@ void loadfile(string filename)
         return;
     }
     openfile.close();
-    openfile.open("images/"+filename+".wdi", ios::in);
+    openfile.open(filename+".wdi", ios::in);
     while(getline(openfile, holder))
     {
         if(i1 < 26 && i1>0)
