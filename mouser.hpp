@@ -113,7 +113,60 @@ int whatColor(char x)
 
 void load(string filename)
 {
-    /*Wer-Dar Paint v-1.2*/
+    /*Wer-Dar Paint v-1.3*/
+    char area[80][25], area2[80][25], invisible = 177;
+    fstream openfile;
+    string holder;
+    int i1=0, i2=0;
+
+    openfile.open("images/"+filename+".wdi", ios::in);
+    if(openfile.good() == false)
+    {
+        cout << "error 404";
+        openfile.close();
+        return;
+    }
+    openfile.close();
+    openfile.open("images/"+filename+".wdi", ios::in);
+    while(getline(openfile, holder))
+    {
+        if(i1 < 26 && i1>0)
+        {
+            while(i2<80)
+            {
+                area[i2][i1-1] = holder[i2];
+                i2++;
+            }
+        }
+        if(i1 > 27)
+        {
+            while(i2<80)
+            {
+                area2[i2][i1-28] = holder[i2];
+                i2++;
+            }
+        }
+    i2=0;
+    i1++;
+    }
+    i1=0; i2=0;
+    while(i1 < 25)
+    {
+        while(i2 < 80)
+        {
+            tp(i2, i1);
+            setColor(whatColor(area[i2][i1]), whatColor(area2[i2][i1]));
+            if(area[i2][i1]!='#') printf("%c", invisible);
+            i2++;
+        }
+        i1++; i2 = 0;
+    }
+    openfile.close();
+}
+
+/*void load(string filename)
+{
+    /*Wer-Dar Paint v-1.2
     char area[80][25];
 
     fstream openfile;
@@ -150,4 +203,4 @@ void load(string filename)
     }
     tp(0, 0);
     openfile.close();
-}
+}*/

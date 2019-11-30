@@ -42,8 +42,8 @@ int main()
     setColor(0, 15); printf("urn off insert mode; Turn rest on;");
     tp(1,2); printf("Selecting Text: Everything off;");
     tp(1,3); printf("Layout{");
-    tp(1,4); printf("- For buffer: Width: 80; Height: 50+;");
-    tp(1,5); printf("- For window: Width: 80; Height: 26;");
+    tp(1,4); printf("- For buffer: Width: 80+; Height: 50+");setColor(12, 15); printf(";"); setColor(0, 15);
+    tp(1,5); printf("- For window: Width: 80+; Height: 26+");setColor(12, 15); printf(";"); setColor(0, 15);
     tp(1,6); printf("- Turn off wrapping text on resize}");
     tp(1,7); printf("Terminal(Windows 10 - experimental): ");
     setColor(12, 15); printf("Tu");
