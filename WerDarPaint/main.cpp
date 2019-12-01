@@ -4,7 +4,7 @@ using namespace std;
 
 /*
 
-// Wer-Dar Paint v-1.4
+// Wer-Dar Paint v-1.4_01
 // Few things before you get started
 // This app requires special treatment for cmd, it's written when app is opened (main function)
 
@@ -34,8 +34,29 @@ char tools[3] = {(char)176, (char)177, (char)178};
 
 int main()
 {
+    int i = 0;
     SetConsoleOutputCP(852);
+    SetConsoleTitleA("Wer-Dar Paint");
+
+    loadfile("wdplogo");
+    
+    while(i < 40)
+    {
+        if(kbhit()) 
+        {
+            getch();
+            break;
+        }
+        else
+        {
+            Sleep(100);
+            i++;
+        }
+    }
+
+    clear();
     loadfile("load");
+
     setColor(0, 15);
     tp(1,1); printf("Edit modes: Turn off Quick edit mode;");
     setColor(12, 15); printf(" T");
@@ -51,7 +72,7 @@ int main()
     tp(1,9); printf("Click any key to start drawing.");
     tp(1,10); setColor(0, 12); printf("DON'T MOUSE OVER RIGHT BOTTOM CORNER");
     getch();
-    int i=0;
+    i=0;
     while(i<34)
     {
         tp(i, 25);
@@ -79,6 +100,7 @@ int main()
         {
             area[i2][i] = '#';
             area2[i2][i] = '#';
+            chars[i2][i] = ' ';
             setColor(whatColor(area[i2][i]), whatColor(area[i2][i]));
             if(area[mx][my]=='#')setColor(8, 7);
             printf("%c", area[i2][i]);
@@ -87,7 +109,6 @@ int main()
         i2 = 0;
         i++;
     }
-    SetConsoleTitleA("Wer-Dar Paint");
     mouse(clicked, doubleClicked, moved, keypressed);
     return 0;
 }
@@ -175,6 +196,7 @@ void clicked()
     else if(my == 25 && mx > 68 && mx < 72)
     {
         currentChar = tools[mx-69];
+        displayChar();
     }
 }
 void doubleClicked()
@@ -192,7 +214,7 @@ void moved()
         if(area[px][py]=='#')printf("#");
         else printf("%c", chars[px][py]);
     }
-    if(py == 25 && px < 34)
+    else if(py == 25 && px < 34)
     {
         setColor(whatColor(toolbar[px]), whatColor(toolbar[px]));
         if(toolbar[px]=='#')setColor(8, 7);
@@ -200,11 +222,16 @@ void moved()
         if(toolbar[px]=='#') printf("#");
         else printf("%c", currentChar);
     }
-    if(py == 25 && px > 34 && px < 67)
+    else if(py == 25 && px > 34 && px < 67)
     {
         setColor(0, whatColor(toolbar[px-35]));
         tp(px, 25);
         printf("%c", tools[2]);   
+    }
+    else if(py == 25 && px > 68 && px < 72)
+    {
+        tp(px, py); setColor(0, 15);
+        printf("%c", tools[px - 69]);
     }
     if(my < 25 && mx < 80)
     {
@@ -216,7 +243,7 @@ void moved()
         py = my;
         tp(0, 0);
     }
-    if(my == 25 && mx < 34)
+    else if(my == 25 && mx < 34)
     {
         tp(mx, my);
         setColor(whatColor(toolbar[mx]), currentColor);
@@ -226,11 +253,20 @@ void moved()
         py = my;
         displayChar();
     }
-    if(my == 25 && mx > 34 && mx < 67)
+    else if(my == 25 && mx > 34 && mx < 67)
     {
         tp(mx, my);
         setColor(12, whatColor(toolbar[mx-35]));
         printf("%c", tools[2]);
+        px = mx;
+        py = my;
+        //currentColor = (mx+1)/2
+        displayChar();
+    }
+    else if(my == 25 && mx > 68 && mx < 72)
+    {
+        tp(mx, my); setColor(12, 15);
+        printf("%c", tools[mx - 69]);
         px = mx;
         py = my;
         //currentColor = (mx+1)/2
