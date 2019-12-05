@@ -4,105 +4,112 @@ using namespace std;
 
 /*
 
-// Wer-Dar Paint v-1.4_01
+// Wer-Dar Paint v-1.4_02 by Jakub Sobacki
 // Few things before you get started
 // This app requires special treatment for cmd, it's written when app is opened (main function)
 
 */
 
+/* Layers for painting */
 char area[80][25], area2[80][25], chars[80][25];
 
+/* Declaration for functions */
 void keypressed(char input);
 void clicked();
 void doubleClicked();
 void moved();
+
 int whatColor(char x);
 char whatChar(short x);
 void save();
 void load();
 void displayChar();
 
-int px, py;
-short currentColor = 15, secondaryColor = 15;
-char currentChar = 177; // Replace currentChar with '%' if needed
-
-char toolbar[34] =
-{
-    '0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F', '#', '#'
-};
-char tools[3] = {(char)176, (char)177, (char)178};
+/* 5 Declaration of 5 other global values */
+short currentColor = 15, secondaryColor = 15, px, py; //Stores color of cursor
+char currentChar = 177; //Holds current char
 
 int main()
 {
+    /* Declaration of variables */
     int i = 0;
-    SetConsoleOutputCP(852);
-    SetConsoleTitleA("Wer-Dar Paint");
+    char toolbar[34] =
+    {
+        '0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F', '#', '#'
+    };
+    char tools[4] = {(char)176, (char)177, (char)178, (char)220};
 
-    loadfile("wdplogo");
-    
-    while(i < 40)
+    SetConsoleOutputCP(852); //Setting CodePage to 852, to have all characters
+    SetConsoleTitleA("Wer-Dar Paint"); //Setting title
+    hideCursor(); //Hiding cursor
+
+    loadfile("wdplogo"); //Loading wdplogo.wdi (read)
+    while(i < 40) //If KeyBoardHIT, end while and start program (for 4 seconds).
     {
         if(kbhit()) 
         {
             getch();
             break;
         }
-        else
-        {
-            Sleep(100);
-            i++;
-        }
+        Sleep(100);
+        i++;
     }
 
-    clear();
+    clear(); //Clears screen / system("cls") is broken, and slower.
     loadfile("load");
 
-    setColor(0, 15);
-    tp(1,1); printf("Edit modes: Turn off Quick edit mode;");
+    /*informational text for user */
+    tp(1, 1); setColor(0, 15); printf("Edit modes: Turn off Quick edit mode;"); //teleports cursor to 1, 1;  Sets color for text; and printfs the text
     setColor(12, 15); printf(" T");
     setColor(0, 15); printf("urn off insert mode; Turn rest on;");
-    tp(1,2); printf("Selecting Text: Everything off;");
-    tp(1,3); printf("Layout{");
-    tp(1,4); printf("- For buffer: Width: 80+; Height: 50+");setColor(12, 15); printf(";"); setColor(0, 15);
-    tp(1,5); printf("- For window: Width: 80+; Height: 26+");setColor(12, 15); printf(";"); setColor(0, 15);
-    tp(1,6); printf("- Turn off wrapping text on resize}");
-    tp(1,7); printf("Terminal(Windows 10 - experimental): ");
+    tp(1, 2); printf("Selecting Text: Everything off;");
+    tp(1, 3); printf("Layout{");
+    tp(1, 4); printf("- For buffer: Width: 80+; Height: 50+");setColor(12, 15); printf(";"); setColor(0, 15);
+    tp(1, 5); printf("- For window: Width: 80+; Height: 26+");setColor(12, 15); printf(";"); setColor(0, 15);
+    tp(1, 6); printf("- Turn off wrapping text on resize}");
+    tp(1, 7); printf("Terminal(Windows 10 - experimental): ");
     setColor(12, 15); printf("Tu");
     setColor(0, 15); printf("rn off: Disable Scroll Forward option;");
-    tp(1,9); printf("Click any key to start drawing.");
-    tp(1,10); setColor(0, 12); printf("DON'T MOUSE OVER RIGHT BOTTOM CORNER");
-    getch();
-    i=0;
-    while(i<34)
+    tp(1, 9); printf("Click any key to start drawing.");
+    tp(1, 10); setColor(0, 12); printf("DON'T MOUSE OVER RIGHT BOTTOM CORNER");
+    getch(); //awaits for input
+
+    i = 2;
+    while(i < 36)
     {
         tp(i, 25);
-        setColor(whatColor(toolbar[i]), whatColor(toolbar[i]));
-        if(toolbar[i] == '#')setColor(8, 7);
-        printf("%c", toolbar[i]);
-        if(i <= 31)
+        setColor(whatColor(toolbar[i - 2]), whatColor(toolbar[i - 2]));
+        if(toolbar[i-2] == '#') setColor(8, 7);
+        printf("%c", toolbar[i - 2]);
+        if(i <= 33)
         {
-            tp(i+35, 25);
-            setColor(0, whatColor(toolbar[i]));
+            tp(i + 37, 25);
+            setColor(0, whatColor(toolbar[i - 2]));
             printf("%c", tools[2]);
         }
         i++;
     }
-    tp(69, 25);
+    tp(72, 25);
     setColor(0, 15);
-    printf("%c%c%c", tools[0], tools[1], tools[2]);
-
+    printf("%c%c%c%c", tools[0], tools[1], tools[2], tools[3]);
+    setColor(1, 8); 
+    tp(0, 25); printf("%c%c", tools[1], tools[1]);
+    tp(36, 25); printf("%c", tools[2]);
+    tp(38, 25); printf("%c", tools[2]);
+    tp(71, 25); printf("%c", tools[2]);
+    tp(76, 25); printf("%c%c%c%c", tools[2], tools[2], tools[2], tools[2]);
     /* while to display whole map area */
-    tp(0,0);
-    int i2 = 0; i=0;
-    while(i<25)
+    tp(0, 0);
+    int i2 = 0; i = 0;
+    while(i < 25)
     {
-        while(i2<80)
+        while(i2 < 80)
         {
             area[i2][i] = '#';
             area2[i2][i] = '#';
             chars[i2][i] = ' ';
             setColor(whatColor(area[i2][i]), whatColor(area[i2][i]));
-            if(area[mx][my]=='#')setColor(8, 7);
+            if(area[mx][my]=='#') setColor(8, 7);
             printf("%c", area[i2][i]);
             i2++;
         }
@@ -115,52 +122,52 @@ int main()
 
 void keypressed(char input)
 {
-    if(input == ']')
+    switch(input)
     {
-        currentColor++;
-        if(currentColor == 17)currentColor = 0;
-        setColor(currentColor, secondaryColor);
-        tp(mx, my);
-        printf("X");
-        displayChar();
-    }
-    else if(input == '[')
-    {
-        currentColor--;
-        if(currentColor == -1)currentColor = 16;
-        setColor(currentColor, secondaryColor);
-        tp(mx, my);
-        printf("X");
-        displayChar();
-    }
-    else if(input == ';' || input == ':')
-    {
-        secondaryColor++;
-        if(secondaryColor == 17)secondaryColor = 0;
-        setColor(currentColor, secondaryColor);
-        tp(mx, my);
-        printf("X");
-        displayChar();
-    }
-    else if(input == '\'' || input == '\"')
-    {
-        secondaryColor--;
-        if(secondaryColor == -1)secondaryColor = 16;
-        setColor(currentColor, secondaryColor);
-        tp(mx, my);
-        printf("X");
-        displayChar();
-    }
-    else if(input == ' ')
-    {
-        save();
-        tp(0, 0); setColor(0, 15); cout << "saved";
-        Sleep(250); tp(0, 0);
-        load();
-    }
-    else if(input == 'L' || input == 'l')
-    {
-        load();
+        /*case ']':
+            currentColor++; // Zwi©ksza si© zmienna o 1
+            if(currentColor == 17) currentColor = 0; // Unikanie overflow tej zmiennej
+            setColor(currentColor, secondaryColor); // Zmiana koloru na aktualny
+            tp(mx, my);
+            printf("X");
+            displayChar();
+        break;
+        case '[':
+            currentColor--;
+            if(currentColor == -1) currentColor = 16;
+            setColor(currentColor, secondaryColor);
+            tp(mx, my);
+            printf("X");
+            displayChar();
+        break;
+        case '\'':
+        case '\"':
+            secondaryColor++;
+            if(secondaryColor == 17) secondaryColor = 0;
+            setColor(currentColor, secondaryColor);
+            tp(mx, my);
+            printf("X");
+            displayChar();
+        break;
+        case ';': 
+        case ':':
+            secondaryColor--;
+            if(secondaryColor == -1)secondaryColor = 16;
+            setColor(currentColor, secondaryColor);
+            tp(mx, my);
+            printf("X");
+            displayChar();
+        break;*/
+        case ' ':
+            save();
+            tp(0, 0); setColor(0, 15); printf("saved");
+            Sleep(250);
+            load();
+        break;
+        case 'L': 
+        case 'l':
+            load();
+        break;
     }
     /*else if(input == 'C' || input == 'c')
     {
@@ -172,106 +179,120 @@ void keypressed(char input)
 }
 void clicked()
 {
+    char tools[4] = {(char)176, (char)177, (char)178, (char)220};
     if(my < 25 && mx < 80)
     {
         tp(mx, my);
         setColor(currentColor, secondaryColor);
-        if(area[mx][my]=='#')setColor(8, 7);
+        if(area[mx][my] == '#') setColor(8, 7);
         printf("%c", currentChar);
-        setColor(0,15);
         area[mx][my] = whatChar(currentColor);
         area2[mx][my] = whatChar(secondaryColor);
         chars[mx][my] = currentChar;
     }
-    else if(my == 25 && mx < 34)
+    else if(my == 25 && mx > 1 && mx < 36)
     {
-        currentColor = mx/2;
-        if(mx/2 > (mx+1)/2)currentColor = (mx+1)/2;
+        currentColor = (mx - 2) / 2;
+        if((mx - 2) / 2 > (mx - 1) / 2) currentColor = (mx - 1) / 2;
     }
-    else if(my == 25 && mx > 34 && mx < 67)
+    else if(my == 25 && mx > 38 && mx < 71)
     {
-        secondaryColor = (mx-35)/2;
-        if((mx-35)/2 > (mx-34)/2)secondaryColor = (mx-34)/2;
+        secondaryColor = (mx - 38) / 2;
+        if((mx - 38) / 2 > (mx - 49) / 2) secondaryColor = (mx - 39) / 2;
     }
-    else if(my == 25 && mx > 68 && mx < 72)
+    else if(my == 25 && mx > 71 && mx < 76)
     {
-        currentChar = tools[mx-69];
+        currentChar = tools[mx - 72];
         displayChar();
     }
 }
 void doubleClicked()
 {
-    doClick = !doClick;
+    doClick = true;
 }
 void moved()
 {
-    if(doClick)clicked();
-    if(py < 25)
+    char toolbar[34] =
+    {
+        '0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F', '#', '#'
+    };
+    char tools[4] = {(char)176, (char)177, (char)178, (char)220};
+    if(doClick) clicked();
+
+    /*pYpX*/
+    if(py < 25 && px < 80)
     {
         setColor(whatColor(area[px][py]), whatColor(area2[px][py]));
-        if(area[px][py]=='#')setColor(8, 7);
+        if(area[px][py] == '#') setColor(8, 7);
         tp(px, py);
-        if(area[px][py]=='#')printf("#");
+        if(area[px][py] == '#') printf("#");
         else printf("%c", chars[px][py]);
     }
-    else if(py == 25 && px < 34)
+    else if(py == 25 && px < 2)
     {
-        setColor(whatColor(toolbar[px]), whatColor(toolbar[px]));
-        if(toolbar[px]=='#')setColor(8, 7);
+        tp(0, 25);
+        setColor(1, 8);
+        printf("%c%c", tools[1], tools[1]);
+        px = mx;
+        py = my;
+        displayChar();
+    }
+    else if(py == 25 && px > 1 && px < 36)
+    {
+        setColor(whatColor(toolbar[px - 2]), whatColor(toolbar[px - 2]));
+        if(toolbar[px - 2] == '#')setColor(8, 7);
         tp(px, 25);
-        if(toolbar[px]=='#') printf("#");
+        if(toolbar[px - 2] == '#') printf("#");
         else printf("%c", currentChar);
     }
-    else if(py == 25 && px > 34 && px < 67)
+    else if(py == 25 && px > 38 && px < 71)
     {
-        setColor(0, whatColor(toolbar[px-35]));
+        setColor(0, whatColor(toolbar[px - 39]));
         tp(px, 25);
         printf("%c", tools[2]);   
     }
-    else if(py == 25 && px > 68 && px < 72)
+    else if(py == 25 && px > 71 && px < 76)
     {
         tp(px, py); setColor(0, 15);
-        printf("%c", tools[px - 69]);
+        printf("%c", tools[px - 72]);
     }
+
+    /*mYmX*/
     if(my < 25 && mx < 80)
     {
         setColor(currentColor, secondaryColor);
-        if(area[mx][my]=='#')setColor(currentColor, secondaryColor);
         tp(mx, my);
         printf("X");
-        px = mx;
-        py = my;
-        tp(0, 0);
     }
-    else if(my == 25 && mx < 34)
+    else if(my == 25 && mx < 2)
     {
-        tp(mx, my);
-        setColor(whatColor(toolbar[mx]), currentColor);
-        if(toolbar[mx] == '#')setColor(8, currentColor);
-        printf("X");
-        px = mx;
-        py = my;
+        tp(0, 25);
+        setColor(9, 7);
+        printf("%c%c", tools[1], tools[1]);
         displayChar();
     }
-    else if(my == 25 && mx > 34 && mx < 67)
+    else if(my == 25 && mx > 1 && mx < 36)
     {
         tp(mx, my);
-        setColor(12, whatColor(toolbar[mx-35]));
+        setColor(whatColor(toolbar[mx - 2]), currentColor);
+        if(toolbar[mx-2] == '#')setColor(8, currentColor);
+        printf("X");
+        displayChar();
+    }
+    else if(my == 25 && mx > 38 && mx < 71)
+    {
+        tp(mx, my);
+        setColor(12, whatColor(toolbar[mx - 39]));
         printf("%c", tools[2]);
-        px = mx;
-        py = my;
-        //currentColor = (mx+1)/2
         displayChar();
     }
-    else if(my == 25 && mx > 68 && mx < 72)
+    else if(my == 25 && mx > 71 && mx < 76)
     {
         tp(mx, my); setColor(12, 15);
-        printf("%c", tools[mx - 69]);
-        px = mx;
-        py = my;
-        //currentColor = (mx+1)/2
+        printf("%c", tools[mx - 72]);
         displayChar();
     }
+    px = mx; py = my;
 }
 char whatChar(short x)
 {
@@ -317,7 +338,7 @@ void save()
         whatline++;
     }
     newfile << endl << endl;
-    whatchar=0; whatline=0;
+    whatchar = 0; whatline = 0;
     while(whatline < 25)
     {
         while(whatchar < 80)
@@ -325,12 +346,12 @@ void save()
             newfile << area2[whatchar][whatline];
             whatchar++;
         }
-        newfile<<endl;
+        newfile << endl;
         whatchar = 0;
         whatline++;
     }
     newfile << endl << endl;
-    whatchar=0; whatline=0;
+    whatchar = 0; whatline = 0;
     while(whatline < 25)
     {
         while(whatchar < 80)
@@ -338,7 +359,7 @@ void save()
             newfile << chars[whatchar][whatline];
             whatchar++;
         }
-        newfile<<endl;
+        newfile << endl;
         whatchar = 0;
         whatline++;
     }
@@ -349,12 +370,12 @@ void load()
     /*Wer-Dar Paint v-1.4*/
     fstream openfile;
     string holder;
-    int i1=0, i2=0;
+    int i1 = 0, i2 = 0;
 
     openfile.open("export.wdi", ios::in);
     if(openfile.good() == false)
     {
-        cout << "error 404";
+        tp(0, 0); setColor(0, 15); printf("error 404");
         openfile.close();
         return;
     }
@@ -362,42 +383,42 @@ void load()
     openfile.open("export.wdi", ios::in);
     while(getline(openfile, holder))
     {
-        if(i1 < 26 && i1>0)
+        if(i1 < 26 && i1 > 0)
         {
-            while(i2<80)
+            while(i2 < 80)
             {
-                area[i2][i1-1] = holder[i2];
+                area[i2][i1 - 1] = holder[i2];
                 i2++;
             }
         }
         if(i1 > 27 && i1 < 53)
         {
-            while(i2<80)
+            while(i2 < 80)
             {
-                area2[i2][i1-28] = holder[i2];
+                area2[i2][i1 - 28] = holder[i2];
                 i2++;
             }
         }
         if(i1 > 54 && i1 < 80)
         {
-            while(i2<80)
+            while(i2 < 80)
             {
-                chars[i2][i1-55] = holder[i2];
+                chars[i2][i1 - 55] = holder[i2];
                 i2++;
             }
         }
-    i2=0;
+    i2 = 0;
     i1++;
     }
-    i1=0; i2=0;
+    i1 = 0; i2 = 0;
     while(i1 < 25)
     {
         tp(0, i1);
         while(i2 < 80)
         {
-            if(area[i2][i1]=='#') setColor(8, 7);
+            if(area[i2][i1] == '#') setColor(8, 7);
             else setColor(whatColor(area[i2][i1]), whatColor(area2[i2][i1]));
-            if(area[i2][i1]=='#') printf("#");
+            if(area[i2][i1] == '#') printf("#");
             else printf("%c", chars[i2][i1]);
             i2++;
         }
@@ -410,7 +431,7 @@ void load()
 
 void displayChar()
 {
-    tp(34, 25);
+    tp(37, 25);
     setColor(currentColor, secondaryColor);
     printf("%c", currentChar); 
 }
