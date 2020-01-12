@@ -5,8 +5,47 @@
 #include <cstdio>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using namespace std;
+
+class image
+{
+public:
+    char area[80][25], area2[80][25], chars[80][25];
+    string name;
+
+    image()
+    {
+        short i1 = 0, i2 = 0;
+        while(i1 < 25)
+        {
+            while(i2 < 80)
+            {
+                area[i2][i1] = '1';
+                area2[i2][i1] = '2';
+                chars[i2][i1] = '3';
+                i2++;
+            }
+            i1++;
+            i2 = 0;
+        }
+        name = "placeholder";
+    }
+};
+
+vector <image> images;
+
+short getId(string originalName)
+{
+    short i = 0;
+    while(i <= images.size() - 1)
+    {
+        if(images[i].name == originalName) return i;
+        i++;
+    }
+    return 0;
+}
 
 short mx, my; //Global variables for mouse X and mouse Y
 HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
@@ -108,7 +147,7 @@ int whatColor(char x) //Says about color of "char x". Colors are stored in HEX v
 
 void loadfile(string filename)
 {
-    /*Wer-Dar Paint v-1.4*/
+    /*Wer-Dar Paint v-1.5*/
     char area[80][25], area2[80][25], chars[80][25]; //sets variable for 3 painting layers
     fstream openfile;
     string holder;
