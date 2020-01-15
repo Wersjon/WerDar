@@ -129,6 +129,7 @@ public:
 
     void clear() //Clears 80x25 Screen:
     {
+        setColor(0, 0);
         tp(0, 0); //teleports to 0, 0
         printf("%2000d \n"); //Prints 2000 chars
     }
@@ -176,7 +177,7 @@ public:
 
     void loadfile(string filename)
     {
-        /*Wer-Dar Paint v-1.5*/
+        /*Wer-Dar Paint v-1.6*/
         char area[80][25], area2[80][25], chars[80][25]; //sets variable for 3 painting layers
         fstream openfile;
         string holder;
@@ -186,7 +187,7 @@ public:
         if(openfile.good() == false) //if it doesn't exist, it displays "error 404"(file not found).
         {
             tp(0, 0); setColor(0, 15);
-            cout << "error 404";
+            printf("error 404");
             openfile.close();
             return;
         }
@@ -240,6 +241,7 @@ public:
 class essentials
 {
 public:
+    bool doMenu = false, menu_Drawed;
     void saveDisk()
     {
         fstream openFile;
@@ -249,7 +251,7 @@ public:
         while(whatPic <= images.size() - 1)
         {
             if(whatPic != 0) openFile << endl;
-            openFile << "Wer-Dar Disk v-1.5" << endl << images[whatPic].name << endl << "@" << endl;
+            openFile << "Wer-Dar Disk v-1.6" << endl << images[whatPic].name << endl << "@" << endl;
             while(whatLine <= 79)
             {
                 if(whatLine >= 3 && whatLine <= 27)
@@ -291,7 +293,7 @@ public:
 
     void loadDisk()
     {
-        /*Wer-Dar Paint v-1.5*/
+        /*Wer-Dar Paint v-1.6*/
         images.clear();
 
         fstream openFile;
@@ -350,7 +352,7 @@ public:
                 while(i2 < 80)
                 {
                     images[obraz - 1].chars[i2][line - (56 + (obraz - 1) * 80)] = holder[i2]; //Loads chars to chars[x][y]
-                    if(images[obraz - 1].area[i2][line - (56 + (obraz - 1) * 80)] == '#') images[obraz - 1].chars[i2][line - (56 + (obraz - 1) * 80)] = ' ';
+                    if(images[obraz - 1].area[i2][line - (56 + (obraz - 1) * 80)] == '#') images[obraz - 1].chars[i2][line - (56 + (obraz - 1) * 80)] = '#';
                     i2++;
                 }
             }
