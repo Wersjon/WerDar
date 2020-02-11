@@ -4,7 +4,7 @@ using namespace std;
 
 /*
 
-// Wer-Dar Paint v-1.6 by Jakub Sobacki
+// Wer-Dar Paint v-1.7 by Jakub Sobacki
 // Few things before you get started
 // This app requires special treatment for cmd, it's written when app is opened (main function)
 
@@ -64,23 +64,25 @@ int main()
         Engine.setColor(Engine.whatColor(Engine.toolbar[i - 2]), Engine.whatColor(Engine.toolbar[i - 2]));
         if(Engine.toolbar[i - 2] == '#') Engine.setColor(8, 7);
         printf("%c", Engine.toolbar[i - 2]);
-        if(i <= 33)
-        {
-            Engine.tp(i + 37, 25);
-            Engine.setColor(0, Engine.whatColor(Engine.toolbar[i - 2]));
-            printf("%c", Engine.tools[2]);
-        }
+
+        Engine.tp(i + 37, 25);
+        Engine.setColor(0, Engine.whatColor(Engine.toolbar[i - 2]));
+        printf("%c", Engine.tools[2]);
         i++;
     }
-    Engine.tp(72, 25);
+    Engine.setColor(8, 7);
+    Engine.tp(71, 25);
+    printf("##");
+
+    Engine.tp(74, 25);
     Engine.setColor(0, 15);
     printf("%c%c%c%c", Engine.tools[0], Engine.tools[1], Engine.tools[2], Engine.tools[3]);
     Engine.setColor(1, 8); 
     Engine.tp(0, 25); printf("%c%c", Engine.tools[1], Engine.tools[1]);
     Engine.tp(36, 25); printf("%c", Engine.tools[2]);
     Engine.tp(38, 25); printf("%c", Engine.tools[2]);
-    Engine.tp(71, 25); printf("%c", Engine.tools[2]);
-    Engine.tp(76, 25); printf("%c%c%c%c", Engine.tools[2], Engine.tools[2], Engine.tools[2], Engine.tools[2]);
+    Engine.tp(73, 25); printf("%c", Engine.tools[2]);
+    Engine.tp(78, 25); printf("%c%c", Engine.tools[2], Engine.tools[2]);
     /* while to display whole map area */
     Engine.tp(0, 0);
     int i2 = 0; i = 0;
@@ -90,7 +92,7 @@ int main()
         {
             Engine.area[i2][i] = '#';
             Engine.area2[i2][i] = '#';
-            Engine.chars[i2][i] = ' ';
+            Engine.chars[i2][i] = '#';
             Engine.setColor(Engine.whatColor(Engine.area[i2][i]), Engine.whatColor(Engine.area[i2][i]));
             if(Engine.area[Engine.mx][Engine.my] == '#') Engine.setColor(8, 7);
             printf("%c", Engine.area[i2][i]);
@@ -122,8 +124,6 @@ void clicked()
         if(Engine.my < 25 && Engine.mx < 80)
         {
             Engine.tp(Engine.mx, Engine.my);
-            Engine.setColor(Engine.currentColor, Engine.secondaryColor);
-            if(Engine.area[Engine.mx][Engine.my] == '#') Engine.setColor(8, 7);
             printf("%c", Engine.currentChar);
             Engine.area[Engine.mx][Engine.my] = Engine.whatChar(Engine.currentColor);
             Engine.area2[Engine.mx][Engine.my] = Engine.whatChar(Engine.secondaryColor);
@@ -134,14 +134,15 @@ void clicked()
             Engine.currentColor = (Engine.mx - 2) / 2;
             if((Engine.mx - 2) / 2 > (Engine.mx - 1) / 2) Engine.currentColor = (Engine.mx - 1) / 2;
         }
-        else if(Engine.my == 25 && Engine.mx > 38 && Engine.mx < 71)
+        else if(Engine.my == 25 && Engine.mx > 38 && Engine.mx < 73)
         {
             Engine.secondaryColor = (Engine.mx - 38) / 2;
             if((Engine.mx - 38) / 2 > (Engine.mx - 49) / 2) Engine.secondaryColor = (Engine.mx - 39) / 2;
+            if(Engine.mx > 71) Engine.currentChar = '#';
         }
-        else if(Engine.my == 25 && Engine.mx > 71 && Engine.mx < 76)
+        else if(Engine.my == 25 && Engine.mx > 73 && Engine.mx < 78)
         {
-            Engine.currentChar = Engine.tools[Engine.mx - 72];
+            Engine.currentChar = Engine.tools[Engine.mx - 74];
             paint.displayChar();
         }
         else if(Engine.my == 25 && Engine.mx < 2)
@@ -168,10 +169,9 @@ void moved()
         if(Engine.py < 25 && Engine.px < 80)
         {
             Engine.setColor(Engine.whatColor(Engine.area[Engine.px][Engine.py]), Engine.whatColor(Engine.area2[Engine.px][Engine.py]));
-            if(Engine.area[Engine.px][Engine.py] == '#') Engine.setColor(8, 7);
+            if(Engine.area2[Engine.px][Engine.py] == '#') Engine.setColor(Engine.whatColor(Engine.area[Engine.px][Engine.py]), 7);
             Engine.tp(Engine.px, Engine.py);
-            if(Engine.area[Engine.px][Engine.py] == '#') printf("#");
-            else printf("%c", Engine.chars[Engine.px][Engine.py]);
+            printf("%c", Engine.chars[Engine.px][Engine.py]);
         }
         else if(Engine.py == 25 && Engine.px < 2)
         {
@@ -194,12 +194,18 @@ void moved()
         {
             Engine.setColor(0, Engine.whatColor(Engine.toolbar[Engine.px - 39]));
             Engine.tp(Engine.px, 25);
-            printf("%c", Engine.tools[2]);   
+            printf("%c", Engine.tools[2]);
         }
-        else if(Engine.py == 25 && Engine.px > 71 && Engine.px < 76)
+        else if(Engine.py == 25 && Engine.px > 70 && Engine.px < 73)
+        {
+            Engine.setColor(8, 7);
+            Engine.tp(Engine.px, 25);
+            printf("#");
+        }
+        else if(Engine.py == 25 && Engine.px > 73 && Engine.px < 78)
         {
             Engine.tp(Engine.px, Engine.py); Engine.setColor(0, 15);
-            printf("%c", Engine.tools[Engine.px - 72]);
+            printf("%c", Engine.tools[Engine.px - 74]);
         }
 
         /*mYmX*/
@@ -220,22 +226,25 @@ void moved()
         {
             Engine.tp(Engine.mx, Engine.my);
             Engine.setColor(Engine.whatColor(Engine.toolbar[Engine.mx - 2]), Engine.currentColor);
-            if(Engine.toolbar[Engine.mx-2] == '#')Engine.setColor(8, Engine.currentColor);
+            if(Engine.toolbar[Engine.mx - 2] == '#')Engine.setColor(8, Engine.currentColor);
             printf("X");
-            paint.displayChar();
         }
         else if(Engine.my == 25 && Engine.mx > 38 && Engine.mx < 71)
         {
-            Engine.tp(Engine.mx, Engine.my);
+            Engine.tp(Engine.mx, 25);
             Engine.setColor(12, Engine.whatColor(Engine.toolbar[Engine.mx - 39]));
             printf("%c", Engine.tools[2]);
-            paint.displayChar();
         }
-        else if(Engine.my == 25 && Engine.mx > 71 && Engine.mx < 76)
+        else if(Engine.my == 25 && Engine.mx > 70 && Engine.mx < 73)
+        {
+            Engine.tp(Engine.mx, 25);
+            Engine.setColor(12, 7);
+            printf("#");
+        }
+        else if(Engine.my == 25 && Engine.mx > 73 && Engine.mx < 78)
         {
             Engine.tp(Engine.mx, Engine.my); Engine.setColor(12, 15);
-            printf("%c", Engine.tools[Engine.mx - 72]);
-            paint.displayChar();
+            printf("%c", Engine.tools[Engine.mx - 74]);
         }
     }
     else menu();
@@ -250,7 +259,7 @@ void menu()
     if(paint.menu_Drawed == false)
     {
         Engine.clear(); Engine.setColor(0, 15);
-        Engine.tp(2, 1); printf("Wer-Dar Paint v-1.6");
+        Engine.tp(2, 1); printf("Wer-Dar Paint v-1.7");
         Engine.tp(27, 1); printf("What would you like to do?");
         Engine.setColor(15, 15);
         Engine.tp(23, 0); printf("  ");

@@ -151,6 +151,8 @@ public:
         else if(x == 'D') return 13;
         else if(x == 'E') return 14;
         else if(x == 'F') return 15;
+        else if(x == '#') return 8;
+
         else return 0;
     }
     
@@ -177,7 +179,7 @@ public:
 
     void loadfile(string filename)
     {
-        /*Wer-Dar Paint v-1.6*/
+        /*Wer-Dar Paint v-1.7*/
         char area[80][25], area2[80][25], chars[80][25]; //sets variable for 3 painting layers
         fstream openfile;
         string holder;
@@ -251,7 +253,7 @@ public:
         while(whatPic <= images.size() - 1)
         {
             if(whatPic != 0) openFile << endl;
-            openFile << "Wer-Dar Disk v-1.6" << endl << images[whatPic].name << endl << "@" << endl;
+            openFile << whatPic << " | Wer-Dar Disk v-1.7" << endl << images[whatPic].name << endl << "@" << endl;
             while(whatLine <= 79)
             {
                 if(whatLine >= 3 && whatLine <= 27)
@@ -293,7 +295,7 @@ public:
 
     void loadDisk()
     {
-        /*Wer-Dar Paint v-1.6*/
+        /*Wer-Dar Paint v-1.7*/
         images.clear();
 
         fstream openFile;
@@ -369,7 +371,7 @@ public:
 
     void draw()
     {
-        short i1 = 0, i2 = 0, howLong = 1, i = 2;
+        short i1 = 0, i2 = 0, howLong = 1, i = 2, bgC_holder, C_holder;
         char helper = Engine.chars[i2][i1];
         char helparea1 = Engine.area[i2][i1];
         char helparea2 = Engine.area2[i2][i1];
@@ -383,8 +385,12 @@ public:
                 else
                 {
                     Engine.tp(i2 - howLong + 1, i1);
-                    Engine.setColor(Engine.whatColor(helparea1), Engine.whatColor(helparea2));
-                    if(Engine.area[i2][i1] == '#') Engine.setColor(8, 7);
+                    bgC_holder = Engine.whatColor(Engine.area[i2][i1]); 
+                    C_holder = Engine.whatColor(Engine.area2[i2][i1]);
+                    if(Engine.area[i2][i1] == '#') bgC_holder = 8;
+                    if(Engine.area2[i2][i1] == '#') C_holder = 7;
+                    Engine.setColor(bgC_holder, C_holder);
+
                     for(int i = 1; i <= howLong; i++)
                     {
                         Display += helper;
@@ -394,8 +400,11 @@ public:
                     if(i2 == 79)
                     {
                         Engine.tp(i2, i1);
-                        Engine.setColor(Engine.whatColor(Engine.area[i2][i1]), Engine.whatColor(Engine.area2[i2][i1]));
-                        if(Engine.area[i2][i1] == '#') Engine.setColor(8, 7);
+                        bgC_holder = Engine.whatColor(Engine.area[i2][i1]); 
+                        C_holder = Engine.whatColor(Engine.area2[i2][i1]);
+                        if(Engine.area[i2][i1] == '#') bgC_holder = 8;
+                        if(Engine.area2[i2][i1] == '#') C_holder = 7;
+                        Engine.setColor(bgC_holder, C_holder);
                         printf("%c", Engine.chars[i2][i1]);
                     }
                 }
@@ -427,16 +436,19 @@ public:
                 printf("%c", Engine.tools[2]);
             }
             i++;
-        }
-        Engine.tp(72, 25);
-        Engine.setColor(0, 15);
-        printf("%c%c%c%c", Engine.tools[0], Engine.tools[1], Engine.tools[2], Engine.tools[3]);
-        Engine.setColor(1, 8); 
-        Engine.tp(0, 25); printf("%c%c", Engine.tools[1], Engine.tools[1]);
-        Engine.tp(36, 25); printf("%c", Engine.tools[2]);
-        Engine.tp(38, 25); printf("%c", Engine.tools[2]);
-        Engine.tp(71, 25); printf("%c", Engine.tools[2]);
-        Engine.tp(76, 25); printf("%c%c%c%c", Engine.tools[2], Engine.tools[2], Engine.tools[2], Engine.tools[2]);
-        Engine.tp(0, 0);
+    }
+    Engine.setColor(8, 7);
+    Engine.tp(71, 25);
+    printf("##");
+
+    Engine.tp(74, 25);
+    Engine.setColor(0, 15);
+    printf("%c%c%c%c", Engine.tools[0], Engine.tools[1], Engine.tools[2], Engine.tools[3]);
+    Engine.setColor(1, 8); 
+    Engine.tp(0, 25); printf("%c%c", Engine.tools[1], Engine.tools[1]);
+    Engine.tp(36, 25); printf("%c", Engine.tools[2]);
+    Engine.tp(38, 25); printf("%c", Engine.tools[2]);
+    Engine.tp(73, 25); printf("%c", Engine.tools[2]);
+    Engine.tp(78, 25); printf("%c%c", Engine.tools[2], Engine.tools[2]);
     }
 }paint;
