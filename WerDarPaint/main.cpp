@@ -1,16 +1,15 @@
 #include "mouser.hpp"
 
-using namespace std;
-
 /*
-
-// Wer-Dar Paint v-1.7 by Jakub Sobacki
-// Few things before you get started
-// This app requires special treatment for cmd, it's written when app is opened (main function)
-
+####################################################################################################
+##                                                                                                ##
+##  Wer-Dar Paint v - 1.8 by Jakub Sobacki                                                        ##
+##  Few things before you get started                                                             ##
+##  This app requires special treatment for cmd, it's written when app is opened (main function)  ##
+##                                                                                                ##
+####################################################################################################
 */
 
-/* Declaration for functions */
 void keypressed(char input);
 void clicked();
 void doubleClicked();
@@ -19,14 +18,12 @@ void menu();
 
 int main()
 {
-    short i = 0;
+    SetConsoleOutputCP(852); //Setting CodePage to 852, to have all special (coded) characters
+    SetConsoleTitleA("Wer-Dar Paint v - 1.8");
+    Engine.hideCursor();
 
-    SetConsoleOutputCP(852); //Setting CodePage to 852, to have all characters
-    SetConsoleTitleA("Wer-Dar Paint"); //Setting title
-    Engine.hideCursor(); //Hiding cursor
-
-    Engine.loadfile("wdplogo"); //Loading wdplogo.wdi (read)
-    while(i < 25) //If KeyBoardHIT, end while and start program (for 2,5 seconds).
+    Engine.loadfile("wdplogo"); //Loading wdplogo.wdi (read) / legacy
+    for(short i = 0; i < 25; i++) //If KeyBoardHIT(), end while and start program (for 2,5 seconds).
     {
         if(kbhit()) 
         {
@@ -34,14 +31,13 @@ int main()
             break;
         }
         Sleep(100);
-        i++;
     }
 
     Engine.clear(); //Clears screen / system("cls") is broken, and slower.
     Engine.loadfile("load");
 
     /*informational text for user */
-    Engine.tp(1, 1); Engine.setColor(0, 15); printf("Edit modes: Turn off Quick edit mode;"); //teleports cursor to 1, 1;  Sets color for text; and printfs the text
+    Engine.tp(1, 1); Engine.setColor(0, 15); printf("Edit modes: Turn off Quick edit mode;");
     Engine.setColor(12, 15); printf(" T");
     Engine.setColor(0, 15); printf("urn off insert mode; Turn rest on;");
     Engine.tp(1, 2); printf("Selecting Text: Everything off;");
@@ -55,146 +51,121 @@ int main()
     Engine.tp(1, 9); printf("Click any key to start drawing.");
     Engine.tp(1, 10); Engine.setColor(0, 12); printf("DON'T MOUSE OVER RIGHT BOTTOM CORNER");
     images.push_back(image());
-    getch(); //awaits for input
-    
-    i = 2;
-    while(i < 36)
-    {
-        Engine.tp(i, 25);
-        Engine.setColor(Engine.whatColor(Engine.toolbar[i - 2]), Engine.whatColor(Engine.toolbar[i - 2]));
-        if(Engine.toolbar[i - 2] == '#') Engine.setColor(8, 7);
-        printf("%c", Engine.toolbar[i - 2]);
+    getch(); //awaits for input from user
 
-        Engine.tp(i + 37, 25);
-        Engine.setColor(0, Engine.whatColor(Engine.toolbar[i - 2]));
-        printf("%c", Engine.tools[2]);
-        i++;
-    }
-    Engine.setColor(8, 7);
-    Engine.tp(71, 25);
-    printf("##");
-
-    Engine.tp(74, 25);
-    Engine.setColor(0, 15);
-    printf("%c%c%c%c", Engine.tools[0], Engine.tools[1], Engine.tools[2], Engine.tools[3]);
-    Engine.setColor(1, 8); 
-    Engine.tp(0, 25); printf("%c%c", Engine.tools[1], Engine.tools[1]);
-    Engine.tp(36, 25); printf("%c", Engine.tools[2]);
-    Engine.tp(38, 25); printf("%c", Engine.tools[2]);
-    Engine.tp(73, 25); printf("%c", Engine.tools[2]);
-    Engine.tp(78, 25); printf("%c%c", Engine.tools[2], Engine.tools[2]);
-    /* while to display whole map area */
-    Engine.tp(0, 0);
-    int i2 = 0; i = 0;
-    while(i < 25)
+    short whatChar = 0, whatLine = 0;
+    while(whatLine < 25)
     {
-        while(i2 < 80)
+        while(whatChar < 80)
         {
-            Engine.area[i2][i] = '#';
-            Engine.area2[i2][i] = '#';
-            Engine.chars[i2][i] = '#';
-            Engine.setColor(Engine.whatColor(Engine.area[i2][i]), Engine.whatColor(Engine.area[i2][i]));
-            if(Engine.area[Engine.mx][Engine.my] == '#') Engine.setColor(8, 7);
-            printf("%c", Engine.area[i2][i]);
-            i2++;
+            //Sets default value for Layers 
+            Paint.backgroundLayer[whatChar][whatLine] = '#';
+            Paint.colorLayer[whatChar][whatLine] = '#';
+            Paint.characterLayer[whatChar][whatLine] = '#';
+            whatChar++;
         }
-        i2 = 0;
-        i++;
+        whatChar = 0;
+        whatLine++;
     }
+    Paint.draw();
+    //mouse(); is like loop in arduino, you can't leave it ;)
     Engine.mouse(clicked, doubleClicked, moved, keypressed);
     return 0;
 }
 
 void keypressed(char input)
 {
-    /*switch(input)
-    {
-        case ' ':
-            paint.saveDisk();
-            Engine.tp(0, 0); Engine.setColor(0, 15); printf("saved");
-            Sleep(250);
-        break;
-    }*/
+    
 }
 
 void clicked()
 {
-    if(paint.doMenu == false)
+    if(Paint.doMenu == false)
     {
+        /* if menu isn't ON, do those: */
+        /* the default template is this:
+        # if(Engine.my <= lowest_my && Engine.mx >= bigest_my && Engine.mx <= lowest_mx && Engine.mx >= bigest_mx)
+        # {
+        #     //Do onClick   
+        # }
+        */
         if(Engine.my < 25 && Engine.mx < 80)
         {
             Engine.tp(Engine.mx, Engine.my);
-            printf("%c", Engine.currentChar);
-            Engine.area[Engine.mx][Engine.my] = Engine.whatChar(Engine.currentColor);
-            Engine.area2[Engine.mx][Engine.my] = Engine.whatChar(Engine.secondaryColor);
-            Engine.chars[Engine.mx][Engine.my] = Engine.currentChar;
+            printf("%c", Paint.currentChar);
+            Paint.backgroundLayer[Engine.mx][Engine.my] = Engine.whatChar(Paint.mainColor);
+            Paint.colorLayer[Engine.mx][Engine.my] = Engine.whatChar(Paint.secondaryColor);
+            Paint.characterLayer[Engine.mx][Engine.my] = Paint.currentChar;
         }
         else if(Engine.my == 25 && Engine.mx > 1 && Engine.mx < 36)
         {
-            Engine.currentColor = (Engine.mx - 2) / 2;
-            if((Engine.mx - 2) / 2 > (Engine.mx - 1) / 2) Engine.currentColor = (Engine.mx - 1) / 2;
+            if(Paint.mainColor == 16 && Paint.secondaryColor == 16 && Engine.mx < 34) Paint.currentChar = Paint.previousChar;    
+            else if(Engine.mx >= 34 && Paint.secondaryColor == 16) Paint.previousChar = Paint.currentChar;
+            Paint.mainColor = (Engine.mx - 2) / 2;
+            if((Engine.mx - 2) / 2 > (Engine.mx - 1) / 2) Paint.mainColor = (Engine.mx - 1) / 2;
+            if(Paint.secondaryColor == 16 && Paint.mainColor == 16) Paint.currentChar = '#';
         }
         else if(Engine.my == 25 && Engine.mx > 38 && Engine.mx < 73)
-        {
-            Engine.secondaryColor = (Engine.mx - 38) / 2;
-            if((Engine.mx - 38) / 2 > (Engine.mx - 49) / 2) Engine.secondaryColor = (Engine.mx - 39) / 2;
-            if(Engine.mx > 71) Engine.currentChar = '#';
+        {     
+            if(Paint.mainColor == 16 && Paint.secondaryColor == 16 && Engine.mx < 71) Paint.currentChar = Paint.previousChar;    
+            else if(Engine.mx >= 71 && Paint.mainColor == 16) Paint.previousChar = Paint.currentChar;
+            Paint.secondaryColor = (Engine.mx - 38) / 2;
+            if((Engine.mx - 38) / 2 > (Engine.mx - 49) / 2) Paint.secondaryColor = (Engine.mx - 39) / 2;
+            if(Paint.mainColor == 16 && Paint.secondaryColor == 16) Paint.currentChar = '#';
         }
         else if(Engine.my == 25 && Engine.mx > 73 && Engine.mx < 78)
         {
-            Engine.currentChar = Engine.tools[Engine.mx - 74];
-            paint.displayChar();
+            Paint.currentChar = Paint.tools[Engine.mx - 74];
+            Paint.displayChar();
         }
         else if(Engine.my == 25 && Engine.mx < 2)
         {
-            paint.doMenu = true;
-            paint.menu_Drawed = false;
+            Paint.doMenu = true;
+            Paint.menu_Drawed = false;
         }
     }
-    else menu();
+    else menu(); //if menu is on, run menu :v
 }
 
 void doubleClicked()
 {
-    Engine.doClick = true;
+    Engine.doClick = true; //Prevents from d_click bug
 }
 
 void moved()
 {
     if(Engine.doClick) clicked();
 
-    if(paint.doMenu == false)
+    if(Paint.doMenu == false)
     {
-        /*pYpX*/
+        /*pYpX*/ //previous y and previous x are the previous location of mouse; template is the same for click but with .px and .py
         if(Engine.py < 25 && Engine.px < 80)
         {
-            Engine.setColor(Engine.whatColor(Engine.area[Engine.px][Engine.py]), Engine.whatColor(Engine.area2[Engine.px][Engine.py]));
-            if(Engine.area2[Engine.px][Engine.py] == '#') Engine.setColor(Engine.whatColor(Engine.area[Engine.px][Engine.py]), 7);
+            Engine.setColor(Engine.whatColor(Paint.backgroundLayer[Engine.px][Engine.py]), Engine.whatColor(Paint.colorLayer[Engine.px][Engine.py]));
+            if(Paint.colorLayer[Engine.px][Engine.py] == '#') Engine.setColor(Engine.whatColor(Paint.backgroundLayer[Engine.px][Engine.py]), 7);
             Engine.tp(Engine.px, Engine.py);
-            printf("%c", Engine.chars[Engine.px][Engine.py]);
+            printf("%c", Paint.characterLayer[Engine.px][Engine.py]);
         }
         else if(Engine.py == 25 && Engine.px < 2)
         {
             Engine.tp(0, 25);
             Engine.setColor(1, 8);
-            printf("%c%c", Engine.tools[1], Engine.tools[1]);
-            Engine.px = Engine.mx;
-            Engine.py = Engine.my;
-            paint.displayChar();
+            printf("%c%c", Paint.tools[1], Paint.tools[1]);
+            Paint.displayChar();
         }
         else if(Engine.py == 25 && Engine.px > 1 && Engine.px < 36)
         {
-            Engine.setColor(Engine.whatColor(Engine.toolbar[Engine.px - 2]), Engine.whatColor(Engine.toolbar[Engine.px - 2]));
-            if(Engine.toolbar[Engine.px - 2] == '#') Engine.setColor(8, 7);
+            Engine.setColor(Engine.whatColor(Paint.toolbar[Engine.px - 2]), Engine.whatColor(Paint.toolbar[Engine.px - 2]));
+            if(Paint.toolbar[Engine.px - 2] == '#') Engine.setColor(8, 7);
             Engine.tp(Engine.px, 25);
-            if(Engine.toolbar[Engine.px - 2] == '#') printf("#");
-            else printf("%c", Engine.currentChar);
+            if(Paint.toolbar[Engine.px - 2] == '#') printf("#");
+            else printf("%c", Paint.currentChar);
         }
         else if(Engine.py == 25 && Engine.px > 38 && Engine.px < 71)
         {
-            Engine.setColor(0, Engine.whatColor(Engine.toolbar[Engine.px - 39]));
+            Engine.setColor(0, Engine.whatColor(Paint.toolbar[Engine.px - 39]));
             Engine.tp(Engine.px, 25);
-            printf("%c", Engine.tools[2]);
+            printf("%c", Paint.tools[2]);
         }
         else if(Engine.py == 25 && Engine.px > 70 && Engine.px < 73)
         {
@@ -205,13 +176,13 @@ void moved()
         else if(Engine.py == 25 && Engine.px > 73 && Engine.px < 78)
         {
             Engine.tp(Engine.px, Engine.py); Engine.setColor(0, 15);
-            printf("%c", Engine.tools[Engine.px - 74]);
+            printf("%c", Paint.tools[Engine.px - 74]);
         }
 
         /*mYmX*/
         if(Engine.my < 25 && Engine.mx < 80)
         {
-            Engine.setColor(Engine.currentColor, Engine.secondaryColor);
+            Engine.setColor(Paint.mainColor, Paint.secondaryColor);
             Engine.tp(Engine.mx, Engine.my);
             printf("X");
         }
@@ -219,21 +190,21 @@ void moved()
         {
             Engine.tp(0, 25);
             Engine.setColor(9, 7);
-            printf("%c%c", Engine.tools[1], Engine.tools[1]);
-            paint.displayChar();
+            printf("%c%c", Paint.tools[1], Paint.tools[1]);
+            Paint.displayChar();
         }
         else if(Engine.my == 25 && Engine.mx > 1 && Engine.mx < 36)
         {
             Engine.tp(Engine.mx, Engine.my);
-            Engine.setColor(Engine.whatColor(Engine.toolbar[Engine.mx - 2]), Engine.currentColor);
-            if(Engine.toolbar[Engine.mx - 2] == '#')Engine.setColor(8, Engine.currentColor);
+            Engine.setColor(Engine.whatColor(Paint.toolbar[Engine.mx - 2]), Paint.mainColor);
+            if(Paint.toolbar[Engine.mx - 2] == '#')Engine.setColor(8, Paint.mainColor);
             printf("X");
         }
         else if(Engine.my == 25 && Engine.mx > 38 && Engine.mx < 71)
         {
             Engine.tp(Engine.mx, 25);
-            Engine.setColor(12, Engine.whatColor(Engine.toolbar[Engine.mx - 39]));
-            printf("%c", Engine.tools[2]);
+            Engine.setColor(12, Engine.whatColor(Paint.toolbar[Engine.mx - 39]));
+            printf("%c", Paint.tools[2]);
         }
         else if(Engine.my == 25 && Engine.mx > 70 && Engine.mx < 73)
         {
@@ -244,22 +215,22 @@ void moved()
         else if(Engine.my == 25 && Engine.mx > 73 && Engine.mx < 78)
         {
             Engine.tp(Engine.mx, Engine.my); Engine.setColor(12, 15);
-            printf("%c", Engine.tools[Engine.mx - 74]);
+            printf("%c", Paint.tools[Engine.mx - 74]);
         }
     }
     else menu();
-    Engine.px = Engine.mx; Engine.py = Engine.my;
 }
 void menu()
 {
     char wybor;
-    short i1 = 0, i2 = 0, Id;
-    string name;
+    short whatChar = 0, whatLine = 0;
+    std::string name;
 
-    if(paint.menu_Drawed == false)
+    if(Paint.menu_Drawed == false)
     {
+        //Shows menu
         Engine.clear(); Engine.setColor(0, 15);
-        Engine.tp(2, 1); printf("Wer-Dar Paint v-1.7");
+        Engine.tp(2, 1); printf("Wer-Dar Paint v - 1.8");
         Engine.tp(27, 1); printf("What would you like to do?");
         Engine.setColor(15, 15);
         Engine.tp(23, 0); printf("  ");
@@ -268,6 +239,7 @@ void menu()
         Engine.tp(0, 3); printf("%80d");
         Engine.tp(0, 0);
 
+        //Show image / text for buttons
         Engine.setColor(1, 0);
         Engine.tp(2, 5); printf("                 ");
         Engine.tp(2, 6); printf("  Load disk.wdd  ");
@@ -301,10 +273,11 @@ void menu()
         Engine.setColor(15, 15);
         Engine.tp(0, 13); printf("%80d");
     }
-    paint.menu_Drawed = true;
+    Paint.menu_Drawed = true;
     
     if(Engine.py >= 5 && Engine.py <= 7 && Engine.px >= 2 && Engine.px <= 18 && (Engine.my < 5 || Engine.my > 7 || Engine.mx < 2 || Engine.mx > 18))
     {
+        //show previous image/text
         Engine.setColor(1, 0);
         Engine.tp(2, 5); printf("                 ");
         Engine.tp(2, 6); printf("  Load disk.wdd  ");
@@ -348,16 +321,17 @@ void menu()
 
     if(Engine.my >= 5 && Engine.my <= 7 && Engine.mx >= 2 && Engine.mx <= 18)
     {
+        //show image/text ::onHover
         Engine.setColor(9, 0);
         Engine.tp(2, 5); printf("                 ");
         Engine.tp(2, 6); printf("  Load disk.wdd  ");
         Engine.tp(2, 7); printf("                 ");
         if(Engine.doClick)
         {
-            paint.doMenu = false;
+            Paint.doMenu = false;
             Engine.doClick = true;
-            paint.loadDisk();
-            paint.draw();
+            Paint.loadDisk();
+            Paint.draw();
         } 
     }
     else if(Engine.my >= 5 && Engine.my <= 7 && Engine.mx >= 21 && Engine.mx <= 41)
@@ -368,10 +342,10 @@ void menu()
         Engine.tp(21, 7); printf("                    ");
         if(Engine.doClick)
         {
-            paint.doMenu = false;
+            Paint.doMenu = false;
             Engine.doClick = true;
-            paint.saveDisk();
-            paint.draw();
+            Paint.saveDisk();
+            Paint.draw();
         }
     }
     else if(Engine.my >= 5 && Engine.my <= 7 && Engine.mx >= 44 && Engine.mx <= 60)
@@ -382,7 +356,7 @@ void menu()
         Engine.tp(44, 7); printf("                ");
         if(Engine.doClick)
         {
-            paint.doMenu = false;
+            Paint.doMenu = false;
             Engine.doClick = false;
 
             Engine.tp(2, 15);
@@ -393,30 +367,29 @@ void menu()
             Engine.tp(2, 19);
             Engine.setColor(0, 11);
             printf("Enter here: ");
-            if(wybor == 'a' || wybor == 'A')
+            if(wybor == 'a' || wybor == 'A') //If choice is equal to a/A, it searches for the Id
             {
                 cin >> name;
-                Id = Engine.getId(name);
+                Paint.currentId = Engine.getId(name);
             }
-            else if(wybor == 'b' || wybor == 'B') cin >> Id;
-            Engine.currentId = Id;
+            else if(wybor == 'b' || wybor == 'B') cin >> Paint.currentId; //Else if choice is equal to b/B, it simply gets the name
 
-            if(Engine.currentId >= images.size()) Engine.currentId = 0;
+            if(Paint.currentId >= images.size() || Paint.currentId < 0) Paint.currentId = 0;
 
-            i1 = 0; i2 = 0;
-            while(i1 < 25)
+            whatLine = 0; whatChar = 0;
+            while(whatLine < 25)
             {
-                while(i2 < 80)
+                while(whatChar < 80)
                 {
-                    Engine.area[i2][i1] = images[Engine.currentId].area[i2][i1];
-                    Engine.area2[i2][i1] = images[Engine.currentId].area2[i2][i1];
-                    Engine.chars[i2][i1] = images[Engine.currentId].chars[i2][i1];
-                    i2++;
+                    Paint.backgroundLayer[whatChar][whatLine] = images[Paint.currentId].backgroundLayer[whatChar][whatLine];
+                    Paint.colorLayer[whatChar][whatLine] = images[Paint.currentId].colorLayer[whatChar][whatLine];
+                    Paint.characterLayer[whatChar][whatLine] = images[Paint.currentId].characterLayer[whatChar][whatLine];
+                    whatChar++;
                 }
-                i2 = 0;
-                i1++;
+                whatChar = 0;
+                whatLine++;
             }
-            paint.draw();
+            Paint.draw();
         }
     }
     else if(Engine.my >= 5 && Engine.my <= 7 && Engine.mx >= 62 && Engine.mx <= 77)
@@ -427,22 +400,23 @@ void menu()
         Engine.tp(62, 7); printf("                ");
         if(Engine.doClick)
         {
-            paint.doMenu = false;
+            //It saves current image to images.layers[x][y]
+            Paint.doMenu = false;
             Engine.doClick = true;
-            i1 = 0; i2 = 0;
-            while(i1 < 25)
+            whatLine = 0; whatChar = 0;
+            while(whatLine < 25)
             {
-                while(i2 < 80)
+                while(whatChar < 80)
                 {
-                    images[Engine.currentId].area[i2][i1] = Engine.area[i2][i1];
-                    images[Engine.currentId].area2[i2][i1] = Engine.area2[i2][i1];
-                    images[Engine.currentId].chars[i2][i1] = Engine.chars[i2][i1];
-                    i2++;
+                    images[Paint.currentId].backgroundLayer[whatChar][whatLine] = Paint.backgroundLayer[whatChar][whatLine];
+                    images[Paint.currentId].colorLayer[whatChar][whatLine] = Paint.colorLayer[whatChar][whatLine];
+                    images[Paint.currentId].characterLayer[whatChar][whatLine] = Paint.characterLayer[whatChar][whatLine];
+                    whatChar++;
                 }
-                i2 = 0;
-                i1++;
+                whatChar = 0;
+                whatLine++;
             }
-            paint.draw();
+            Paint.draw();
         }
     }
     else if(Engine.my >= 9 && Engine.my <= 11 && Engine.mx >= 2 && Engine.mx <= 20)
@@ -453,7 +427,7 @@ void menu()
         Engine.tp(2, 11); printf("                   ");
         if(Engine.doClick)
         {
-            paint.doMenu = false;
+            Paint.doMenu = false;
             Engine.doClick = false;
 
             Engine.tp(2, 15); Engine.setColor(0, 5);
@@ -465,27 +439,26 @@ void menu()
             if(wybor == 'a' || wybor == 'A')
             {
                 cin >> name;
-                Id = Engine.getId(name);
+                Paint.currentId = Engine.getId(name);
             }
-            else if(wybor == 'b' || wybor == 'B') cin >> Id;
-            Engine.currentId = Id;
+            else if(wybor == 'b' || wybor == 'B') cin >> Paint.currentId;
 
-            if(Engine.currentId >= images.size()) Engine.currentId = 0;
+            if(Paint.currentId >= images.size() || Paint.currentId < 0) Paint.currentId = 0;
 
-            i1 = 0; i2 = 0;
-            while(i1 < 25)
+            whatLine = 0; whatChar = 0;
+            while(whatLine < 25)
             {
-                while(i2 < 80)
+                while(whatChar < 80)
                 {
-                    images[Engine.currentId].area[i2][i1] = Engine.area[i2][i1];
-                    images[Engine.currentId].area2[i2][i1] = Engine.area2[i2][i1];
-                    images[Engine.currentId].chars[i2][i1] = Engine.chars[i2][i1];
-                    i2++;
+                    images[Paint.currentId].backgroundLayer[whatChar][whatLine] = Paint.backgroundLayer[whatChar][whatLine];
+                    images[Paint.currentId].colorLayer[whatChar][whatLine] = Paint.colorLayer[whatChar][whatLine];
+                    images[Paint.currentId].characterLayer[whatChar][whatLine] = Paint.characterLayer[whatChar][whatLine];
+                    whatChar++;
                 }
-                i2 = 0;
-                i1++;
+                whatChar = 0;
+                whatLine++;
             }
-            paint.draw();
+            Paint.draw();
         }
     }
     else if(Engine.my >= 9 && Engine.my <= 11 && Engine.mx >= 58 && Engine.mx <= 78)
@@ -497,37 +470,38 @@ void menu()
         
         if(Engine.doClick)
         {
-            paint.doMenu = false;
+            //Makes new picture
+            Paint.doMenu = false;
             Engine.doClick = false;
-            Engine.currentId = images.size();
+            Paint.currentId = images.size();
 
             images.push_back(image());
 
             Engine.tp(2, 15); 
             Engine.setColor(0, 6); printf("Set name of this picture: ");
-            cin >> images[Engine.currentId].name;
+            cin >> images[Paint.currentId].name;
 
             Engine.setColor(0, 14);
-            Engine.tp(2, 16); cout << "Id of this picture is: " << Engine.getId(images[Engine.currentId].name);
+            Engine.tp(2, 16); printf("Id of this picture is: %s", Engine.getId(images[Paint.currentId].name));
             Sleep(750);
 
-            i1 = 0; i2 = 0;
-            while(i1 < 25)
+            whatLine = 0; whatChar = 0;
+            while(whatLine < 25)
             {
-                while(i2 < 80)
+                while(whatChar < 80)
                 {
-                    if(images[Id].area[i2][i1] != '#')
+                    if(images[Paint.currentId].backgroundLayer[whatChar][whatLine] != '#')
                     {
-                        Engine.area[i2][i1] = images[Id].area[i2][i1];
-                        Engine.area2[i2][i1] = images[Id].area2[i2][i1];
-                        Engine.chars[i2][i1] = images[Id].chars[i2][i1];
+                        Paint.backgroundLayer[whatChar][whatLine] = images[Paint.currentId].backgroundLayer[whatChar][whatLine];
+                        Paint.colorLayer[whatChar][whatLine] = images[Paint.currentId].colorLayer[whatChar][whatLine];
+                        Paint.characterLayer[whatChar][whatLine] = images[Paint.currentId].characterLayer[whatChar][whatLine];
                     }
-                    i2++;
+                    whatChar++;
                 }
-                i2 = 0;
-                i1++;
+                whatChar = 0;
+                whatLine++;
             }
-            paint.draw();
+            Paint.draw();
         }
     }
 }
