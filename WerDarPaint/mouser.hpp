@@ -6,13 +6,61 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cmath> 
 
-using namespace std;
+#define BLACK 0
+#define DARK_BLUE 1
+#define DARK_GREEN 2
+#define DARK_AQUA 3
+#define DARK_RED 4
+#define PURPLE 5
+#define DARK_YELLOW 6
+#define LIGHT_GRAY 7
+#define GRAY 8
+#define BLUE 9
+#define GREEN 10
+#define AQUA 11
+#define RED 12
+#define PINK 13
+#define YELLOW 14
+#define WHITE 15
+
+#define KEY_ENTER 13
+#define KEY_ESC 27
+#define KEY_F1 59
+#define KEY_F2 60
+#define KEY_F3 61
+#define KEY_F4 62
+#define KEY_F5 63
+#define KEY_F6 64
+#define KEY_F7 65
+#define KEY_F8 66
+#define KEY_F9 67
+#define KEY_F10 68
+#define KEY_HOME 71
+#define KEY_ARROW_UP 72
+#define KEY_PGUP 73
+#define KEY_ARROW_LEFT 75
+#define KEY_ARROW_RIGHT 77
+#define KEY_END 79
+#define KEY_ARROW_DOWN 80
+#define KEY_PGDOWN 81
+#define KEY_INS 82
+#define KEY_DEL 83
+
+// ??
+#define KEY_F11 -123
+#define KEY_F12 -122
+#define KEY_BACKSPACE 9
+#define KEY_TAB 9
+#define KEY_SPACE 32 
+
+#define debugVar(var) std::cout << #var << "=" << var << ";" //DarXe's changed debug function <3
 
 /*
 ####################################################################################################
 ##                                                                                                ##
-##  Wer-Dar Paint v - 1.8 by Jakub Sobacki                                                        ##
+##  Wer-Dar Paint v - 1.9 by Jakub Sobacki                                                        ##
 ##  Few things before you get started                                                             ##
 ##  This app requires special treatment for cmd, it's written when app is opened (main function)  ##
 ##                                                                                                ##
@@ -33,9 +81,9 @@ public:
         {
             while(whatChar < 80)
             {
-                backgroundLayer[whatChar][whatLine] = '#';  //|
-                colorLayer[whatChar][whatLine] = '#'; //+} Those Lines are setting default values for image 
-                characterLayer[whatChar][whatLine] = '#'; //|
+                backgroundLayer[whatChar][whatLine] = '`';  //|
+                colorLayer[whatChar][whatLine] = '`'; //+} Those Lines are setting default values for image 
+                characterLayer[whatChar][whatLine] = '`'; //|
                 whatChar++;
             }
             whatLine++;
@@ -45,7 +93,7 @@ public:
     }
 };
 
-vector <image> images; //Creates vector for images to hold a lot of them
+std::vector <image> images; //Creates vector for images to hold a lot of them
 
 /*
 #                     Few words of introduction to MOUSER.
@@ -53,6 +101,7 @@ vector <image> images; //Creates vector for images to hold a lot of them
 # mouser is mouse based "engine", that's based on mouse.
 # It's based on few function and base function on 4 (onMove, onClick, onDClick, keyPress).
 # The other functions are essentials to work on & with mouser.
+# Created By Jakub 'Wersjon' Sobacki
 */
 
 class mouser
@@ -61,7 +110,7 @@ public:
     short mx, my; //Holds the value of mouse position
     short px, py; //Holds the value of previous mouse position, useful for hovers.
     bool doClick; //Holds value of click, if user clicks, this changes into true, and when unclicks to false,
-    //this prevents from double click - hold bug.
+    //it prevents from double click - hold bug.
         
     HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -137,12 +186,13 @@ public:
 
     void clear() //Clears 80x25 Screen:
     {
-        setColor(0, 0);
+        setColor(BLACK, BLACK);
         tp(0, 0);
-        printf("%2000d \n"); //Prints 2000 characters of double value.
+        printf("%2000i"); //Prints 2000 characters of double value.
+        tp(0, 0);
     }
 
-    int whatColor(char x) //Says about color of "char x". Colors are stored in HEX value in .wdi files:
+    int getColor(char x) //Says about color of "char x". Colors are stored in HEX value in .wdi files:
     {
         if(x == '1') return 1;
         else if(x == '2') return 2;
@@ -159,12 +209,12 @@ public:
         else if(x == 'D') return 13;
         else if(x == 'E') return 14;
         else if(x == 'F') return 15;
-        else if(x == '#') return 8;
+        else if(x == '`') return 8;
 
         else return 0;
     }
     
-    char whatChar(short x) //Says what char, should be color stored in short.
+    char getChar(short x) //Says what char, should be color stored in short.
     {
         if(x == 1) return '1';
         else if(x == 2) return '2';
@@ -181,7 +231,7 @@ public:
         else if(x == 13) return 'D';
         else if(x == 14) return 'E';
         else if(x == 15) return 'F';
-        else if(x == 16) return '#';
+        else if(x == 16) return '`';
         else return '0';
     }
 
@@ -190,20 +240,20 @@ public:
     {
         /*Wer-Dar Paint v - 1.5*/
         char area[80][25], area2[80][25], chars[80][25]; //sets variable for 3 painting layers
-        fstream openfile;
+        std::fstream openfile;
         std::string holder;
         int i1 = 0, i2 = 0;
 
-        openfile.open(filename + ".wdi", ios::in); //opens .wdi file
+        openfile.open(filename + ".wdi", std::ios::in); //opens .wdi file
         if(openfile.good() == false) //if it doesn't exist, it displays "error 404"(file not found).
         {
-            tp(0, 0); setColor(0, 15);
+            tp(0, 0); setColor(BLACK, WHITE);
             printf("error 404");
             openfile.close();
             return;
         }
         openfile.close();
-        openfile.open(filename + ".wdi", ios::in);
+        openfile.open(filename + ".wdi", std::ios::in);
         while(getline(openfile, holder)) //Opens file, and gets to every line value to holder
         {
             if(i1 < 26 && i1 > 0)
@@ -239,8 +289,8 @@ public:
             while(i2 < 80)
             {
                 tp(i2, i1);
-                setColor(whatColor(area[i2][i1]), whatColor(area2[i2][i1])); //Sets color of area and area2 by whatColor
-                if(area[i2][i1]!='#') printf("%c", chars[i2][i1]); //If char isn't "invisible", it doesn't print it.
+                setColor(getColor(area[i2][i1]), getColor(area2[i2][i1])); //Sets color of area and area2 by getColor
+                if(area[i2][i1]!='`') printf("%c", chars[i2][i1]); //If char isn't "invisible", it doesn't print it.
                 i2++;
             }
             i1++; i2 = 0;
@@ -252,7 +302,7 @@ public:
 class essentials
 {
 public:
-    bool doMenu = false, menu_Drawed; //Information about menu.
+    bool doMenu = false, menu_Drawed, modeText = false; //Information about menu and modeText.
     char currentChar = (char)177, previousChar; //Information about paints char
     short currentId, mainColor = 15, secondaryColor = 15; //Id of picture, and paint colors
     
@@ -261,20 +311,20 @@ public:
     tools[4] = {(char)176, (char)177, (char)178, (char)220},
     toolbar[34] =
     {
-        '0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F', '#', '#'
+        '0', '0', '1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6', '7', '7', '8', '8', '9', '9', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F', '`', '`'
     };
 
     void saveDisk() //Saves every picture into disk.wdd
     {
-        fstream openFile;
+        std::fstream openFile;
         short whatPic = 0, whatLine = 3, whatChar = 0; //whatPic is the ID of the picture that's currently worked on
         
-        openFile.open("disk.wdd", ios::out);
+        openFile.open("disk.wdd", std::ios::out);
         while(whatPic <= images.size() - 1) //Do this, while picture worked on is smaller || equal to the size of vector - 1.
         {
-            if(whatPic != 0) openFile << endl; //Displays enter before almost every picture (not the first one)
+            if(whatPic != 0) openFile << std::endl; //Displays enter before almost every picture (not the first one)
             //Displays basic information about the picture, and version of paint it has been painted on.
-            openFile << whatPic << " | Wer-Dar Disk v - 1.8" << endl << images[whatPic].name << endl << "@" << endl;
+            openFile << whatPic << " | Wer-Dar Disk v - 1.9" << std::endl << images[whatPic].name << std::endl << "@" << std::endl;
             //Saves every char into file
             while(whatLine <= 79)
             {
@@ -285,7 +335,7 @@ public:
                         openFile << images[whatPic].backgroundLayer[whatChar][whatLine - 3];
                         whatChar++;
                     }
-                    openFile << endl;
+                    openFile << std::endl;
                 }
                 else if(whatLine >= 29 && whatLine <= 53)
                 {
@@ -294,18 +344,18 @@ public:
                         openFile << images[whatPic].colorLayer[whatChar][whatLine - 29];
                         whatChar++;
                     }
-                    openFile << endl;
+                    openFile << std::endl;
                 }
                 else if(whatLine >= 55 && whatLine <= 79)
                 {
-                    openFile << endl;
+                    openFile << std::endl;
                     while(whatChar < 80)
                     {
                         openFile << images[whatPic].characterLayer[whatChar][whatLine - 55];
                         whatChar++;
                     }
                 }
-                else if(whatLine == 28) openFile << endl;
+                else if(whatLine == 28) openFile << std::endl;
                 whatChar = 0;
                 whatLine++;
             }
@@ -317,17 +367,17 @@ public:
 
     void loadDisk()
     {
-        /*Wer-Dar Paint v - 1.8*/
+        /*Wer-Dar Paint v - 1.9*/
         images.clear(); //Clears the image vector
 
-        fstream openFile;
+        std::fstream openFile;
         std::string holder; //Holds current line
         int whatChar = 0, whatPic = 0, line = 0;
 
-        openFile.open("disk.wdd", ios::in);
+        openFile.open("disk.wdd", std::ios::in);
         if(openFile.good() == false)
         {
-            Engine.tp(0, 0); Engine.setColor(12, 15); printf("No disk.wdd found"); //Error
+            Engine.tp(0, 0); Engine.setColor(RED, WHITE); printf("No disk.wdd found"); //Error
             getch();
             openFile.close();
             return;
@@ -340,7 +390,7 @@ public:
         
         openFile.close();
         
-        openFile.open("disk.wdd", ios::in); //opens .wdd file
+        openFile.open("disk.wdd", std::ios::in); //opens .wdd file
         while(!openFile.eof())
         {  
             getline(openFile, holder);
@@ -368,7 +418,7 @@ public:
                 {
                     //From line 30 to line 54 it stores colorLayer
                     images[whatPic - 1].colorLayer[whatChar][line - (30 + (whatPic - 1) * 80)] = holder[whatChar]; //Loads characterLayer to colorLayer, similiar to backgroundLayer, this one reads lower part of .wdi file
-                    if(images[whatPic - 1].backgroundLayer[whatChar][line - (30 + (whatPic - 1) * 80)] == '#') images[whatPic - 1].colorLayer[whatChar][line - (30 + (whatPic - 1) * 80)] = '#';
+                    if(images[whatPic - 1].backgroundLayer[whatChar][line - (30 + (whatPic - 1) * 80)] == '`') images[whatPic - 1].colorLayer[whatChar][line - (30 + (whatPic - 1) * 80)] = '`';
                     whatChar++;
                 }
             }
@@ -379,7 +429,7 @@ public:
                 while(whatChar < 80)
                 {
                     images[whatPic - 1].characterLayer[whatChar][line - (56 + (whatPic - 1) * 80)] = holder[whatChar]; //Loads characterLayer to characterLayer[x][y]
-                    if(images[whatPic - 1].backgroundLayer[whatChar][line - (56 + (whatPic - 1) * 80)] == '#') images[whatPic - 1].characterLayer[whatChar][line - (56 + (whatPic - 1) * 80)] = '#';
+                    if(images[whatPic - 1].backgroundLayer[whatChar][line - (56 + (whatPic - 1) * 80)] == '`') images[whatPic - 1].characterLayer[whatChar][line - (56 + (whatPic - 1) * 80)] = '`';
                     whatChar++;
                 }
             }
@@ -423,10 +473,10 @@ public:
                 else
                 {
                     Engine.tp(whatChar - howLong + 1, whatLine);
-                    bgC_holder = Engine.whatColor(backgroundLayer[whatChar][whatLine]); 
-                    C_holder = Engine.whatColor(colorLayer[whatChar][whatLine]);
-                    if(backgroundLayer[whatChar][whatLine] == '#') bgC_holder = 8;
-                    if(colorLayer[whatChar][whatLine] == '#') C_holder = 7;
+                    bgC_holder = Engine.getColor(backgroundLayer[whatChar][whatLine]); 
+                    C_holder = Engine.getColor(colorLayer[whatChar][whatLine]);
+                    if(backgroundLayer[whatChar][whatLine] == '`') bgC_holder = 8;
+                    if(colorLayer[whatChar][whatLine] == '`') C_holder = 7;
                     Engine.setColor(bgC_holder, C_holder);
 
                     for(int i = 1; i <= howLong; i++) //Increate "howLong" times chars of Display with helpCharacterLayer;
@@ -439,10 +489,10 @@ public:
                     {
                         //The only reason, why it exists is bugs and errors, it 
                         Engine.tp(whatChar, whatLine);
-                        bgC_holder = Engine.whatColor(backgroundLayer[whatChar][whatLine]); 
-                        C_holder = Engine.whatColor(colorLayer[whatChar][whatLine]);
-                        if(backgroundLayer[whatChar][whatLine] == '#') bgC_holder = 8;
-                        if(colorLayer[whatChar][whatLine] == '#') C_holder = 7;
+                        bgC_holder = Engine.getColor(backgroundLayer[whatChar][whatLine]); 
+                        C_holder = Engine.getColor(colorLayer[whatChar][whatLine]);
+                        if(backgroundLayer[whatChar][whatLine] == '`') bgC_holder = 8;
+                        if(colorLayer[whatChar][whatLine] == '`') C_holder = 7;
                         Engine.setColor(bgC_holder, C_holder);
                         printf("%c", characterLayer[whatChar][whatLine]);
                     }
@@ -463,30 +513,246 @@ public:
         for(int i = 0; i < 36; i++) //Draw toolbar [p1]
         {
             Engine.tp(i, 25);
-            Engine.setColor(Engine.whatColor(toolbar[i - 2]), Engine.whatColor(toolbar[i - 2]));
-            if(toolbar[i-2] == '#') Engine.setColor(8, 7);
+            Engine.setColor(Engine.getColor(toolbar[i - 2]), Engine.getColor(toolbar[i - 2]));
+            if(toolbar[i-2] == '`') Engine.setColor(GRAY, LIGHT_GRAY);
             printf("%c", toolbar[i - 2]);
             if(i <= 33)
             {
                 Engine.tp(i + 37, 25);
-                Engine.setColor(0, Engine.whatColor(toolbar[i - 2]));
+                Engine.setColor(BLACK, Engine.getColor(toolbar[i - 2]));
                 printf("%c", tools[2]);
             }
         }
         //Draw toolbar [p2]
-        Engine.setColor(8, 7);
+        Engine.setColor(GRAY, LIGHT_GRAY);
         Engine.tp(71, 25);
-        printf("##");
+        printf("``");
 
         Engine.tp(74, 25);
-        Engine.setColor(0, 15);
-        printf("%c%c%c%c", tools[0], tools[1], tools[2], tools[3]);
-        Engine.setColor(1, 8); 
+        Engine.setColor(BLACK, WHITE);
+        printf("%c%c%c%c~", tools[0], tools[1], tools[2], tools[3]);
+        Engine.setColor(DARK_BLUE, GRAY); 
         Engine.tp(0, 25); printf("%c%c", tools[1], tools[1]);
         Engine.tp(36, 25); printf("%c", tools[2]);
         Engine.tp(38, 25); printf("%c", tools[2]);
         Engine.tp(73, 25); printf("%c", tools[2]);
-        Engine.tp(78, 25); printf("%c%c", tools[2], tools[2]);
-        Engine.tp(0, 0);
+    }
+    short imageChooser()
+    {
+        char oldArea[80][25], oldArea2[80][25], oldChars[80][25];
+        char helper, helparea1, helparea2, option;
+        
+        short bgC_holder, c_holder;
+        short whatLine, whatChar;
+        short choosingPic = 0, howLong;
+
+        std::string Display;
+
+
+        while(true)
+        {
+            helper = oldArea[0][0]; helparea1 = oldArea2[0][0]; oldChars[0][0];
+            howLong = 1;
+            
+            option = getch();
+            switch(option)
+            {
+                case 'A':
+                case 'a':
+                case KEY_ARROW_LEFT: // ?
+                    choosingPic--;
+                    if(choosingPic < 0) choosingPic = images.size() - 1;
+                break;
+
+                case 'D':
+                case 'd':
+                case KEY_ARROW_RIGHT: // ?
+                    choosingPic++;
+                    if(choosingPic > images.size() - 1) choosingPic = 0;
+                break;
+
+                case ' ':
+                    return choosingPic;
+                break;
+            }
+            
+            for(short whatLineFor = 0; whatLineFor < 25; whatLineFor++)
+            {
+                for(short whatCharFor = 0; whatCharFor < 80; whatCharFor++)
+                {
+                    oldArea[whatCharFor][whatLineFor] = images[choosingPic].backgroundLayer[whatCharFor][whatLineFor];
+                    oldArea2[whatCharFor][whatLineFor] = images[choosingPic].colorLayer[whatCharFor][whatLineFor];
+                    oldChars[whatCharFor][whatLineFor] = images[choosingPic].characterLayer[whatCharFor][whatLineFor];
+                }
+            }
+        
+            Engine.tp(0, 0);
+            whatLine = 0, whatChar = 0;
+            while(whatLine < 25) //Displays paiting on canvas
+            {
+                while(whatChar < 80)
+                {
+                    if(oldArea[whatChar][whatLine] == oldArea[whatChar + 1][whatLine] && oldArea2[whatChar][whatLine] == oldArea2[whatChar + 1][whatLine] && oldChars[whatChar][whatLine] == oldChars[whatChar + 1][whatLine] && whatChar < 79)
+                        howLong++;
+                    else
+                    {
+                        Engine.tp(whatChar - howLong + 1, whatLine);
+                        bgC_holder = Engine.getColor(helparea1);
+                        c_holder = Engine.getColor(helparea2);
+                        if(oldArea[whatChar][whatLine] == '`') bgC_holder = GRAY;
+                        if(oldArea2[whatChar][whatLine] == '`') c_holder = LIGHT_GRAY;
+                        Engine.setColor(bgC_holder, c_holder);
+
+                        for(short i = 1; i <= howLong; i++)
+                        {
+                            Display += helper;
+                        }
+                        std::cout << Display;
+                        howLong = 1;
+                        if(whatChar == 79)
+                        {
+                            Engine.tp(whatChar, whatLine);
+                            bgC_holder = Engine.getColor(helparea1);
+                            c_holder = Engine.getColor(helparea2);
+                            if(oldArea[whatChar][whatLine] == '`') bgC_holder = GRAY;
+                            if(oldArea2[whatChar][whatLine] == '`') c_holder = LIGHT_GRAY;
+                            Engine.setColor(bgC_holder, c_holder);
+                            printf("%c", oldChars[whatChar][whatLine]);
+                        }
+                    }
+                    whatChar++;
+                    helper = oldChars[whatChar][whatLine];
+                    helparea1 = oldArea[whatChar][whatLine];
+                    helparea2 = oldArea2[whatChar][whatLine];
+                    Display.clear();
+                }
+                whatLine++; whatChar = 0;
+                helper = oldChars[whatChar][whatLine];
+                helparea1 = oldArea[whatChar][whatLine];
+                helparea2 = oldArea2[whatChar][whatLine];
+                howLong = 1;
+                Display.clear();
+            }
+            Engine.tp(0, 25);
+            Engine.setColor(BLACK, BLACK);
+            printf("%80i");
+            Engine.tp(0, 25);
+            Engine.setColor(BLACK, WHITE);
+            std::cout << " " << choosingPic << " | " << images[choosingPic].name << " ";
+            Engine.tp(0, 0);
+        }
+    }
+    void tyldaMenu()
+    {
+        char choice;
+        bool choiceDrawn;
+        short currentChoice = 1;
+        int getIntForChar;
+        
+        Engine.doClick = false;
+
+        Engine.tp(32, 11);
+        Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+        printf("╔══Other Menu══╗");
+
+        Engine.tp(32, 14);
+        printf("╚══════════════╝");
+
+        Engine.tp(32, 12);
+        printf("\272");
+        Engine.setColor(AQUA, BLACK);
+        printf(" Text Option  ");
+        Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+        printf("\272");
+        Engine.tp(32, 13);
+        printf("\272");
+        Engine.setColor(DARK_AQUA, DARK_BLUE);
+        printf(" Select Char  ");
+        Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+        printf("\272");
+
+        while(true)
+        {
+            choice = getch();
+
+            if(choice == KEY_ARROW_UP || choice == 'W' || choice == 'w')
+            {
+                currentChoice--;
+                if(currentChoice < 1) currentChoice = 2;
+
+                choiceDrawn == false;
+            }
+            else if(choice == KEY_ARROW_DOWN || choice == 'S' || choice == 's')
+            {
+                currentChoice++;
+                if(currentChoice > 2) currentChoice = 1;
+                
+                choiceDrawn == false;
+            }
+            if(currentChoice == 1 && choiceDrawn == false)
+            {
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                Engine.tp(32, 12);
+                printf("\272");
+                Engine.setColor(AQUA, BLACK);
+                printf(" Text Option  ");
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                printf("\272");
+
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                Engine.tp(32, 13);
+                printf("\272");
+                Engine.setColor(DARK_AQUA, DARK_BLUE);
+                printf(" Select Char  ");
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                printf("\272");
+
+                choiceDrawn == true;
+            }
+            if(currentChoice == 2 && choiceDrawn == false)
+            {
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                Engine.tp(32, 13);
+                printf("\272");
+                Engine.setColor(AQUA, BLACK);
+                printf(" Select Char  ");
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                printf("\272");
+
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                Engine.tp(32, 12);
+                printf("\272");
+                Engine.setColor(DARK_AQUA, DARK_BLUE);
+                printf(" Text Option  ");
+                Engine.setColor(DARK_BLUE, LIGHT_GRAY);
+                printf("\272");
+
+                choiceDrawn == true;
+            }
+            if(choice == KEY_SPACE || choice == KEY_ENTER) break;
+        }
+        if(currentChoice == 1) modeText = true;
+        else if(currentChoice == 2)
+        {
+            Engine.clear();
+            Engine.setColor(BLACK, WHITE);
+            Engine.tp(0, 0);
+            printf("would you like to write it in char or int form?\n1.Char\n2.int\n");
+            choice = getch();
+            switch(choice)
+            {
+                case '1':
+                    printf("Write proper Char:");
+                    std::cin >> currentChar;
+                break;
+                case '2':
+                    printf("Write proper Int:");
+                    std::cin >> getIntForChar;
+                    currentChar = getIntForChar;
+                break;
+            }
+        }
+        draw();
+        displayChar();
     }
 }Paint;

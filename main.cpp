@@ -318,7 +318,6 @@ void start()
             {
                 case 'W':
                 case 'w':
-                {
                     if(currentOption>0)
                     {
                         if(currentOption%2 == 0)setColor(11,0);
@@ -330,11 +329,10 @@ void start()
                         currentOption--;
                         everyfive = 5;
                     }
-                    break;
-                }
+                break;
+
                 case 'S':
                 case 's':
-                {
                     if(currentOption<3)
                     {
                         if(currentOption%2 == 0)setColor(11,0);
@@ -346,38 +344,24 @@ void start()
                         currentOption++;
                         everyfive = 5;
                     }
-                    break;
-                }
+                break;
                 case 13:
-                {
                     switch(currentOption)
                     {
                         case 0:
-                        {
                             return;
-                            break;
-                        }
-                        case 1:
-                        {
-                            break;
-                        }
+                        break;
+                        case 1: //seperate
                         case 2:
-                        {
-                            break;
-                        }
+                            //    
+                        break;
                         case 3:
-                        {
                             exit(0);
-                            break;
-                        }
+                        break;
                     }
-                    break;
-                }
                 break;
                 default:
-                {
-                    break;
-                }
+                break;
             }
         }
     }
