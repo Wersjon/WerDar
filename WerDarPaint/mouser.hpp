@@ -60,7 +60,7 @@
 /*
 ####################################################################################################
 ##                                                                                                ##
-##  Wer-Dar Paint v - 1.9 by Jakub Sobacki                                                        ##
+##  Wer-Dar Paint v - 1.10 by Jakub Sobacki                                                       ##
 ##  Few things before you get started                                                             ##
 ##  This app requires special treatment for cmd, it's written when app is opened (main function)  ##
 ##                                                                                                ##
@@ -235,6 +235,36 @@ public:
         else return '0';
     }
 
+    std::string convertToUTF(std::string strBefore)
+    {
+        std::string strAfter = "";
+        // 176 - \u2591
+        // 177 - \u2592
+        // 178 - \u2593
+        // 220 - \u2584
+
+        for(short i = 0; i < strBefore.length(); i++)
+        {
+            if(strBefore[i] == (char)176) strAfter += "\u2591";
+            if(strBefore[i] == (char)177) strAfter += "\u2592";
+            if(strBefore[i] == (char)178) strAfter += "\u2593";
+            if(strBefore[i] == (char)220) strAfter += "\u2584";
+            else strAfter += strBefore[i];
+        }
+        return strAfter;
+    }
+    
+    std::string convertCharToUTF(char charBefore)
+    {
+        std::string strAfter = "";
+        if(charBefore == (char)176) strAfter += "\u2591";
+        if(charBefore == (char)177) strAfter += "\u2592";
+        if(charBefore == (char)178) strAfter += "\u2593";
+        if(charBefore == (char)220) strAfter += "\u2584";
+        else strAfter += charBefore;
+
+        return strAfter;
+    }
     /* Legacy fileloader, don't touch */
     void loadfile(std::string filename) //Loads .wdi file from version 1.5
     {
@@ -290,7 +320,7 @@ public:
             {
                 tp(i2, i1);
                 setColor(getColor(area[i2][i1]), getColor(area2[i2][i1])); //Sets color of area and area2 by getColor
-                if(area[i2][i1]!='`') printf("%c", chars[i2][i1]); //If char isn't "invisible", it doesn't print it.
+                if(area[i2][i1]!='`') std::cout << convertCharToUTF(chars[i2][i1]); //If char isn't "invisible", it doesn't print it.
                 i2++;
             }
             i1++; i2 = 0;
@@ -324,7 +354,7 @@ public:
         {
             if(whatPic != 0) openFile << std::endl; //Displays enter before almost every picture (not the first one)
             //Displays basic information about the picture, and version of paint it has been painted on.
-            openFile << whatPic << " | Wer-Dar Disk v - 1.9" << std::endl << images[whatPic].name << std::endl << "@" << std::endl;
+            openFile << whatPic << " | Wer-Dar Disk v - 1.10" << std::endl << images[whatPic].name << std::endl << "@" << std::endl;
             //Saves every char into file
             while(whatLine <= 79)
             {
@@ -367,7 +397,7 @@ public:
 
     void loadDisk()
     {
-        /*Wer-Dar Paint v - 1.9*/
+        /*Wer-Dar Paint v - 1.10*/
         images.clear(); //Clears the image vector
 
         std::fstream openFile;
@@ -449,7 +479,7 @@ public:
         else C_holder = secondaryColor;
 
         Engine.setColor(bgC_holder, C_holder);
-        printf("%c", currentChar); 
+        std::cout << Engine.convertCharToUTF(currentChar); 
     }
 
     void draw()
@@ -483,7 +513,7 @@ public:
                     {
                         Display += helpCharacterLayer;
                     }
-                    std::cout << Display; //Couts display - worth noting that printf doesn't work here.
+                    std::cout << Engine.convertToUTF(Display); //Couts display - worth noting that printf doesn't work here.
                     howLong = 1;
                     if(whatChar == 79) //If character is 79th in any line:
                     {
@@ -494,7 +524,7 @@ public:
                         if(backgroundLayer[whatChar][whatLine] == '`') bgC_holder = 8;
                         if(colorLayer[whatChar][whatLine] == '`') C_holder = 7;
                         Engine.setColor(bgC_holder, C_holder);
-                        printf("%c", characterLayer[whatChar][whatLine]);
+                        std::cout << Engine.convertCharToUTF(characterLayer[whatChar][whatLine]);
                     }
                 }
                 whatChar++;
@@ -515,12 +545,12 @@ public:
             Engine.tp(i, 25);
             Engine.setColor(Engine.getColor(toolbar[i - 2]), Engine.getColor(toolbar[i - 2]));
             if(toolbar[i-2] == '`') Engine.setColor(GRAY, LIGHT_GRAY);
-            printf("%c", toolbar[i - 2]);
+            std::cout << Engine.convertCharToUTF(toolbar[i - 2]);
             if(i <= 33)
             {
                 Engine.tp(i + 37, 25);
                 Engine.setColor(BLACK, Engine.getColor(toolbar[i - 2]));
-                printf("%c", tools[2]);
+                std::cout << Engine.convertCharToUTF(tools[2]);
             }
         }
         //Draw toolbar [p2]
@@ -530,12 +560,12 @@ public:
 
         Engine.tp(74, 25);
         Engine.setColor(BLACK, WHITE);
-        printf("%c%c%c%c~", tools[0], tools[1], tools[2], tools[3]);
+        std::cout << Engine.convertCharToUTF(tools[0]) << Engine.convertCharToUTF(tools[1]) << Engine.convertCharToUTF(tools[2]) << Engine.convertCharToUTF(tools[3]) << "~";
         Engine.setColor(DARK_BLUE, GRAY); 
-        Engine.tp(0, 25); printf("%c%c", tools[1], tools[1]);
-        Engine.tp(36, 25); printf("%c", tools[2]);
-        Engine.tp(38, 25); printf("%c", tools[2]);
-        Engine.tp(73, 25); printf("%c", tools[2]);
+        Engine.tp(0, 25); std::cout << Engine.convertCharToUTF(tools[1]) << Engine.convertCharToUTF(tools[1]);
+        Engine.tp(36, 25); std::cout << Engine.convertCharToUTF(tools[2]);
+        Engine.tp(38, 25); std::cout << Engine.convertCharToUTF(tools[2]);
+        Engine.tp(73, 25); std::cout << Engine.convertCharToUTF(tools[2]);
     }
     short imageChooser()
     {
@@ -607,7 +637,7 @@ public:
                         {
                             Display += helper;
                         }
-                        std::cout << Display;
+                        std::cout << Engine.convertToUTF(Display);
                         howLong = 1;
                         if(whatChar == 79)
                         {
@@ -617,7 +647,7 @@ public:
                             if(oldArea[whatChar][whatLine] == '`') bgC_holder = GRAY;
                             if(oldArea2[whatChar][whatLine] == '`') c_holder = LIGHT_GRAY;
                             Engine.setColor(bgC_holder, c_holder);
-                            printf("%c", oldChars[whatChar][whatLine]);
+                            std::cout << Engine.convertCharToUTF(oldChars[whatChar][whatLine]);
                         }
                     }
                     whatChar++;
@@ -659,17 +689,17 @@ public:
         printf("╚══════════════╝");
 
         Engine.tp(32, 12);
-        printf("\272");
+        printf("║");
         Engine.setColor(AQUA, BLACK);
         printf(" Text Option  ");
         Engine.setColor(DARK_BLUE, LIGHT_GRAY);
-        printf("\272");
+        printf("║");
         Engine.tp(32, 13);
-        printf("\272");
+        printf("║");
         Engine.setColor(DARK_AQUA, DARK_BLUE);
         printf(" Select Char  ");
         Engine.setColor(DARK_BLUE, LIGHT_GRAY);
-        printf("\272");
+        printf("║");
 
         while(true)
         {
@@ -693,19 +723,19 @@ public:
             {
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
                 Engine.tp(32, 12);
-                printf("\272");
+                printf("║");
                 Engine.setColor(AQUA, BLACK);
                 printf(" Text Option  ");
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
-                printf("\272");
+                printf("║");
 
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
                 Engine.tp(32, 13);
-                printf("\272");
+                printf("║");
                 Engine.setColor(DARK_AQUA, DARK_BLUE);
                 printf(" Select Char  ");
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
-                printf("\272");
+                printf("║");
 
                 choiceDrawn == true;
             }
@@ -713,19 +743,19 @@ public:
             {
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
                 Engine.tp(32, 13);
-                printf("\272");
+                printf("║");
                 Engine.setColor(AQUA, BLACK);
                 printf(" Select Char  ");
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
-                printf("\272");
+                printf("║");
 
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
                 Engine.tp(32, 12);
-                printf("\272");
+                printf("║");
                 Engine.setColor(DARK_AQUA, DARK_BLUE);
                 printf(" Text Option  ");
                 Engine.setColor(DARK_BLUE, LIGHT_GRAY);
-                printf("\272");
+                printf("║");
 
                 choiceDrawn == true;
             }

@@ -3,7 +3,7 @@
 /*
 ####################################################################################################
 ##                                                                                                ##
-##  Wer-Dar Paint v - 1.9 by Jakub Sobacki                                                        ##
+##  Wer-Dar Paint v - 1.10 by Jakub Sobacki                                                       ##
 ##  Few things before you get started                                                             ##
 ##  This app requires special treatment for cmd, it's written when app is opened (main function)  ##
 ##                                                                                                ##
@@ -18,8 +18,8 @@ void menu();
 
 int main()
 {
-    SetConsoleOutputCP(852); //Setting CodePage to 852, to have all special (coded) characters
-    SetConsoleTitleA("Wer-Dar Paint v - 1.9");
+    SetConsoleOutputCP(65001); //Setting CodePage to 65001, to have all special (coded) characters
+    SetConsoleTitleA("Wer-Dar Paint v - 1.10");
     Engine.hideCursor();
 
     Engine.loadfile("wdplogo"); //Loading wdplogo.wdi (read) / legacy
@@ -88,7 +88,7 @@ void clicked()
         if(Engine.my < 25 && Engine.mx < 80)
         {
             Engine.tp(Engine.mx, Engine.my);
-            printf("%c", Paint.currentChar);
+            std::cout << Engine.convertCharToUTF(Paint.currentChar);
             Paint.backgroundLayer[Engine.mx][Engine.my] = Engine.getChar(Paint.mainColor);
             Paint.colorLayer[Engine.mx][Engine.my] = Engine.getChar(Paint.secondaryColor);
             Paint.characterLayer[Engine.mx][Engine.my] = Paint.currentChar;
@@ -146,13 +146,13 @@ void moved()
             Engine.setColor(Engine.getColor(Paint.backgroundLayer[Engine.px][Engine.py]), Engine.getColor(Paint.colorLayer[Engine.px][Engine.py]));
             if(Paint.colorLayer[Engine.px][Engine.py] == '`') Engine.setColor(Engine.getColor(Paint.backgroundLayer[Engine.px][Engine.py]), LIGHT_GRAY);
             Engine.tp(Engine.px, Engine.py);
-            printf("%c", Paint.characterLayer[Engine.px][Engine.py]);
+            std::cout << Engine.convertCharToUTF(Paint.characterLayer[Engine.px][Engine.py]);
         }
         else if(Engine.py == 25 && Engine.px < 2)
         {
             Engine.tp(0, 25);
             Engine.setColor(DARK_BLUE, GRAY);
-            printf("%c%c", Paint.tools[1], Paint.tools[1]);
+            std::cout << Engine.convertCharToUTF(Paint.tools[1]) << Engine.convertCharToUTF(Paint.tools[1]);
             Paint.displayChar();
         }
         else if(Engine.py == 25 && Engine.px > 1 && Engine.px < 36)
@@ -161,13 +161,13 @@ void moved()
             if(Paint.toolbar[Engine.px - 2] == '`') Engine.setColor(GRAY, LIGHT_GRAY);
             Engine.tp(Engine.px, 25);
             if(Paint.toolbar[Engine.px - 2] == '`') printf("`");
-            else printf("%c", Paint.currentChar);
+            else std::cout << Engine.convertCharToUTF(Paint.currentChar);
         }
         else if(Engine.py == 25 && Engine.px > 38 && Engine.px < 71)
         {
             Engine.setColor(BLACK, Engine.getColor(Paint.toolbar[Engine.px - 39]));
             Engine.tp(Engine.px, 25);
-            printf("%c", Paint.tools[2]);
+            std::cout << Engine.convertCharToUTF(Paint.tools[2]);
         }
         else if(Engine.py == 25 && Engine.px > 70 && Engine.px < 73)
         {
@@ -178,7 +178,7 @@ void moved()
         else if(Engine.py == 25 && Engine.px > 73 && Engine.px < 79)
         {
             Engine.tp(Engine.px, Engine.py); Engine.setColor(BLACK, WHITE);
-            if(Engine.px < 78) printf("%c", Paint.tools[Engine.px - 74]);
+            if(Engine.px < 78) std::cout << Engine.convertCharToUTF(Paint.tools[Engine.px - 74]);
             else printf("~");
         }
 
@@ -193,7 +193,7 @@ void moved()
         {
             Engine.tp(0, 25);
             Engine.setColor(BLUE, LIGHT_GRAY);
-            printf("%c%c", Paint.tools[1], Paint.tools[1]);
+            std::cout << Engine.convertCharToUTF(Paint.tools[1]) << Engine.convertCharToUTF(Paint.tools[1]);
             Paint.displayChar();
         }
         else if(Engine.my == 25 && Engine.mx > 1 && Engine.mx < 36)
@@ -207,7 +207,7 @@ void moved()
         {
             Engine.tp(Engine.mx, 25);
             Engine.setColor(RED, Engine.getColor(Paint.toolbar[Engine.mx - 39]));
-            printf("%c", Paint.tools[2]);
+            std::cout << Engine.convertCharToUTF(Paint.tools[2]);
         }
         else if(Engine.my == 25 && Engine.mx > 70 && Engine.mx < 73)
         {
@@ -218,7 +218,7 @@ void moved()
         else if(Engine.my == 25 && Engine.mx > 73 && Engine.mx < 79)
         {
             Engine.tp(Engine.mx, Engine.my); Engine.setColor(RED, WHITE);
-            if(Engine.px < 78) printf("%c", Paint.tools[Engine.mx - 74]);
+            if(Engine.px < 78) std::cout << Engine.convertCharToUTF(Paint.tools[Engine.mx - 74]);
             else printf("~");
         }
     }
@@ -233,7 +233,7 @@ void menu()
     {
         //Shows menu
         Engine.clear(); Engine.setColor(BLACK, WHITE);
-        Engine.tp(2, 1); printf("Wer-Dar Paint v - 1.9");
+        Engine.tp(2, 1); printf("Wer-Dar Paint v - 1.10");
         Engine.tp(29, 1); printf("What would you like to do?");
         Engine.setColor(WHITE, WHITE);
         Engine.tp(25, 0); printf("  ");
