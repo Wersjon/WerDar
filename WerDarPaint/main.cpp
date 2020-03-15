@@ -3,7 +3,7 @@
 /*
 ####################################################################################################
 ##                                                                                                ##
-##  Wer-Dar Paint v - 1.10_1 by Jakub Sobacki                                                     ##
+##  Wer-Dar Paint v - 1.10_2 by Jakub Sobacki                                                     ##
 ##  Few things before you get started                                                             ##
 ##  This app requires special treatment for cmd, it's written when app is opened (main function)  ##
 ##                                                                                                ##
@@ -20,7 +20,7 @@ void menu();
 int main()
 {
     SetConsoleOutputCP(65001); // Setting CodePage to 65001, to have all special (coded) characters in UTF-8 (Previously: 852)
-    SetConsoleTitleA("Wer-Dar Paint v - 1.10_1"); // Setting console Title with name and version
+    SetConsoleTitleA("Wer-Dar Paint v - 1.10_2"); // Setting console Title with name and version
     Engine.hideCursor();
 
     Engine.loadfile("wdplogo"); // Loading wdplogo.wdi (read) / legacy
@@ -243,7 +243,7 @@ void menu()
     {
         // Shows menu
         Engine.clear(); Engine.setColor(BLACK, WHITE);
-        Engine.tp(2, 1); printf("Wer-Dar Paint v - 1.10_1");
+        Engine.tp(2, 1); printf("Wer-Dar Paint v - 1.10_2");
         Engine.tp(31, 1); printf("What would you like to do?");
         Engine.setColor(WHITE, WHITE);
         Engine.tp(27, 0); printf("  ");
