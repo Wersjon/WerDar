@@ -61,7 +61,7 @@
 /*
 ####################################################################################################
 ##                                                                                                ##
-##  Wer-Dar Paint v - 1.10_2 by Jakub Sobacki                                                     ##
+##  Wer-Dar Paint v - 1.10_1 by Jakub Sobacki                                                     ##
 ##  Few things before you get started                                                             ##
 ##  This app requires special treatment for cmd, it's written when app is opened (main function)  ##
 ##                                                                                                ##
@@ -359,7 +359,7 @@ public:
         {
             if(whatPic != 0) openFile << std::endl; // Displays enter before almost every picture (not the first one)
             // Displays basic information about the picture, and version of paint it has been painted on.
-            openFile << whatPic << " | Wer-Dar Disk v - 1.10_2" << std::endl << images[whatPic].name << std::endl << "@" << std::endl;
+            openFile << whatPic << " | Wer-Dar Disk v - 1.10_1" << std::endl << images[whatPic].name << std::endl << "@" << std::endl;
             // Saves every char into file
             while(whatLine <= 79)
             {
@@ -402,7 +402,7 @@ public:
 
     void loadDisk()
     {
-        /*Wer-Dar Paint v - 1.10_2*/
+        /*Wer-Dar Paint v - 1.10_1*/
         std::fstream openFile;
         std::string holder; // Holds current line
         int whatChar = 0, whatPic = 0, line = 0;
